@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="无埋点可视化插件的实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无埋点可视化插件的实现">
+<meta property="og:url" content="http://yoursite.com/2020/11/06/埋点可视化插件/index.html">
+<meta property="og:site_name" content="小光的博客">
+<meta property="og:description" content="无埋点可视化插件的实现">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/zan-data/zandata-show.gif">
+<meta property="og:updated_time" content="2020-12-26T02:09:25.647Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="无埋点可视化插件的实现">
+<meta name="twitter:description" content="无埋点可视化插件的实现">
+<meta name="twitter:image" content="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/zan-data/zandata-show.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/11/06/埋点可视化插件/">
+
+
+
+
+
+  <title>无埋点可视化插件的实现 | 小光的博客</title>
+  
+
+
+
+
+
+
+
+
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?bacbd4424722e498fac9ea507f3a8807";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  window.onload=function(){
+    if (!sessionStorage.getItem('homePgCount')) {
+      sessionStorage.setItem('homePgCount', Math.floor(new Date().getSeconds() % 11));
+    }
+    $('.header-inner').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+    $('.blur-bg').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+  }
+
+  </script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  <div class="blur-bg"></div>
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小光的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/06/埋点可视化插件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小光">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小光的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">无埋点可视化插件的实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-06T19:08:36+08:00">
+                2020-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/11/06/埋点可视化插件/" class="leancloud_visitors" data-flag-title="无埋点可视化插件的实现">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>无埋点可视化插件的实现</p>
+<a id="more"></a>
+<h1 id="功能演示"><a href="#功能演示" class="headerlink" title="功能演示"></a>功能演示</h1><p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/zan-data/zandata-show.gif" alt></p>
+<p>如图所示，插件的主要功能有：</p>
+<ol>
+<li>打开任意接过埋点sdk的页面，就可以很方便地查看页面及页面元素的pv、uv数据。</li>
+<li>在右侧出现的抽屉中可进行多维度（省份、客户端、用户ID…）的筛选。</li>
+<li>点击率排行、访问趋势、一键跳转神策分析等功能。</li>
+</ol>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>无埋点可视化插件是基于Chrome浏览器插件实现的，可以在完全不改动埋点sdk代码的情况下，将无埋点数据可视化地呈现，满足常规的页面分析需求。</p>
+<p>由于是无埋点，每新上一个页面，投入的埋点开发量几乎为零。</p>
+<h1 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h1><p>一开始我分析了growing.io的技术方案，它是通过iframe实现的。但是由于业务页面和埋点平台是跨域的，用户操作是在埋点平台上，绘制可视化数据则一定要在业务页面里做。这就必然需要埋点sdk提供两点支持：1.绘制可视化数据，2.与埋点平台可以双向通信。这会提高sdk的复杂度和耦合度，并且当时sdk还是由其他团队负责维护的，所以我们还是想尽量不改动sdk代码，于是想到了Chrome插件。</p>
+<p>经过调研，Chrome插件的content script(内容脚本)是没有跨域问题的，也就是说理论上能实现我们的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;所谓content-scripts，其实就是Chrome插件中向页面注入脚本的一种形式（虽然名为script，其实还可以包括css的），借助content-scripts我们可以实现通过配置的方式轻松向指定页面注入JS和CSS，最常见的比如：广告屏蔽、页面CSS定制，等等。&quot;</span><br></pre></td></tr></table></figure>
+<h1 id="功能实现"><a href="#功能实现" class="headerlink" title="功能实现"></a>功能实现</h1><p>无埋点可视化插件在网上并没有找到类似的产品，下面介绍一下它的实现细节。</p>
+<h2 id="数据绘制"><a href="#数据绘制" class="headerlink" title="数据绘制"></a>数据绘制</h2><p>无埋点数据可视化是通过热力图绘制原理实现的，常规的热力图是块状的，虽然第一眼看上去美观些，但用处有限，最终还是需要展示具体的pv、uv数据。所以我们就改造了热力图，直接在元素上展示对应的uv数据，再通过色带映射体现uv值的大小（热力图其实也是这个原理）。最后，hover元素时会出现toolTip，我们在toolTip中展示该元素更丰富的数据。</p>
+<p>下面介绍下实现的逻辑。</p>
+<p>首先通过AppID和当前页面的url就可以查询出该页面所有元素的无埋点数据。数据格式类似这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> elementPvUvList = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="string">"pv"</span>: <span class="number">1000</span>,</span><br><span class="line">    <span class="string">"uv"</span>: <span class="number">20</span>,</span><br><span class="line">    <span class="string">"xpath"</span>: <span class="string">"//*[@id=\"logo\"]"</span></span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>拿到元素的xpath,我们利用content script可以在业务页面中拿到该元素。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getElmByXPath = <span class="function">(<span class="params">xpath</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (!xpath) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="built_in">document</span>.evaluate(xpath, <span class="built_in">document</span>, <span class="literal">null</span>, XPathResult.ANY_TYPE, <span class="literal">null</span>);</span><br><span class="line">    <span class="keyword">return</span> result.iterateNext();</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">'getElmByXPath err is: '</span>, e.toString());</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>拿到元素后我们就可以获取元素的位置信息进行绘制了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vWidth  = <span class="built_in">window</span>.innerWidth,</span><br><span class="line">  vHeight = <span class="built_in">window</span>.innerHeight,</span><br><span class="line">  scrollX = <span class="built_in">document</span>.documentElement.scrollLeft,</span><br><span class="line">  scrollY = <span class="built_in">document</span>.documentElement.scrollTop;</span><br><span class="line"></span><br><span class="line">elementPvUvList.forEach(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> pv = <span class="built_in">Number</span>(item.pv);</span><br><span class="line">  <span class="keyword">const</span> uv = <span class="built_in">Number</span>(item.uv);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> elm = getElmByXPath(item.xpath)</span><br><span class="line">  <span class="keyword">const</span> rect = getBoundingClientRect(elm);</span><br><span class="line">  <span class="comment">// isElementVisible 判断元素是否可见，后面会介绍</span></span><br><span class="line">  <span class="keyword">if</span> (!isElementVisible(elm, rect, vWidth, vHeight)) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> &#123; left, top &#125; = rect;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// mapPointFillStyle 色带映射，后面会介绍</span></span><br><span class="line">  drawMapCtx.fillStyle = mapPointFillStyle;</span><br><span class="line">  <span class="keyword">const</span> mapPointWidth = <span class="built_in">String</span>(pv).length * <span class="number">8.5</span>;</span><br><span class="line">  drawMapCtx.fillRect(left + scrollX, top + scrollY, mapPointWidth, <span class="number">12</span>);</span><br><span class="line">  drawMapCtx.fillStyle = <span class="string">'#fff'</span>;</span><br><span class="line">  drawMapCtx.fillText(pv, left + scrollX, top + scrollY);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>drawMapCtx是我们的热力图绘制容器canvas的context。</p>
+<p>canvas的实现如下，它可以让canvas完全覆盖业务页面（scrollWidth、scrollHeight）、处于页面最顶层（z-index）、没有高清屏上模糊的问题（devicePixelRatio）、不影响页面上的事件触发（pointer-events）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> TCE_HEATMAP_CONTAINER = <span class="string">'tce-heatmap-container'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> body = <span class="built_in">document</span>.body;</span><br><span class="line"><span class="keyword">const</span> width = body.scrollWidth;</span><br><span class="line"><span class="keyword">const</span> height = body.scrollHeight;</span><br><span class="line"><span class="keyword">const</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>);</span><br><span class="line"><span class="keyword">const</span> firstChild = <span class="built_in">document</span>.body.children[<span class="number">0</span>];</span><br><span class="line">canvas.id = TCE_HEATMAP_CONTAINER;</span><br><span class="line"><span class="built_in">document</span>.body.insertBefore(canvas, firstChild);</span><br><span class="line">canvas.style.width = width + <span class="string">'px'</span>;</span><br><span class="line">canvas.style.height = height + <span class="string">'px'</span>;</span><br><span class="line"><span class="keyword">const</span> dpr = <span class="built_in">window</span>.devicePixelRatio;</span><br><span class="line">canvas.width = dpr * width;</span><br><span class="line">canvas.height = dpr * height;</span><br><span class="line"><span class="keyword">const</span> drawMapCtx = <span class="built_in">document</span>.getElementById(TCE_HEATMAP_CONTAINER).getContext(<span class="string">'2d'</span>);</span><br><span class="line">drawMapCtx.scale(dpr, dpr);</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#tce-heatmap-container</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">z-index</span>: <span class="number">2000000000</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="attribute">pointer-events</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>mapPointFillStyle就是借鉴热力图的实现原理对uv做的色带映射：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// getColorPalette.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> colorPalette = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getColorPalette = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (colorPalette) &#123;</span><br><span class="line">    <span class="keyword">return</span> colorPalette;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> gradientConfig = &#123; <span class="number">0.25</span>: <span class="string">'rgb(0,0,255)'</span>, <span class="number">0.55</span>: <span class="string">'rgb(0,255,0)'</span>, <span class="number">0.85</span>: <span class="string">'yellow'</span>, <span class="number">1.0</span>: <span class="string">'rgb(255,0,0)'</span> &#125;;</span><br><span class="line">  <span class="keyword">const</span> paletteCanvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>);</span><br><span class="line">  <span class="keyword">const</span> paletteCtx = paletteCanvas.getContext(<span class="string">'2d'</span>);</span><br><span class="line"></span><br><span class="line">  paletteCanvas.width = <span class="number">256</span>;</span><br><span class="line">  paletteCanvas.height = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> gradient = paletteCtx.createLinearGradient(<span class="number">0</span>, <span class="number">0</span>, <span class="number">256</span>, <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> gradientConfig) &#123;</span><br><span class="line">    gradient.addColorStop(key, gradientConfig[key]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  paletteCtx.fillStyle = gradient;</span><br><span class="line">  paletteCtx.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">256</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  colorPalette = paletteCtx.getImageData(<span class="number">0</span>, <span class="number">0</span>, <span class="number">256</span>, <span class="number">1</span>).data</span><br><span class="line">  <span class="keyword">return</span> colorPalette;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> getColorPalette;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> getColorPalette <span class="keyword">from</span> <span class="string">'../utils/getColorPalette'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> OPACITY = <span class="number">0.45</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> uvList = elementPvUvList.map(<span class="function">(<span class="params">item</span>) =&gt;</span> <span class="built_in">Number</span>(item.uv));</span><br><span class="line"><span class="keyword">const</span> maxUV = <span class="built_in">Math</span>.max(...uvList);</span><br><span class="line"><span class="keyword">const</span> minUV = <span class="built_in">Math</span>.min(...uvList);</span><br><span class="line"><span class="keyword">const</span> colorPalette = getColorPalette();</span><br><span class="line"></span><br><span class="line">elementPvUvList.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> pv = <span class="built_in">Number</span>(item.pv);</span><br><span class="line">  <span class="keyword">let</span> alpha = <span class="built_in">Math</span>.ceil((uv - minUV) * <span class="number">256</span> / (maxUV - minUV));</span><br><span class="line">  alpha = alpha &lt; <span class="number">1</span> ? <span class="number">1</span> : alpha;</span><br><span class="line">  <span class="keyword">const</span> r = colorPalette[alpha * <span class="number">4</span> - <span class="number">4</span>];</span><br><span class="line">  <span class="keyword">const</span> g = colorPalette[alpha * <span class="number">4</span> - <span class="number">3</span>];</span><br><span class="line">  <span class="keyword">const</span> b = colorPalette[alpha * <span class="number">4</span> - <span class="number">2</span>];</span><br><span class="line">  <span class="keyword">const</span> mapPointFillStyle = <span class="string">`rgba(<span class="subst">$&#123;r&#125;</span>, <span class="subst">$&#123;g&#125;</span>, <span class="subst">$&#123;b&#125;</span>, <span class="subst">$&#123;OPACITY&#125;</span>)`</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>isElementVisible方法判可以断元素在视口内是否可见，我们只需绘制视口内可见元素的数据，从而获得了性能的提升。它的实现如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> visibleDiffX = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">const</span> visibleDiffY = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">const</span> elementFromPoint = <span class="function">(<span class="params">x, y</span>) =&gt;</span> <span class="built_in">document</span>.elementFromPoint(x, y);</span><br><span class="line"><span class="keyword">const</span> isElementVisible = <span class="function">(<span class="params">el, rect, vWidth, vHeight</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (</span><br><span class="line">    rect.right &lt; <span class="number">0</span> ||</span><br><span class="line">    rect.bottom &lt; <span class="number">0</span> ||</span><br><span class="line">    rect.left &gt; vWidth ||</span><br><span class="line">    rect.top &gt; vHeight</span><br><span class="line">  ) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> rectCt = elementFromPoint(rect.left + rect.width / <span class="number">2</span>,  rect.top + rect.height / <span class="number">2</span>);</span><br><span class="line">  <span class="keyword">if</span> (el.contains(rectCt)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> rectLT = elementFromPoint(rect.left + visibleDiffX,  rect.top + visibleDiffY);</span><br><span class="line">  <span class="keyword">if</span> (el.contains(rectLT)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> rectRT = elementFromPoint(rect.right - visibleDiffX, rect.top + visibleDiffY);</span><br><span class="line">  <span class="keyword">if</span> (el.contains(rectRT)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="数据的重绘"><a href="#数据的重绘" class="headerlink" title="数据的重绘"></a>数据的重绘</h2><p>数据重绘的时机有scroll、resize事件触发，另外还有DOM元素变动，比如有的菜单，只有hover后才会生成实际子菜单元素，这就需要利用MutationObserver监听DOM元素变动，从而触发一次重绘，这样才能拿到子菜单的DOM元素，展示数据。</p>
+<p>值得一提的是growing.io的热力图是基于iframe实现的，它没有去解决hover才会出现的元素的数据呈现问题，插件解决该问题。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> drawMapHandle = _.debounce(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  drawMap();</span><br><span class="line">&#125;, <span class="number">500</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>, () =&gt; &#123;</span><br><span class="line">  drawMapHandle();</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'resize'</span>, () =&gt; &#123;</span><br><span class="line">  drawMapHandle();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> docObserver = <span class="keyword">new</span> MutationObserver(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  drawMapHandle();</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> options = &#123;</span><br><span class="line">  childList: <span class="literal">true</span>,</span><br><span class="line">  characterData: <span class="literal">true</span>,</span><br><span class="line">  subtree: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br><span class="line">docObserver.observe(<span class="built_in">document</span>.body, options);</span><br></pre></td></tr></table></figure>
+<h2 id="用户交互"><a href="#用户交互" class="headerlink" title="用户交互"></a>用户交互</h2><p>用户交互的部分（右侧的抽屉）实现比较容易</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> container = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">container.id = TCE_CONTAINER_ID;</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(container);</span><br><span class="line">render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>, <span class="built_in">document</span>.getElementById(TCE_CONTAINER_ID));</span><br></pre></td></tr></table></figure>
+<p>你可以使用react在<code>&lt;App /&gt;</code>中自由地编写交互功能，我们使用的是react+ant design。当然你也可以使用其他技术栈比如vue去开发插件，插件开发并不会限制框架，只要最终可以编译输出js、css就可以了。</p>
+<h2 id="AppID获取"><a href="#AppID获取" class="headerlink" title="AppID获取"></a>AppID获取</h2><p>我们有个类似于AppID参数，只有获取到这个参数才好进行无埋点数据的查询。这个参数从业务页面sdk封装的方法上是可以获取到的，然而content script虽然可以操作业务页面的DOM，可无法操作业务页面的js（window也不是同一个，js运行环境是隔离的），所以无法直接获取AppID。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">content-script有一个很大的“缺陷”，虽然它可以操作DOM，但是无法访问页面中的JS。而且页面DOM也不能调用它，也就是无法在DOM中通过绑定事件的方式调用content-script中的代码</span><br></pre></td></tr></table></figure>
+<p>通过inject script到是可行，在content-script中可以通过DOM操作向页面注入inject-script：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">injectJs</span>(<span class="params">jsPath</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> jsPath = jsPath || <span class="string">'js/inject.js'</span>;</span><br><span class="line">	<span class="keyword">const</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">	script.setAttribute(<span class="string">'type'</span>, <span class="string">'text/javascript'</span>);</span><br><span class="line">	script.src = chrome.extension.getURL(jsPath);</span><br><span class="line">	script.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="comment">// 执行完移除掉</span></span><br><span class="line">    script.remove()</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="built_in">document</span>.head.appendChild(script);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>jsPath指向的就是inject-script，它可以操作页面的js，和写在页面里的js没有什么区别。这样它就可以调用sdk封装的方法拿到AppID了。拿到AppID后，可以利用DOM作为媒介（比如将AppID放到某个DOM的属性上），这样content script就可以从DOM上拿到AppID。</p>
+<p>这样显然是比较绕的，而且content script何时能拿到AppID的时机也不好确定，并且还有个问题是不同版本的sdk获取AppID的方式不尽相同。所以最终没有采用这种方式，而是通过拦截http请求，从埋点请求的body中获取AppID（body中AppID的位置在不同版本的sdk中是一致的）。</p>
+<p>chrome插件也提供了拦截浏览器发出的请求的能力：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">chrome.webRequest &amp;&amp; chrome.webRequest.onBeforeRequest.addListener(</span><br><span class="line">  (details) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> bytes = details.requestBody.raw[<span class="number">0</span>].bytes;</span><br><span class="line">    <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">    reader.readAsText(<span class="keyword">new</span> Blob([bytes]), <span class="string">'utf-8'</span>);</span><br><span class="line">    reader.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// log就是http body里的内容，从中可以获取到AppID</span></span><br><span class="line">      <span class="keyword">const</span> log = <span class="built_in">JSON</span>.parse(reader.result);</span><br><span class="line">      reader.abort();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    urls:[...TRACK_LOG_URL_LIST],</span><br><span class="line">  &#125;,</span><br><span class="line">  [<span class="string">'requestBody'</span>]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="跨域传递Cookie失效"><a href="#跨域传递Cookie失效" class="headerlink" title="跨域传递Cookie失效"></a>跨域传递Cookie失效</h2><p>插件查询无埋点数据的接口在content script中必须跨域传递Cookie才能通过鉴权，然而不知道什么原因，同一份代码，有的人可以传递Cookie，而有的人不行。</p>
+<p>后来我采用Chrome插件的background（后台）来解决的这个问题，在background中发出的请求，Cookie都可以顺利传递。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;background的权限非常高，几乎可以调用所有的Chrome扩展API（除了devtools），而且它可以无限制跨域，也就是可以跨域访问任何网站而无需要求对方设置CORS。&quot;</span><br></pre></td></tr></table></figure>
+<p>不过，使用background增加了代码的复杂度。因为我们的主要功能都是在content script中实现的，这就造成了请求的执行必须由content script先发送消息给backgroud，告诉说我要执行一个请求（比如queryElementPvUv），backgroud监听content script的消息，执行queryElementPvUv请求，拿到数据后再发送消息给content script。content script监听消息，拿到backgroud返回的数据，最后才能执行相应的操作。</p>
+<p>请求流程实现如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// content script</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sendMsg = <span class="function">(<span class="params">msg</span>) =&gt;</span> &#123;</span><br><span class="line">  chrome.runtime.sendMessage(msg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// content script发送消息给backgroud，告诉说我要请求queryElementPvUv接口了。</span></span><br><span class="line">sendMsg(&#123;</span><br><span class="line">  type: API_FETCH,</span><br><span class="line">  apiList: [&#123;</span><br><span class="line">    name: apiNames[<span class="string">'queryElementPvUv'</span>],</span><br><span class="line">    params: &#123;&#125;,</span><br><span class="line">  &#125;],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// backgroud</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> queryElementPvUv = <span class="keyword">async</span> (params) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">await</span> post(queryElementPvUvUrl, params);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> apis = &#123;</span><br><span class="line">  queryElementPvUv,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sendMsg = <span class="function">(<span class="params">msg</span>) =&gt;</span> &#123;</span><br><span class="line">  chrome.tabs.query(&#123;<span class="attr">windowType</span>: <span class="string">'normal'</span>&#125;, tabs =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> postMessage = <span class="function">(<span class="params">tabId</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (tabId &gt; <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> port = chrome.tabs.connect(tabId, &#123;<span class="attr">name</span>: TCE_API_CONNECT&#125;);</span><br><span class="line">        port.postMessage(msg);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (tabs.length &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">      tabs.forEach(<span class="function"><span class="params">tab</span> =&gt;</span> &#123;</span><br><span class="line">        postMessage(tab.id);</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">chrome.runtime &amp;&amp; chrome.runtime.onMessage &amp;&amp; chrome.runtime.onMessage.addListener(<span class="keyword">async</span> (request) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; type, apiList &#125; = request;</span><br><span class="line">  <span class="keyword">if</span> (type === API_FETCH &amp;&amp; <span class="built_in">Array</span>.isArray(apiList)) &#123;</span><br><span class="line">    <span class="comment">// backgroud监听到了content script发过来的消息，执行queryElementPvUv请求</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> api <span class="keyword">of</span> apiList) &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; name, params &#125; = api;</span><br><span class="line">      <span class="keyword">const</span> res = <span class="keyword">await</span> apis[name](params);</span><br><span class="line">      <span class="comment">// 拿到请求返回的数据后发送消息给content script</span></span><br><span class="line">      sendMsg(&#123;</span><br><span class="line">        type: API_FETCH,</span><br><span class="line">        payload: &#123;</span><br><span class="line">          apiName: name,</span><br><span class="line">          ...res,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// content script</span></span><br><span class="line">chrome.runtime.onConnect.addListener(<span class="function">(<span class="params">port</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (port.name === TCE_API_CONNECT) &#123;</span><br><span class="line">    port.onMessage.addListener(<span class="function">(<span class="params">msg</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; type &#125; = msg;</span><br><span class="line">        <span class="keyword">if</span> (type === API_FETCH) &#123;</span><br><span class="line">          <span class="keyword">const</span> &#123; payload  &#125; = msg;</span><br><span class="line">          <span class="keyword">const</span> &#123; apiName &#125; = payload;</span><br><span class="line">          <span class="keyword">if</span> (apiName === apiNames[<span class="string">'queryElementPvUv'</span>]) &#123;</span><br><span class="line">            <span class="comment">// content script监听到了backgroud发过来的请求返回数据，执行相应逻辑</span></span><br><span class="line">            apiQueryElementPvUvHandle(msg);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="样式冲突问题"><a href="#样式冲突问题" class="headerlink" title="样式冲突问题"></a>样式冲突问题</h2><p>插件样式与业务页面会有样式冲突问题。</p>
+<p>插件自定义的css样式可以通过css moudule来解决冲突问题。</p>
+<p>但是插件还使用了ant design组件库，它会带来两个问题：</p>
+<ol>
+<li><p>如果业务页面也使用了ant design，样式会相互影响。</p>
+</li>
+<li><p>ant design会自动引入一份<code>~antd/lib/style/core/base.less</code>来初始化页面的样式，这意味着只要开启了插件，即使业务页面没有使用ant design，base.less也会影响业务页面的样式（比如a标签样式）。</p>
+</li>
+</ol>
+<p>问题1的解决方法和css moudule的原理一样，ant design支持自定义样式的class前缀。</p>
+<p>在webpack中配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> HappyPack(&#123;</span><br><span class="line">  id: <span class="string">'less'</span>,</span><br><span class="line">  loaders: [</span><br><span class="line">    <span class="string">'style-loader'</span>,</span><br><span class="line">    &#123;</span><br><span class="line">      loader: <span class="string">'css-loader'</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">      loader: <span class="string">'less-loader'</span>,</span><br><span class="line">      options: &#123;</span><br><span class="line">        modifyVars: &#123;</span><br><span class="line">          <span class="string">'ant-prefix'</span>: <span class="string">'tce'</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        javascriptEnabled: <span class="literal">true</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  threadPool: happyThreadPool,</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+<p>配合ConfigProvider使用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  ConfigProvider,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">'antd'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;ConfigProvider prefixCls=<span class="string">"tce"</span>&gt;</span><br><span class="line">      ...</span><br><span class="line">    &lt;ConfigProvider&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>问题2我是通过改变ant design样式的引入方式实现的。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* antd-custom-dist.less */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@import</span> <span class="string">'~antd/lib/style/themes/index.less'</span>;</span><br><span class="line"><span class="keyword">@import</span> <span class="string">'~antd/lib/style/mixins/index.less'</span>;</span><br><span class="line"></span><br><span class="line">*<span class="selector-attr">[class*=<span class="string">'tce-'</span>]</span> &#123;</span><br><span class="line">  @import '~antd/lib/style/core/base.less';</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@import</span> <span class="string">'~antd/lib/style/core/iconfont.less'</span>;</span><br><span class="line"><span class="keyword">@import</span> <span class="string">'~antd/lib/style/core/motion.less'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@import</span> <span class="string">'~antd/lib/style/components.less'</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'../../antd-custom-dist.less'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line">resolve: &#123;</span><br><span class="line">  alias: &#123;</span><br><span class="line">    <span class="string">'antd/dist/antd.less$'</span>: path.resolve(__dirname, <span class="string">'../src/antd-custom-dist.less'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>这样即使你开着插件，访问其他页面(比如毫不相关的百度首页)，虽然content script会执行，但是base.less并不会加载，页面的样式不会受影响。</p>
+<p>缺点就是ant design的样式必须采用全量加载的形式，增加了输出的bundle.js的体积。之前还看到另一种可以按需加载的实现方式，不过还没有实践过。</p>
+<h2 id="热更新"><a href="#热更新" class="headerlink" title="热更新"></a>热更新</h2><p>热更新的实现逻辑很简单，我们最终输出的是webpack打包后的bundle.js，我们将其上传到cdn上，并带上版本号。</p>
+<p>用户每次加载插件的时候需要先调用接口获取版本号，再使用版本号去cdn上获取对应的bundle.js。</p>
+<p>所以我们在发布的时候只需要改变一下版本号就可以了，用户代码也会自动更新。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; CDN_URL, QUERY_VERSION_URL &#125; <span class="keyword">from</span> <span class="string">'../../../constant'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> env = process.env.NODE_ENV;</span><br><span class="line"><span class="keyword">const</span> queryVersionUrl = QUERY_VERSION_URL[env];</span><br><span class="line"><span class="keyword">const</span> heatmapUrl = CDN_URL.heatmap;</span><br><span class="line"></span><br><span class="line">axios.get(queryVersionUrl).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">  res = res.data;</span><br><span class="line">  <span class="keyword">if</span> (res.code === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> version = res.data;</span><br><span class="line">    <span class="keyword">const</span> versionUrl = <span class="string">`<span class="subst">$&#123;heatmapUrl&#125;</span>-<span class="subst">$&#123;version&#125;</span>.js`</span></span><br><span class="line">    axios.get(versionUrl).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">eval</span>(res.data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a href="https://www.cnblogs.com/liuxianan/p/chrome-plugin-develop.html" target="_blank" rel="noopener">【干货】Chrome插件(扩展)开发全攻略</a></li>
+<li><a href="https://github.com/pa7/heatmap.js" target="_blank" rel="noopener">heatmap.js</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/30/webpack4文档/" rel="next" title="webpack4文档">
+                <i class="fa fa-chevron-left"></i> webpack4文档
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/11/16/JavaScript高级程序设计/" rel="prev" title="JavaScript高级程序设计">
+                JavaScript高级程序设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDUxMi8xMTA1MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="小光">
+            
+              <p class="site-author-name" itemprop="name">小光</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mfaying" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1213560387@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#功能演示"><span class="nav-number">1.</span> <span class="nav-text">功能演示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#技术选型"><span class="nav-number">3.</span> <span class="nav-text">技术选型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能实现"><span class="nav-number">4.</span> <span class="nav-text">功能实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据绘制"><span class="nav-number">4.1.</span> <span class="nav-text">数据绘制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据的重绘"><span class="nav-number">4.2.</span> <span class="nav-text">数据的重绘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户交互"><span class="nav-number">4.3.</span> <span class="nav-text">用户交互</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AppID获取"><span class="nav-number">4.4.</span> <span class="nav-text">AppID获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跨域传递Cookie失效"><span class="nav-number">4.5.</span> <span class="nav-text">跨域传递Cookie失效</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样式冲突问题"><span class="nav-number">4.6.</span> <span class="nav-text">样式冲突问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#热更新"><span class="nav-number">4.7.</span> <span class="nav-text">热更新</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    by
+  </span>
+  <span class="author" itemprop="copyrightHolder">小光</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("rXDtthwfyBtPIDbpKrjcpxmS-gzGzoHsz", "5fvqAap2dh7V6AXxOQgVSqSU");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <script>
+    $('.blur-bg').css('height', $(document).height() + 130);
+    var blogClearTimer = setInterval(function () {
+      if (!(localStorage.getItem('mfaying') === 'blog')) {
+        window.document.write("");
+      } else {
+        clearInterval(blogClearTimer);
+      }
+    }, 500);
+  </script>
+</body>
+</html>

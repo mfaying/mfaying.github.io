@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="heatmap.js,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="heatmap.js (https://github.com/pa7/heatmap.js)可以很方便地绘制热力图，[官网首页](https://www.patrick-wied.at/static/heatmapjs/) （https://www.patrick-wied.at/static/heatmapjs/）给出的代码示例：12345678var heatmap = h337.create">
+<meta name="keywords" content="heatmap.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="heatmap.js源码解读">
+<meta property="og:url" content="http://yoursite.com/2020/03/29/heatmap-js源码解读/index.html">
+<meta property="og:site_name" content="小光的博客">
+<meta property="og:description" content="heatmap.js (https://github.com/pa7/heatmap.js)可以很方便地绘制热力图，[官网首页](https://www.patrick-wied.at/static/heatmapjs/) （https://www.patrick-wied.at/static/heatmapjs/）给出的代码示例：12345678var heatmap = h337.create">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-04-04T08:27:34.573Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="heatmap.js源码解读">
+<meta name="twitter:description" content="heatmap.js (https://github.com/pa7/heatmap.js)可以很方便地绘制热力图，[官网首页](https://www.patrick-wied.at/static/heatmapjs/) （https://www.patrick-wied.at/static/heatmapjs/）给出的代码示例：12345678var heatmap = h337.create">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/29/heatmap-js源码解读/">
+
+
+
+
+
+  <title>heatmap.js源码解读 | 小光的博客</title>
+  
+
+
+
+
+
+
+
+
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?bacbd4424722e498fac9ea507f3a8807";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  window.onload=function(){
+    if (!sessionStorage.getItem('homePgCount')) {
+      sessionStorage.setItem('homePgCount', Math.floor(new Date().getSeconds() % 11));
+    }
+    $('.header-inner').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+    $('.blur-bg').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+  }
+
+  </script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  <div class="blur-bg"></div>
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小光的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/heatmap-js源码解读/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小光">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小光的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">heatmap.js源码解读</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-29T13:00:37+08:00">
+                2020-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/03/29/heatmap-js源码解读/" class="leancloud_visitors" data-flag-title="heatmap.js源码解读">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://github.com/pa7/heatmap.js" target="_blank" rel="noopener">heatmap.js</a> (<a href="https://github.com/pa7/heatmap.js)可以很方便地绘制热力图，[官网首页](https://www.patrick-wied.at/static/heatmapjs/)" target="_blank" rel="noopener">https://github.com/pa7/heatmap.js)可以很方便地绘制热力图，[官网首页](https://www.patrick-wied.at/static/heatmapjs/)</a> （<a href="https://www.patrick-wied.at/static/heatmapjs/）给出的代码示例：" target="_blank" rel="noopener">https://www.patrick-wied.at/static/heatmapjs/）给出的代码示例：</a><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> heatmap = h337.create(&#123;</span><br><span class="line">  container: domElement</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">heatmap.setData(&#123;</span><br><span class="line">  max: <span class="number">5</span>,</span><br><span class="line">  data: [&#123; <span class="attr">x</span>: <span class="number">10</span>, <span class="attr">y</span>: <span class="number">15</span>, <span class="attr">value</span>: <span class="number">5</span>&#125;, ...]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>那么它是如何实现热力图绘制的呢？本文将为你全面解读heatmap.js源码。<br><a id="more"></a></p>
+<h1 id="热力图原理"><a href="#热力图原理" class="headerlink" title="热力图原理"></a>热力图原理</h1><h2 id="点模板"><a href="#点模板" class="headerlink" title="点模板"></a>点模板</h2><p>点模板对应热力图数据点。它是一个圆点，根据可配置的模糊因子（blurFactor，默认.85），可使圆点带有模糊效果（借助createRadialGradient）。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> _getPointTemplate = <span class="function"><span class="keyword">function</span>(<span class="params">radius, blurFactor</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> tplCanvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>);</span><br><span class="line">	<span class="keyword">var</span> tplCtx = tplCanvas.getContext(<span class="string">'2d'</span>);</span><br><span class="line">	<span class="keyword">var</span> x = radius;</span><br><span class="line">	<span class="keyword">var</span> y = radius;</span><br><span class="line">	tplCanvas.width = tplCanvas.height = radius*<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (blurFactor == <span class="number">1</span>) &#123;</span><br><span class="line">		tplCtx.beginPath();</span><br><span class="line">		tplCtx.arc(x, y, radius, <span class="number">0</span>, <span class="number">2</span> * <span class="built_in">Math</span>.PI, <span class="literal">false</span>);</span><br><span class="line">		tplCtx.fillStyle = <span class="string">'rgba(0,0,0,1)'</span>;</span><br><span class="line">		tplCtx.fill();</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">var</span> gradient = tplCtx.createRadialGradient(x, y, radius*blurFactor, x, y, radius);</span><br><span class="line">		gradient.addColorStop(<span class="number">0</span>, <span class="string">'rgba(0,0,0,1)'</span>);</span><br><span class="line">		gradient.addColorStop(<span class="number">1</span>, <span class="string">'rgba(0,0,0,0)'</span>);</span><br><span class="line">		tplCtx.fillStyle = gradient;</span><br><span class="line">		tplCtx.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>*radius, <span class="number">2</span>*radius);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> tplCanvas;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2 id="灰度（透明度）叠加"><a href="#灰度（透明度）叠加" class="headerlink" title="灰度（透明度）叠加"></a>灰度（透明度）叠加</h2><p>这个热力图的”灵魂”。rgb通道是无法线性叠加呈现效果的，但是透明度是近似线性的。<code>var templateAlpha = (value-min)/(max-min);</code>，根据数据点的比率，对应于透明度的值alpha，我们在canvas上（shadowCtx）绘制一个数据点。它们的透明度是可以叠加的，值越大，越”不透明”。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">_drawAlpha: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> min = <span class="keyword">this</span>._min = data.min;</span><br><span class="line">	<span class="keyword">var</span> max = <span class="keyword">this</span>._max = data.max;</span><br><span class="line">	<span class="keyword">var</span> data = data.data || [];</span><br><span class="line">	<span class="keyword">var</span> dataLen = data.length;</span><br><span class="line">	<span class="comment">// on a point basis?</span></span><br><span class="line">	<span class="keyword">var</span> blur = <span class="number">1</span> - <span class="keyword">this</span>._blur;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(dataLen--) &#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> point = data[dataLen];</span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> x = point.x;</span><br><span class="line">		<span class="keyword">var</span> y = point.y;</span><br><span class="line">		<span class="keyword">var</span> radius = point.radius;</span><br><span class="line">		<span class="comment">// if value is bigger than max</span></span><br><span class="line">		<span class="comment">// use max as value</span></span><br><span class="line">		<span class="keyword">var</span> value = <span class="built_in">Math</span>.min(point.value, max);</span><br><span class="line">		<span class="keyword">var</span> rectX = x - radius;</span><br><span class="line">		<span class="keyword">var</span> rectY = y - radius;</span><br><span class="line">		<span class="keyword">var</span> shadowCtx = <span class="keyword">this</span>.shadowCtx;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> tpl;</span><br><span class="line">		<span class="keyword">if</span> (!<span class="keyword">this</span>._templates[radius]) &#123;</span><br><span class="line">			<span class="keyword">this</span>._templates[radius] = tpl = _getPointTemplate(radius, blur);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			tpl = <span class="keyword">this</span>._templates[radius];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// value from minimum / value range</span></span><br><span class="line">		<span class="comment">// =&gt; [0, 1]</span></span><br><span class="line">		<span class="keyword">var</span> templateAlpha = (value-min)/(max-min);</span><br><span class="line">		<span class="comment">// this fixes #176: small values are not visible because globalAlpha &lt; .01 cannot be read from imageData</span></span><br><span class="line">		shadowCtx.globalAlpha = templateAlpha &lt; <span class="number">.01</span> ? <span class="number">.01</span> : templateAlpha;</span><br><span class="line"></span><br><span class="line">		shadowCtx.drawImage(tpl, rectX, rectY);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// update renderBoundaries</span></span><br><span class="line">		<span class="keyword">if</span> (rectX &lt; <span class="keyword">this</span>._renderBoundaries[<span class="number">0</span>]) &#123;</span><br><span class="line">				<span class="keyword">this</span>._renderBoundaries[<span class="number">0</span>] = rectX;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (rectY &lt; <span class="keyword">this</span>._renderBoundaries[<span class="number">1</span>]) &#123;</span><br><span class="line">				<span class="keyword">this</span>._renderBoundaries[<span class="number">1</span>] = rectY;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (rectX + <span class="number">2</span>*radius &gt; <span class="keyword">this</span>._renderBoundaries[<span class="number">2</span>]) &#123;</span><br><span class="line">				<span class="keyword">this</span>._renderBoundaries[<span class="number">2</span>] = rectX + <span class="number">2</span>*radius;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (rectY + <span class="number">2</span>*radius &gt; <span class="keyword">this</span>._renderBoundaries[<span class="number">3</span>]) &#123;</span><br><span class="line">				<span class="keyword">this</span>._renderBoundaries[<span class="number">3</span>] = rectY + <span class="number">2</span>*radius;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<h2 id="线性色谱"><a href="#线性色谱" class="headerlink" title="线性色谱"></a>线性色谱</h2><p>通过createLinearGradient你可以自主定制自己的热力图色谱（config.gradient）。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> _getColorPalette = <span class="function"><span class="keyword">function</span>(<span class="params">config</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> gradientConfig = config.gradient || config.defaultGradient;</span><br><span class="line">	<span class="keyword">var</span> paletteCanvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>);</span><br><span class="line">	<span class="keyword">var</span> paletteCtx = paletteCanvas.getContext(<span class="string">'2d'</span>);</span><br><span class="line"></span><br><span class="line">	paletteCanvas.width = <span class="number">256</span>;</span><br><span class="line">	paletteCanvas.height = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> gradient = paletteCtx.createLinearGradient(<span class="number">0</span>, <span class="number">0</span>, <span class="number">256</span>, <span class="number">1</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> gradientConfig) &#123;</span><br><span class="line">		gradient.addColorStop(key, gradientConfig[key]);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	paletteCtx.fillStyle = gradient;</span><br><span class="line">	paletteCtx.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">256</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> paletteCtx.getImageData(<span class="number">0</span>, <span class="number">0</span>, <span class="number">256</span>, <span class="number">1</span>).data;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2 id="着色"><a href="#着色" class="headerlink" title="着色"></a>着色</h2><p>最后，透明度的叠加值(this.shadowCtx.getImageData)映射到线性色谱(palette)，取线性色谱中的颜色为canvas上色(putImageData)就得到最终的热力图了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">_colorize: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> x = <span class="keyword">this</span>._renderBoundaries[<span class="number">0</span>];</span><br><span class="line">	<span class="keyword">var</span> y = <span class="keyword">this</span>._renderBoundaries[<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">var</span> width = <span class="keyword">this</span>._renderBoundaries[<span class="number">2</span>] - x;</span><br><span class="line">	<span class="keyword">var</span> height = <span class="keyword">this</span>._renderBoundaries[<span class="number">3</span>] - y;</span><br><span class="line">	<span class="keyword">var</span> maxWidth = <span class="keyword">this</span>._width;</span><br><span class="line">	<span class="keyword">var</span> maxHeight = <span class="keyword">this</span>._height;</span><br><span class="line">	<span class="keyword">var</span> opacity = <span class="keyword">this</span>._opacity;</span><br><span class="line">	<span class="keyword">var</span> maxOpacity = <span class="keyword">this</span>._maxOpacity;</span><br><span class="line">	<span class="keyword">var</span> minOpacity = <span class="keyword">this</span>._minOpacity;</span><br><span class="line">	<span class="keyword">var</span> useGradientOpacity = <span class="keyword">this</span>._useGradientOpacity;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (x &lt; <span class="number">0</span>) &#123;</span><br><span class="line">		x = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (y &lt; <span class="number">0</span>) &#123;</span><br><span class="line">		y = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (x + width &gt; maxWidth) &#123;</span><br><span class="line">		width = maxWidth - x;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (y + height &gt; maxHeight) &#123;</span><br><span class="line">		height = maxHeight - y;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> img = <span class="keyword">this</span>.shadowCtx.getImageData(x, y, width, height);</span><br><span class="line">	<span class="keyword">var</span> imgData = img.data;</span><br><span class="line">	<span class="keyword">var</span> len = imgData.length;</span><br><span class="line">	<span class="keyword">var</span> palette = <span class="keyword">this</span>._palette;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">3</span>; i &lt; len; i+= <span class="number">4</span>) &#123;</span><br><span class="line">		<span class="keyword">var</span> alpha = imgData[i];</span><br><span class="line">		<span class="keyword">var</span> offset = alpha * <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (!offset) &#123;</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> finalAlpha;</span><br><span class="line">		<span class="keyword">if</span> (opacity &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			finalAlpha = opacity;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> (alpha &lt; maxOpacity) &#123;</span><br><span class="line">				<span class="keyword">if</span> (alpha &lt; minOpacity) &#123;</span><br><span class="line">					finalAlpha = minOpacity;</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					finalAlpha = alpha;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				finalAlpha = maxOpacity;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		imgData[i<span class="number">-3</span>] = palette[offset];</span><br><span class="line">		imgData[i<span class="number">-2</span>] = palette[offset + <span class="number">1</span>];</span><br><span class="line">		imgData[i<span class="number">-1</span>] = palette[offset + <span class="number">2</span>];</span><br><span class="line">		imgData[i] = useGradientOpacity ? palette[offset + <span class="number">3</span>] : finalAlpha;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	img.data = imgData;</span><br><span class="line">	<span class="keyword">this</span>.ctx.putImageData(img, x, y);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">this</span>._renderBoundaries = [<span class="number">1000</span>, <span class="number">1000</span>, <span class="number">0</span>, <span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>以上就是heatmap.js库最精华的部分了。当然，为了让库的设计更完备，它还做了很多其他工作。</p>
+<h2 id="Coordinator"><a href="#Coordinator" class="headerlink" title="Coordinator"></a>Coordinator</h2><p>自己实现了一个发布订阅模式来作为整个类库功能的调度者。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Coordinator = (<span class="function"><span class="keyword">function</span> <span class="title">CoordinatorClosure</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Coordinator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.cStore = &#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Coordinator.prototype = &#123;</span><br><span class="line">    on: <span class="function"><span class="keyword">function</span>(<span class="params">evtName, callback, scope</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cStore = <span class="keyword">this</span>.cStore;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!cStore[evtName]) &#123;</span><br><span class="line">        cStore[evtName] = [];</span><br><span class="line">    &#125;</span><br><span class="line">    cStore[evtName].push((<span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> callback.call(scope, data);</span><br><span class="line">    &#125;));</span><br><span class="line">    &#125;,</span><br><span class="line">    emit: <span class="function"><span class="keyword">function</span>(<span class="params">evtName, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cStore = <span class="keyword">this</span>.cStore;</span><br><span class="line">    <span class="keyword">if</span> (cStore[evtName]) &#123;</span><br><span class="line">        <span class="keyword">var</span> len = cStore[evtName].length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="keyword">var</span> callback = cStore[evtName][i];</span><br><span class="line">        callback(data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> Coordinator;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<p>如你需要renderpartial、renderall，只需要emit就可以了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">coordinator.on(<span class="string">'renderpartial'</span>, renderer.renderPartial, renderer);</span><br><span class="line">coordinator.on(<span class="string">'renderall'</span>, renderer.renderAll, renderer);</span><br></pre></td></tr></table></figure></p>
+<h2 id="plugin"><a href="#plugin" class="headerlink" title="plugin"></a>plugin</h2><p>提供了插件接口，你可以使用heatmap.js提供的如gmaps-heatmap等各种插件。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (config[<span class="string">'plugin'</span>]) &#123;</span><br><span class="line">    <span class="keyword">var</span> pluginToLoad = config[<span class="string">'plugin'</span>];</span><br><span class="line">    <span class="keyword">if</span> (!HeatmapConfig.plugins[pluginToLoad]) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Plugin \''</span>+ pluginToLoad + <span class="string">'\' not found. Maybe it was not registered.'</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> plugin = HeatmapConfig.plugins[pluginToLoad];</span><br><span class="line">    <span class="comment">// set plugin renderer and store</span></span><br><span class="line">    <span class="keyword">this</span>._renderer = <span class="keyword">new</span> plugin.renderer(config);</span><br><span class="line">    <span class="keyword">this</span>._store = <span class="keyword">new</span> plugin.store(config);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Heatmap"><a href="#Heatmap" class="headerlink" title="Heatmap"></a>Heatmap</h2><p>实现了Heatmap构造方法，使用户可以通过heatmap实例调用各种功能。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Heatmap.prototype = &#123;</span><br><span class="line">    addData: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    removeData: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    setData: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    setDataMax: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    setDataMin: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    configure: <span class="function"><span class="keyword">function</span>(<span class="params">config</span>) </span>&#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    repaint: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    getData: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    getDataURL: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    getValueAt: <span class="function"><span class="keyword">function</span>(<span class="params">point</span>) </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> Heatmap;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h2><p>实现了自己的Store来统一管理热力图数据。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">Store.prototype = &#123;</span><br><span class="line">  <span class="comment">// when forceRender = false -&gt; called from setData, omits renderall event</span></span><br><span class="line">  _organiseData: <span class="function"><span class="keyword">function</span>(<span class="params">dataPoint, forceRender</span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line">  _unOrganizeData: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line">  _onExtremaChange: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line">  addData: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line">  setData: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line">  removeData: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> implement</span></span><br><span class="line">  &#125;,</span><br><span class="line">  setDataMax: <span class="function"><span class="keyword">function</span>(<span class="params">max</span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line">  setDataMin: <span class="function"><span class="keyword">function</span>(<span class="params">min</span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line">  setCoordinator: <span class="function"><span class="keyword">function</span>(<span class="params">coordinator</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>._coordinator = coordinator;</span><br><span class="line">  &#125;,</span><br><span class="line">  _getInternalData: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; </span><br><span class="line">      max: <span class="keyword">this</span>._max,</span><br><span class="line">      min: <span class="keyword">this</span>._min, </span><br><span class="line">      data: <span class="keyword">this</span>._data,</span><br><span class="line">      radi: <span class="keyword">this</span>._radi </span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  getData: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>._unOrganizeData();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以上，就是heatmap全部源码的内容（除各种plugins不一一介绍了），总体实现上其实并不复杂，但确实可以很方便地绘制热力图。基于它的原理，我们可以进行二次开发，实现定制的热力图。比如，我们一般都是通过xpath来保存无埋点数据的，而一般xpath元素并不是圆点，大部分时候它都是长方形元素。这时用圆点拟合就不太合适了，我们改造为椭圆点可以更好地拟合实际点击情况。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/heatmap-js/" rel="tag"># heatmap.js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/21/node-js服务内存与cpu分析/" rel="next" title="node.js服务内存与cpu分析">
+                <i class="fa fa-chevron-left"></i> node.js服务内存与cpu分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/27/es6-Module的语法/" rel="prev" title="es6-Module的语法">
+                es6-Module的语法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDUxMi8xMTA1MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="小光">
+            
+              <p class="site-author-name" itemprop="name">小光</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mfaying" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1213560387@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#热力图原理"><span class="nav-number">1.</span> <span class="nav-text">热力图原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#点模板"><span class="nav-number">1.1.</span> <span class="nav-text">点模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#灰度（透明度）叠加"><span class="nav-number">1.2.</span> <span class="nav-text">灰度（透明度）叠加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性色谱"><span class="nav-number">1.3.</span> <span class="nav-text">线性色谱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#着色"><span class="nav-number">1.4.</span> <span class="nav-text">着色</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">2.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Coordinator"><span class="nav-number">2.1.</span> <span class="nav-text">Coordinator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#plugin"><span class="nav-number">2.2.</span> <span class="nav-text">plugin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heatmap"><span class="nav-number">2.3.</span> <span class="nav-text">Heatmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Store"><span class="nav-number">2.4.</span> <span class="nav-text">Store</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    by
+  </span>
+  <span class="author" itemprop="copyrightHolder">小光</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("rXDtthwfyBtPIDbpKrjcpxmS-gzGzoHsz", "5fvqAap2dh7V6AXxOQgVSqSU");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <script>
+    $('.blur-bg').css('height', $(document).height() + 130);
+    var blogClearTimer = setInterval(function () {
+      if (!(localStorage.getItem('mfaying') === 'blog')) {
+        window.document.write("");
+      } else {
+        clearInterval(blogClearTimer);
+      }
+    }, 500);
+  </script>
+</body>
+</html>

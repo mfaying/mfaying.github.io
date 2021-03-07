@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="服务器,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="阿里云服务器（裸机）建站指南">
+<meta name="keywords" content="服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云">
+<meta property="og:url" content="http://yoursite.com/2019/10/14/阿里云/index.html">
+<meta property="og:site_name" content="小光的博客">
+<meta property="og:description" content="阿里云服务器（裸机）建站指南">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/1.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/2.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/3.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/4.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/5.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/6.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/7.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/8.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/9.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/10.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/11.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/aliyun/12.jpg">
+<meta property="og:updated_time" content="2020-10-12T05:59:49.766Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿里云">
+<meta name="twitter:description" content="阿里云服务器（裸机）建站指南">
+<meta name="twitter:image" content="https://mfaying.github.io/static/images/aliyun/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/14/阿里云/">
+
+
+
+
+
+  <title>阿里云 | 小光的博客</title>
+  
+
+
+
+
+
+
+
+
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?bacbd4424722e498fac9ea507f3a8807";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  window.onload=function(){
+    if (!sessionStorage.getItem('homePgCount')) {
+      sessionStorage.setItem('homePgCount', Math.floor(new Date().getSeconds() % 11));
+    }
+    $('.header-inner').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+    $('.blur-bg').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+  }
+
+  </script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  <div class="blur-bg"></div>
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小光的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/14/阿里云/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小光">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小光的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">阿里云</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-14T21:26:33+08:00">
+                2019-10-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/10/14/阿里云/" class="leancloud_visitors" data-flag-title="阿里云">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>阿里云服务器（裸机）建站指南</p>
+<a id="more"></a>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一年前在阿里云上买了一台1核2G的服务器，利用业余时间也做了一些东西：<a href="https://www.readingblog.cn" target="_blank" rel="noopener">站点</a> <a href="https://www.readingblog.cn、微信小程序（积木小盒）等等。" target="_blank" rel="noopener">https://www.readingblog.cn、微信小程序（积木小盒）等等。</a></p>
+<p>目前小程序流量主已经有少量收益，能维持收支平衡了。同时也积累了一些服务器建站和运维经验，所以想着在这篇文章中集中做一些整理。</p>
+<h1 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h1><p>先在阿里云官网[<a href="https://www.aliyun.com]" target="_blank" rel="noopener">https://www.aliyun.com]</a> 选择适合自己的云服务器ECS，然后按照购买流程走即可。</p>
+<p>购买完毕，就可以使用你的服务器了。点击控制台，再选择左侧栏的云服务器ECS，就可以进到云服务器控制台。</p>
+<p>点击左侧栏的实例，初始化一下密码。初始化后需要重启一下。</p>
+<p><img src="https://mfaying.github.io/static/images/aliyun/1.jpg" alt="avatar"></p>
+<p>密码初始化后就可以远程连接服务器了。（建议密码设置得复杂一些，自己之前由于密码设置得过于简单而被其他人登录过）</p>
+<p><img src="https://mfaying.github.io/static/images/aliyun/2.jpg" alt="avatar"></p>
+<h1 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h1><p>在服务器上安装git可以让你很方便地更新代码，部署服务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wget https://www.kernel.org/pub/software/scm/git/git-2.8.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>下载相关依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install zlib-devel openssl-devel cpio expat-devel</span><br></pre></td></tr></table></figure>
+<p>解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tar -zxvf git-2.8.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd git-2.8.0</span><br><span class="line">make configure</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line">echo &quot;export PATH=$PATH:/usr/local/git/bin&quot; &gt;&gt; /etc/bashrc</span><br><span class="line">source /etc/bashrc</span><br></pre></td></tr></table></figure>
+<p>在这些过程中可能会出现一些错误，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">autoconf: command not found (centos 6.7 install git-2.10.0 from source code)  </span><br><span class="line">  解决方法:yum  install autoconf</span><br><span class="line">make[1]: *** [perl.mak] Error 2 </span><br><span class="line">  解决方法:yum install perl-ExtUtils-MakeMaker package</span><br><span class="line"></span><br><span class="line">git clone出现https错误：(重新编译即可)</span><br><span class="line">  解决方法:</span><br><span class="line">yum install curl-devel</span><br><span class="line">cd home/developer/setup/git-2.8.0 //这里就是到放git的地方就好</span><br><span class="line">  ./configure</span><br><span class="line">make</span><br><span class="line">  make install</span><br></pre></td></tr></table></figure>
+<h1 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a>安装node.js</h1><p>笔者主要研究前端，所以服务端语言以node.js为主。</p>
+<p>如何安装node.js可以参见阿里云文档，可以修改版本为较新的node.js版本，当然也可以使用nvm来管理node.js的版本。</p>
+<p>安装完node.js以后，我们稍微修改一下node.js官方文档的例子，来启动一个http服务器。</p>
+<p>代码如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// server.js</span></span><br><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> hostname = <span class="string">'0.0.0.0'</span>;</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">3001</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.statusCode = <span class="number">200</span>;</span><br><span class="line">  res.setHeader(<span class="string">'Content-Type'</span>, <span class="string">'text/plain'</span>);</span><br><span class="line">  res.end(<span class="string">'Hello, World!\n'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.listen(port, hostname, () =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Server running at http://<span class="subst">$&#123;hostname&#125;</span>:<span class="subst">$&#123;port&#125;</span>/`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>启动服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ start]# node server.js</span><br><span class="line">Server running at http://0.0.0.0:3001/</span><br></pre></td></tr></table></figure>
+<p>你还需要添加安全组规则，打开服务器防火墙上的3001端口。具体操作如下</p>
+<p>在实例列表页点击”更多”,找到安全组配置</p>
+<p><img src="https://mfaying.github.io/static/images/aliyun/3.jpg" alt="avatar"></p>
+<p>点击配置规则</p>
+<p><img src="https://mfaying.github.io/static/images/aliyun/4.jpg" alt="avatar"></p>
+<p>点击快速创建规则</p>
+<p><img src="https://mfaying.github.io/static/images/aliyun/5.jpg" alt="avatar"></p>
+<p>具体配置如下</p>
+<p><img src="https://mfaying.github.io/static/images/aliyun/6.jpg" alt="avatar"></p>
+<p>配置完毕后，就可以调用接口了。</p>
+<p><img src="https://mfaying.github.io/static/images/aliyun/7.jpg" alt="avatar"></p>
+<h1 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h1><p>要处理一些业务数据，mysql是必需的。</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>使用yum下载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm</span><br><span class="line">yum -y install mysql57-community-release-el7-10.noarch.rpm</span><br><span class="line">yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
+<p>速度比较慢，需要耐心等待。</p>
+<h2 id="启停mysql服务"><a href="#启停mysql服务" class="headerlink" title="启停mysql服务"></a>启停mysql服务</h2><p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ ~]# systemctl start  mysqld.service</span><br></pre></td></tr></table></figure>
+<p>使用ps -ef | grep mysql查看，发现mysql服务已经启动了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ ~]# ps -ef | grep mysql</span><br><span class="line">mysql    21709     1  6 10:58 ?        00:00:00 /usr/sbin/mysqld --daemonize --pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line">root     21738 21649  0 10:58 pts/0    00:00:00 grep --color=auto mysql</span><br></pre></td></tr></table></figure>
+<p>停止</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ ~]# systemctl stop  mysqld.service</span><br></pre></td></tr></table></figure>
+<p>mysql服务停止了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ ~]# ps -ef | grep mysql</span><br><span class="line">root     21747 21649  0 10:58 pts/0    00:00:00 grep --color=auto mysql</span><br><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ ~]# systemctl start  mysqld.service</span><br></pre></td></tr></table></figure>
+<h2 id="重设root密码，设置远程登录权限"><a href="#重设root密码，设置远程登录权限" class="headerlink" title="重设root密码，设置远程登录权限"></a>重设root密码，设置远程登录权限</h2><p>先设置免密登录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/my.cnf</span><br></pre></td></tr></table></figure>
+<p>在mysqld下面添加<br>skip-grant-tables</p>
+<p>保存后重启mysql，这时就可以跳过密码来登录mysql了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop  mysqld.service</span><br><span class="line">systemctl start  mysqld.service</span><br><span class="line">mysql</span><br></pre></td></tr></table></figure>
+<p>先刷新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;flush privileges;</span><br></pre></td></tr></table></figure>
+<p>创建用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;create user &apos;root&apos;@&apos;localhost&apos; identified by &apos;你的密码&apos;;</span><br></pre></td></tr></table></figure>
+<p>允许root用户远程登录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;grant all privileges on *.* to &apos;root&apos;@&apos;%&apos; identified by &apos;你的密码&apos;;</span><br></pre></td></tr></table></figure>
+<p>刷新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;flush privileges;</span><br></pre></td></tr></table></figure>
+<p>去掉my.cnf里的免密设置,使用密码登录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p <span class="string">'你的密码'</span></span><br></pre></td></tr></table></figure>
+<p>最后，你还需要按照之前的方法添加安全组规则，打开服务器防火墙上的3306端口。</p>
+<p>配置完毕后你就可以在本地远程连接服务器上的mysql了。（建议mysql的密码设置得复杂些，平时关闭3306端口，这样通过外网就无法直接连接mysql了，同时还要使用oss将mysql的数据做好备份以确保安全。之前mysql的密码被黑客破解了，所有库表都被删了，惨痛的教训）。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>我用的是Sequelize包，它是基于promise的，支持es6语法。除了mysql，它还可以用于连接Postgres、MariaDB、SQLite和Microsoft SQL Server。(<a href="https://www.npmjs.com/package/sequelize" target="_blank" rel="noopener">https://www.npmjs.com/package/sequelize</a>)</p>
+<p>结合开发文档，我们就可以进行实际开发了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Sequelize = <span class="built_in">require</span>(<span class="string">'sequelize'</span>);</span><br><span class="line"><span class="keyword">const</span> config = <span class="built_in">require</span>(<span class="string">'../config'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> logger = <span class="built_in">require</span>(<span class="string">'log4js'</span>).getLogger(<span class="string">'app'</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MysqlClient</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!MysqlClient.instance) &#123;</span><br><span class="line">      <span class="keyword">this</span>.client = <span class="keyword">new</span> Sequelize(config.mysql.database, config.mysql.username, config.mysql.password, &#123;</span><br><span class="line">        host: config.mysql.host,</span><br><span class="line">        port: config.mysql.port,</span><br><span class="line">        dialect: <span class="string">'mysql'</span>,</span><br><span class="line">        pool: &#123;</span><br><span class="line">          max: <span class="number">5</span>,</span><br><span class="line">          min: <span class="number">0</span>,</span><br><span class="line">          idle: <span class="number">10000</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        timezone: <span class="string">'+08:00'</span>,</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> client = <span class="keyword">this</span>.client;</span><br><span class="line">      MysqlClient.instance = client;</span><br><span class="line"></span><br><span class="line">      client</span><br><span class="line">      .authenticate()</span><br><span class="line">      .then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        logger.info(<span class="string">'Connection has been established successfully.'</span>);</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">        logger.info(<span class="string">'Unable to connect to the database:'</span>, err);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="keyword">new</span> MysqlClient().client;</span><br></pre></td></tr></table></figure></p>
+<h1 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h1><h2 id="下载和编译"><a href="#下载和编译" class="headerlink" title="下载和编译"></a>下载和编译</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-4.0.2.tar.gz</span><br><span class="line">tar xzf redis-4.0.2.tar.gz</span><br><span class="line"><span class="built_in">cd</span> redis-4.0.2</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><p>后台启动redis</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> redis-4.0.2/</span><br><span class="line">src/redis-server &amp;</span><br></pre></td></tr></table></figure>
+<p>查询redis进程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep redis</span><br></pre></td></tr></table></figure>
+<p>可以看到redis已经启动了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root     19141 19065  0 12:50 pts/1    00:00:03 ./src/redis-server 0.0.0.0:6379</span><br><span class="line">root     19238 19196  0 14:00 pts/0    00:00:00 grep --color=auto redis</span><br></pre></td></tr></table></figure>
+<p>结束进程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> -9 pid</span><br></pre></td></tr></table></figure>
+<h2 id="简单测试"><a href="#简单测试" class="headerlink" title="简单测试"></a>简单测试</h2><p>启动redis客户端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> redis-4.0.2/</span><br><span class="line">src/redis-cli</span><br><span class="line">127.0.0.1:6379&gt; <span class="built_in">set</span> <span class="built_in">test</span> 1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get <span class="built_in">test</span></span><br><span class="line"><span class="string">"1"</span></span><br></pre></td></tr></table></figure>
+<p>redis安装成功了。</p>
+<h2 id="配置服务器远程连接"><a href="#配置服务器远程连接" class="headerlink" title="配置服务器远程连接"></a>配置服务器远程连接</h2><p>默认配置只能是本地访问，我们修改redis-4.0.2/redis.conf配置文件</p>
+<p>将</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1</span><br></pre></td></tr></table></figure>
+<p>修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind 0.0.0.0</span><br></pre></td></tr></table></figure>
+<p>你需要添加安全组规则，打开服务器防火墙上的6379端口。</p>
+<h2 id="设置远程连接密码"><a href="#设置远程连接密码" class="headerlink" title="设置远程连接密码"></a>设置远程连接密码</h2><p>默认配置开启了保护模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected-mode yes</span><br></pre></td></tr></table></figure>
+<p>这时你需要设置密码才可以远程连接上redis，密码设置非常简单，只需要在requirepass字段上填写你的密码即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">requirepass 你的密码</span><br></pre></td></tr></table></figure>
+<p>配置完毕，后台启动你的redis可以了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./opt/software/redis-4.0.2/src/redis-server /opt/software/redis-4.0.2/redis.conf &amp;</span><br></pre></td></tr></table></figure>
+<h2 id="node客户端连接"><a href="#node客户端连接" class="headerlink" title="node客户端连接"></a>node客户端连接</h2><p>我用的是redis包，根据前面你的配置就可以远程连接服务器上的redis了。结合<a href="https://www.npmjs.com/package/redis" target="_blank" rel="noopener">开发文档</a>，就可以进行实际开发了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> redis = <span class="built_in">require</span>(<span class="string">'redis'</span>);</span><br><span class="line"><span class="keyword">const</span> config = <span class="built_in">require</span>(<span class="string">'../config'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> logger = <span class="built_in">require</span>(<span class="string">'log4js'</span>).getLogger(<span class="string">'app'</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedisClient</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!RedisClient.instance) &#123;</span><br><span class="line">      <span class="keyword">this</span>.client = redis.createClient(&#123;</span><br><span class="line">        host: config.redis.host,</span><br><span class="line">        port: config.redis.port,</span><br><span class="line">        password: config.redis.password,</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> client = <span class="keyword">this</span>.client;</span><br><span class="line">      RedisClient.instance = client;</span><br><span class="line">  </span><br><span class="line">      client.on(<span class="string">"error"</span>, (err) =&gt; &#123;</span><br><span class="line">        logger.error(<span class="string">'redis connect err: %s'</span>, err.toString());</span><br><span class="line">      &#125;);</span><br><span class="line">      </span><br><span class="line">      client.on(<span class="string">"connect"</span>, () =&gt; &#123;</span><br><span class="line">        logger.info(<span class="string">'redis connect success'</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="keyword">new</span> RedisClient().client;</span><br></pre></td></tr></table></figure>
+<h1 id="短信服务"><a href="#短信服务" class="headerlink" title="短信服务"></a>短信服务</h1><p>如果你购买了阿里云的短信服务，就可以通过短信API实现验证码、推广短信、通知短信的发送功能了。</p>
+<p>这里以验证码为例，介绍一下短信的发送功能。</p>
+<h2 id="快速学习"><a href="#快速学习" class="headerlink" title="快速学习"></a>快速学习</h2><p>进入快速学习页面(<a href="https://dysms.console.aliyun.com/dysms.htm#/quickStart" target="_blank" rel="noopener">https://dysms.console.aliyun.com/dysms.htm#/quickStart</a>)</p>
+<p>直接点击查看API Demo</p>
+<p>你在左侧输入参数，选择不同的后端语言，它会自动帮你生成Demo代码，并且还可以去CloudShell在线调试。<br><img src="https://mfaying.github.io/static/images/aliyun/8.jpg" alt="avatar"></p>
+<h2 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h2><p>PhoneNumbers 接收短信的手机号码<br>SignName 签名名称，在控制台国内消息签名管理一列添加、查看<br>TemplateCode 模板ID，在控制台国内消息模板管理一列添加、查看<br>TemplateParam 模板变量对应的实际值，注意一定要是JSON格式。</p>
+<p>签名可以设置你的网站名、公司名</p>
+<p>模板可以选择验证码、短信通知、推广短信(升级为企业后启用)，设置你的短信内容，同时支持变量替换，如我的网站的验证码短信模板内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">您的验证码为：$&#123;code&#125;，该验证码5分钟内有效，请勿泄漏于他人。</span><br></pre></td></tr></table></figure>
+<p>TemplateParam可以设置code变量，发送你需要的内容</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"TemplateParam"</span>: <span class="built_in">JSON</span>.stringify(&#123;</span><br><span class="line">  <span class="string">"code"</span>: <span class="number">2</span></span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+<h2 id="短信发送客户端"><a href="#短信发送客户端" class="headerlink" title="短信发送客户端"></a>短信发送客户端</h2><p>根据API Demo，我们写出自己的短信客户端代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Core = <span class="built_in">require</span>(<span class="string">'@alicloud/pop-core'</span>);</span><br><span class="line"><span class="keyword">const</span> config = <span class="built_in">require</span>(<span class="string">'../config'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> requestOption = &#123;</span><br><span class="line">  method: <span class="string">'POST'</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmsClient</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!SmsClient.instance) &#123;</span><br><span class="line">      <span class="keyword">this</span>.client = <span class="keyword">new</span> Core(&#123;</span><br><span class="line">        accessKeyId: config.sms.accessKeyId,</span><br><span class="line">        accessKeySecret: config.sms.accessKeySecret,</span><br><span class="line">        endpoint: config.sms.endpoint,</span><br><span class="line">        apiVersion: config.sms.apiVersion,</span><br><span class="line">      &#125;);</span><br><span class="line">      SmsClient.instance = <span class="keyword">this</span>.client;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  sendSms(params) &#123;</span><br><span class="line">    <span class="keyword">this</span>.client.request(<span class="string">'SendSms'</span>, params, requestOption).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(result));</span><br><span class="line">    &#125;, (ex) =&gt; &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(ex);</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="keyword">new</span> SmsClient();</span><br></pre></td></tr></table></figure>
+<p>编写单元测试</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> smsClient = <span class="built_in">require</span>(<span class="string">'../../common/sms-client.js'</span>);</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'smsClient'</span>,<span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">'sendSms'</span>, <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> params = &#123;</span><br><span class="line">      <span class="string">"PhoneNumbers"</span>: <span class="string">"手机号码"</span>,</span><br><span class="line">      <span class="string">"SignName"</span>: <span class="string">"签名"</span>,</span><br><span class="line">      <span class="string">"RegionId"</span>: <span class="string">"cn-hangzhou"</span>,</span><br><span class="line">      <span class="string">"TemplateCode"</span>: <span class="string">"模板ID"</span>,</span><br><span class="line">      <span class="string">"TemplateParam"</span>: <span class="built_in">JSON</span>.stringify(&#123;</span><br><span class="line">        <span class="string">"code"</span>: <span class="number">2</span></span><br><span class="line">      &#125;),</span><br><span class="line">    &#125;</span><br><span class="line">    smsClient.sendSms(params);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>执行后，手机上成功收到了短信。</p>
+<p><img src="https://mfaying.github.io/static/images/aliyun/9.jpg" alt></p>
+<h1 id="域名、DNS、nginx"><a href="#域名、DNS、nginx" class="headerlink" title="域名、DNS、nginx"></a>域名、DNS、nginx</h1><h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>虽然通过ip地址可以直接访问你的网站，但是我们很少看到网站是通过ip地址访问的，一般网站都会提供域名。域名直观易记，且在用户访问的域名不改变的情况下，解析的ip地址可以更改。</p>
+<p>域名申请可以去万网购买，国家规定了网站需要备案才可以访问，我在阿里云走的备案流程，在阿里云APP填写、上传相应信息即可，以前的流程需要邮寄幕布什么的了，现在只需要在线上操作即可。阿里云的流程走得是比较快的，最终会提交到管局，管局流程就需要等待一阵子了(5~20个工作日)。我的域名从开始备案到备案成功，流程约走了2周。</p>
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>域名需要解析到ip地址，DNS做的就是这个工作。它可以将易于管理识别的域名转换为计算机用于互连通信的数字IP地址，从而将用户的访问路由到相应的网站或应用服务器。</p>
+<p>同样，我使用了阿里云的DNS解析服务。在云解析DNS域名控制台-域名解析，点击添加域名。</p>
+<p><img src="https://mfaying.github.io/static/images/aliyun/10.jpg" alt></p>
+<p>再添加解析</p>
+<p><img src="https://mfaying.github.io/static/images/aliyun/11.jpg" alt></p>
+<p>具体配置如下</p>
+<p><img src="https://mfaying.github.io/static/images/aliyun/12.jpg" alt></p>
+<p>配置完成后访问域名就会解析到记录值所填写的ip地址了。</p>
+<h2 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h2><p>虽然域名解析到了ip地址(服务器)，但是默认的端口是80(所以请确保服务器的80端口设置了安全组规则，具体可以参考前面文章介绍过的方法)。我们一般服务监听的端口不是80怎么办？其实很简单，我们只需要简单的配置一下nginx转发就可以了。</p>
+<p>接下介绍一下在阿里云服务器上安装和使用nginx。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>首先安装PCRE pcre-devel 和Zlib</p>
+<p>PCRE(Perl Compatible Regular Expressions) 是一个Perl库，包括perl兼容的正则表达式库。nginx的http模块使用pcre来解析正则表达式，所以需要在linux上安装 pcre库，pcre-devel是使用pcre开发的一个二次开发库。nginx也需要此库。命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y pcre pcre-devel</span><br></pre></td></tr></table></figure>
+<p>zlib库提供了很多种压缩和解压缩的方式，nginx使用zlib对http包的内容进行gzip，所以需要在Centos上安装zlib库。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y zlib zlib-devel</span><br></pre></td></tr></table></figure>
+<p>安装GCC和OpenSSL</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
+<p>现在我们开始安装nginx，这里我安装的是1.14.0版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -c https://nginx.org/download/nginx-1.14.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>解压并进入nginx目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf nginx-1.14.0.tar.gz</span><br><span class="line"><span class="built_in">cd</span> nginx-1.14.0</span><br></pre></td></tr></table></figure>
+<p>使用nginx的默认配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br></pre></td></tr></table></figure>
+<p>编译安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>查找安装路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ ~]# whereis nginx</span><br><span class="line">nginx: /usr/local/nginx</span><br></pre></td></tr></table></figure>
+<p>进入sbin目录，可以看到有一个可执行文件nginx，直接./执行就OK了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ ~]# cd /usr/local/nginx</span><br><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ nginx]# ls</span><br><span class="line">client_body_temp  fastcgi_temp  logs        sbin       uwsgi_temp</span><br><span class="line">conf              html          proxy_temp  scgi_temp</span><br><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ nginx]# cd sbin</span><br><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ sbin]# ls</span><br><span class="line">nginx</span><br><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ sbin]# ./nginx</span><br></pre></td></tr></table></figure>
+<p>配置开机自启动</p>
+<p>在rc.local增加启动代码就可以。增加一行 /usr/local/nginx/sbin/nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/rc.local</span><br></pre></td></tr></table></figure>
+<p>设置执行权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 755 rc.local</span><br></pre></td></tr></table></figure>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>nginx配置文件修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+<p>修改原配置文件的部分内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  localhost;</span><br><span class="line"></span><br><span class="line">    #charset koi8-r;</span><br><span class="line"></span><br><span class="line">    #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        root   /opt/nodejs/blog-server/static/blog;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">    # redirect server error pages to the static page /50x.html</span><br><span class="line">    #</span><br><span class="line">    error_page   500 502 503 504  /50x.html;</span><br><span class="line">    location = /50x.html &#123;</span><br><span class="line">        root   html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # proxy to the blog server</span><br><span class="line">    location /blog &#123;</span><br><span class="line">        proxy_pass http://0.0.0.0:3000;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样访问80端口根路径就会请求index.html文件，匹配/blog路径的请求会被转发到本地服务器的3000端口上。</p>
+<p>配置完毕后，可以执行命令检查一下配置是否有错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ conf]# /usr/local/nginx/sbin/nginx -t</span><br><span class="line">nginx: the configuration file /usr/local/nginx/conf/nginx.conf syntax is ok</span><br><span class="line">nginx: configuration file /usr/local/nginx/conf/nginx.conf test is successful</span><br></pre></td></tr></table></figure>
+<p>最后重启一下nignx就可以了</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
+<p>此时你访问域名，就会按照nginx配置请求前后端资源。试试访问<a href="http://www.readingblog.cn" target="_blank" rel="noopener">我的网站</a> (<a href="http://www.readingblog.cn" target="_blank" rel="noopener">http://www.readingblog.cn</a>)</p>
+<h1 id="配置HTTPS"><a href="#配置HTTPS" class="headerlink" title="配置HTTPS"></a>配置HTTPS</h1><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ol>
+<li>备案过的域名</li>
+<li>ssl证书(免费的就行)</li>
+</ol>
+<h2 id="申请证书"><a href="#申请证书" class="headerlink" title="申请证书"></a>申请证书</h2><ol>
+<li>登录阿里云控制台产-&gt;产品与服务-&gt;SSL 证书</li>
+<li>点击购买证书，证书类型选择免费型DV SSL，完成购买</li>
+<li>购买完以后，出现了Symantec 免费版 SSL，操作项下按钮点击。</li>
+<li>完善资料、提交审核。我这里域名用的是阿里云DNS服务，按照提示勾选证书绑定的域名在阿里云的云解析，系统生成CSR，直至提交审核。</li>
+</ol>
+<p>10分钟左右，申请的证书就能审核通过。</p>
+<h2 id="下载证书"><a href="#下载证书" class="headerlink" title="下载证书"></a>下载证书</h2><p>确认已获得证书就可以去证书控制台下载证书了，解压后会得到两个文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3064445_readingblog.cn.key 3064445_readingblog.cn.pem</span><br></pre></td></tr></table></figure>
+<p>不同的服务器类型，证书配置方法也不一样，这里我们以nginx服务器为例做介绍</p>
+<h2 id="配置nginx的https"><a href="#配置nginx的https" class="headerlink" title="配置nginx的https"></a>配置nginx的https</h2><ol>
+<li>创建存储证书的目录（任意）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /usr/local/nginx/ssl/key</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>上传证书</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scp -p 22 /usr/local/nginx/ssl/key/3064445_readingblog.cn.pem root@47.92.166.108:/usr/local/nginx/ssl/key</span><br><span class="line"></span><br><span class="line">scp -p 22 /usr/local/nginx/ssl/key/3064445_readingblog.cn.key root@47.92.166.108:/usr/local/nginx/ssl/key</span><br></pre></td></tr></table></figure>
+<p>上传完毕后，目录结构如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ key]# pwd</span><br><span class="line">/usr/local/nginx/ssl/key</span><br><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ key]# ls</span><br><span class="line">3064445_readingblog.cn.key  3064445_readingblog.cn.pem</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>修改nginx配置文件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># HTTPS server</span><br><span class="line">#</span><br><span class="line">server &#123;</span><br><span class="line">    listen       443 ssl;</span><br><span class="line">    server_name  localhost;</span><br><span class="line"></span><br><span class="line">    ssl_certificate      /usr/local/nginx/ssl/key/3064445_readingblog.cn.pem;</span><br><span class="line">    ssl_certificate_key  /usr/local/nginx/ssl/key/3064445_readingblog.cn.key;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">#    ssl_session_cache    shared:SSL:1m;</span><br><span class="line">    ssl_session_timeout  5m;</span><br><span class="line">    ssl_ciphers AESGCM:ALL:!DH:!EXPORT:!RC4:+HIGH:!MEDIUM:!LOW:!aNULL:!eNULL;</span><br><span class="line">#    ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">    ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        root   /opt/nodejs/blog-server/static/blog;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">    error_page   500 502 503 504  /50x.html;</span><br><span class="line">    location = /50x.html &#123;</span><br><span class="line">        root   html;</span><br><span class="line">    &#125;</span><br><span class="line">    location /blog &#123;</span><br><span class="line">        proxy_pass http://0.0.0.0:3000;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>重启nginx</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
+<h2 id="安装ngx-http-ssl-module"><a href="#安装ngx-http-ssl-module" class="headerlink" title="安装ngx_http_ssl_module"></a>安装ngx_http_ssl_module</h2><p>如果提示the “ssl” parameter requires ngx_http_ssl_module，说明nginx还需要安装ngx_http_ssl_module模块。</p>
+<p>我的nginx安装目录为：/usr/local/nginx，源码包在/usr/nginx-1.14.0<br>首先进入源码包目录，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module</span><br></pre></td></tr></table></figure>
+<p>配置完成后，运行命令make命令(注意此处不能进行make install，否则就是覆盖安装)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>替换已安装好的nginx包，替换之前先备份：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.bak</span><br></pre></td></tr></table></figure>
+<p>先停止nginx服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -s stop</span><br></pre></td></tr></table></figure>
+<p>将刚刚编译好的nginx覆盖掉原有的nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp ./objs/nginx /usr/local/nginx/sbin/</span><br></pre></td></tr></table></figure>
+<p>最后就可以启动nginx了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+<p>删除备份</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /usr/local/nginx/sbin/nginx.bak</span><br></pre></td></tr></table></figure>
+<p>我们可以通过命令查看ssl模块是否已经加入成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ8vbfhrv1vsbp44n9fdtoZ nginx-1.14.0]# /usr/local/nginx/sbin/nginx -V</span><br><span class="line">nginx version: nginx/1.14.0</span><br><span class="line">built by gcc 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC)</span><br><span class="line">built with OpenSSL 1.0.2k-fips  26 Jan 2017</span><br><span class="line">TLS SNI support enabled</span><br><span class="line">configure arguments: --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module</span><br></pre></td></tr></table></figure>
+<p>配置完成后就可以通过https<a href="https://www.readingblog.cn" target="_blank" rel="noopener">访问网站了</a> (<a href="https://www.readingblog.cn" target="_blank" rel="noopener">https://www.readingblog.cn</a>)</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/服务器/" rel="tag"># 服务器</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/14/react知识汇总/" rel="next" title="react知识汇总">
+                <i class="fa fa-chevron-left"></i> react知识汇总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/18/JavaScript相关/" rel="prev" title="JavaScript相关">
+                JavaScript相关 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDUxMi8xMTA1MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="小光">
+            
+              <p class="site-author-name" itemprop="name">小光</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mfaying" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1213560387@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#起步"><span class="nav-number">2.</span> <span class="nav-text">起步</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装git"><span class="nav-number">3.</span> <span class="nav-text">安装git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装node-js"><span class="nav-number">4.</span> <span class="nav-text">安装node.js</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql"><span class="nav-number">5.</span> <span class="nav-text">mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">5.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启停mysql服务"><span class="nav-number">5.2.</span> <span class="nav-text">启停mysql服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重设root密码，设置远程登录权限"><span class="nav-number">5.3.</span> <span class="nav-text">重设root密码，设置远程登录权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">5.4.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#redis"><span class="nav-number">6.</span> <span class="nav-text">redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载和编译"><span class="nav-number">6.1.</span> <span class="nav-text">下载和编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动服务"><span class="nav-number">6.2.</span> <span class="nav-text">启动服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单测试"><span class="nav-number">6.3.</span> <span class="nav-text">简单测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置服务器远程连接"><span class="nav-number">6.4.</span> <span class="nav-text">配置服务器远程连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置远程连接密码"><span class="nav-number">6.5.</span> <span class="nav-text">设置远程连接密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#node客户端连接"><span class="nav-number">6.6.</span> <span class="nav-text">node客户端连接</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#短信服务"><span class="nav-number">7.</span> <span class="nav-text">短信服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#快速学习"><span class="nav-number">7.1.</span> <span class="nav-text">快速学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数说明"><span class="nav-number">7.2.</span> <span class="nav-text">参数说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#短信发送客户端"><span class="nav-number">7.3.</span> <span class="nav-text">短信发送客户端</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#域名、DNS、nginx"><span class="nav-number">8.</span> <span class="nav-text">域名、DNS、nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#域名"><span class="nav-number">8.1.</span> <span class="nav-text">域名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS"><span class="nav-number">8.2.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx"><span class="nav-number">8.3.</span> <span class="nav-text">nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">8.3.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">8.3.2.</span> <span class="nav-text">配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置HTTPS"><span class="nav-number">9.</span> <span class="nav-text">配置HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-number">9.1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#申请证书"><span class="nav-number">9.2.</span> <span class="nav-text">申请证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载证书"><span class="nav-number">9.3.</span> <span class="nav-text">下载证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置nginx的https"><span class="nav-number">9.4.</span> <span class="nav-text">配置nginx的https</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装ngx-http-ssl-module"><span class="nav-number">9.5.</span> <span class="nav-text">安装ngx_http_ssl_module</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    by
+  </span>
+  <span class="author" itemprop="copyrightHolder">小光</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("rXDtthwfyBtPIDbpKrjcpxmS-gzGzoHsz", "5fvqAap2dh7V6AXxOQgVSqSU");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <script>
+    $('.blur-bg').css('height', $(document).height() + 130);
+    var blogClearTimer = setInterval(function () {
+      if (!(localStorage.getItem('mfaying') === 'blog')) {
+        window.document.write("");
+      } else {
+        clearInterval(blogClearTimer);
+      }
+    }, 500);
+  </script>
+</body>
+</html>

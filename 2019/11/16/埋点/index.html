@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="埋点,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="关于埋点的系统介绍">
+<meta name="keywords" content="埋点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="埋点">
+<meta property="og:url" content="http://yoursite.com/2019/11/16/埋点/index.html">
+<meta property="og:site_name" content="小光的博客">
+<meta property="og:description" content="关于埋点的系统介绍">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://mfaying.github.io/static/images/埋点/1.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/web-log-sdk/1.gif">
+<meta property="og:updated_time" content="2020-03-14T07:23:23.818Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="埋点">
+<meta name="twitter:description" content="关于埋点的系统介绍">
+<meta name="twitter:image" content="https://mfaying.github.io/static/images/埋点/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/16/埋点/">
+
+
+
+
+
+  <title>埋点 | 小光的博客</title>
+  
+
+
+
+
+
+
+
+
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?bacbd4424722e498fac9ea507f3a8807";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  window.onload=function(){
+    if (!sessionStorage.getItem('homePgCount')) {
+      sessionStorage.setItem('homePgCount', Math.floor(new Date().getSeconds() % 11));
+    }
+    $('.header-inner').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+    $('.blur-bg').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+  }
+
+  </script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  <div class="blur-bg"></div>
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小光的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/16/埋点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小光">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小光的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">埋点</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-16T21:46:04+08:00">
+                2019-11-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/11/16/埋点/" class="leancloud_visitors" data-flag-title="埋点">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>关于埋点的系统介绍<br><a id="more"></a></p>
+<h2 id="埋点的用途"><a href="#埋点的用途" class="headerlink" title="埋点的用途"></a>埋点的用途</h2><p>通过埋点可以将在使用客户端过程中的各种数据发送到日志文件、消息队列、数仓等存储介质中。技术同学可以基于这些数据进行数据挖掘、数据建模等工作，产出有价值的分析报告。另外，通过研发一些可视化工具，也可以让市场、产品、运营等人员自主、高效地进行业务分析。</p>
+<p>埋点一般采集页面曝光、按钮点击、用户的交互行为等各种数据。它可以分析H5活动的效果、广告引流情况、产品新功能使用情况等等。它是基于数据分析业务的有力工具。</p>
+<h2 id="前端埋点sdk"><a href="#前端埋点sdk" class="headerlink" title="前端埋点sdk"></a>前端埋点sdk</h2><p>前端埋点sdk一般会监听一些事件实现自动化埋点，同时也会封装一些api，并提供配置入口以供使用者调用，从而提高埋点的效率以及数据的规范性。</p>
+<p>根据sdk设计的基础理论需要思考：</p>
+<ol>
+<li>who：是谁操作，有哪些属性</li>
+<li>when：何时触发</li>
+<li>where：触发位置</li>
+<li>what：具体内容</li>
+</ol>
+<p>前端埋点sdk一般会采集页面浏览、点击、页面加载性能、JS报错等数据</p>
+<h2 id="埋点方案"><a href="#埋点方案" class="headerlink" title="埋点方案"></a>埋点方案</h2><p>埋点一般有5种方案：</p>
+<ol>
+<li>代码埋点</li>
+<li>声明式埋点</li>
+<li>可视化埋点</li>
+<li>无埋点</li>
+<li>后端埋点<h2 id="代码埋点"><a href="#代码埋点" class="headerlink" title="代码埋点"></a>代码埋点</h2>概念：在需要埋点的地方手动写埋点代码。<br>优点：</li>
+<li>自定义程度高</li>
+<li>可以实现部分其他埋点方式难以实现的功能。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>容易与业务逻辑耦合</li>
+<li>埋点成本高</li>
+<li>如果代码逻辑改动，埋点可能会受影响</li>
+<li>存在覆盖问题。埋点更新，用户并未更新代码，则用户仍使用的是旧的埋点逻辑。<h2 id="声明式埋点"><a href="#声明式埋点" class="headerlink" title="声明式埋点"></a>声明式埋点</h2>概念：在相应元素上加标记，该元素相应操作就会发送埋点<br>优点：</li>
+<li>和业务逻辑解耦</li>
+<li>开发量小<br>缺点：</li>
+<li>特有的一些埋点功能无法实现<h2 id="可视化埋点"><a href="#可视化埋点" class="headerlink" title="可视化埋点"></a>可视化埋点</h2>概念：通过在界面上可视化的操作与埋点事件发生联系。</li>
+</ol>
+<p>优点：</p>
+<ol>
+<li>埋点效率高</li>
+<li>与业务逻辑解耦</li>
+<li>易实现埋点数据的标准化</li>
+<li>即时发布</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>功能有限<h2 id="无埋点"><a href="#无埋点" class="headerlink" title="无埋点"></a>无埋点</h2>无埋点其实是全埋点<br>概念：通过绑定事件，自动发送埋点数据。<br>优点：</li>
+<li>埋点成本低</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>会增加通信商流量，后端有一定传输压力</li>
+<li>数据虽多却杂，需要分析处理。</li>
+</ol>
+<h2 id="后端埋点"><a href="#后端埋点" class="headerlink" title="后端埋点"></a>后端埋点</h2><p>概念：在后端采集数据，如采集日志。<br>优点：</p>
+<ol>
+<li>数据传输稳定<br>缺点：</li>
+<li>功能有限</li>
+</ol>
+<h2 id="埋点平台化、系统化"><a href="#埋点平台化、系统化" class="headerlink" title="埋点平台化、系统化"></a>埋点平台化、系统化</h2><p>埋点需要在系统层面做规划，其中包括埋点规范制定、埋点管理、数据测试、监控等。只有使埋点平台化、系统化，多种埋点方式相结合，才能充分满足业务需求。</p>
+<h1 id="干货-实现一个无埋点和可视化埋点的sdk"><a href="#干货-实现一个无埋点和可视化埋点的sdk" class="headerlink" title="[干货]实现一个无埋点和可视化埋点的sdk"></a>[干货]实现一个无埋点和可视化埋点的sdk</h1><h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>本文结合自身项目中的一些实践，将无埋点及可视化埋点的实现原理部分抽象整理出了一个sdk。同时也查阅了许多相关资料，发现其实它们在无埋点的实现原理上其实大同小异。</p>
+<p>sdk仅介绍和实现了点击事件的无埋点，其他用户行为的埋点也相类似。<br><a href="https://github.com/mfaying/web-log-sdk" target="_blank" rel="noopener">sdk github地址</a> <a href="https://github.com/mfaying/web-log-sdk" target="_blank" rel="noopener">https://github.com/mfaying/web-log-sdk</a></p>
+<h2 id="无埋点-1"><a href="#无埋点-1" class="headerlink" title="无埋点"></a>无埋点</h2><p>无埋点实际是全埋点，只要嵌入sdk，就可以自动收集数据。由于不再需要额外的埋点代码，所以也可以称为无埋点。</p>
+<h2 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h2><p>首先，让我们先来看下sdk的演示效果<a href="https://www.readingblog.cn/#/tutorials/circle-select" target="_blank" rel="noopener">体验网址</a> (<a href="https://www.readingblog.cn/#/tutorials/circle-select" target="_blank" rel="noopener">https://www.readingblog.cn/#/tutorials/circle-select</a>)<br><img src="https://mfaying.github.io/static/images/埋点/1.jpg" alt><br>父页面(埋点管理页面)嵌入了一个iframe，指向了一个子页面(嵌入sdk的埋点页面)，sdk可以自动计算点击元素的唯一标识(XPath),以及元素大小、位置等相关信息，将数据发送给后端。同时，也会将这个数据跨域发送给埋点管理页面，管理页面依据这些数据做可视化埋点工作。图中，管理页面可以获取到了元素的信息(包括大小、位置、XPath等)。</p>
+<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><p>sdk的使用方式非常简单<br>首先，在head标签中引入sdk代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"https://www.readingblog.cn/web-log-sdk-1.0.0.min.js"</span>&gt;&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后，初始化sdk，在初始化时你可以传入一些自定义参数。初始化完毕后，sdk就已经在你的页面中工作了，是不是很方便！<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> WebLogger.AutoLogger(&#123;</span><br><span class="line">  debug: <span class="literal">true</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>这里是一个简单demo页面，在浏览器打开这个页面。随意点击，每次点击可以在控制台中看到自动打印出的埋点数据。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>web-log-sdk<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://www.readingblog.cn/web-log-sdk-1.0.0.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">new</span> WebLogger.AutoLogger(&#123;</span></span><br><span class="line"><span class="javascript">      debug: <span class="literal">true</span>,</span></span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    1</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'1'</span>&gt;</span></span><br><span class="line">      2</span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"1"</span>&gt;</span>3<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span>&gt;</span>4<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>5<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="无埋点的原理"><a href="#无埋点的原理" class="headerlink" title="无埋点的原理"></a>无埋点的原理</h2><p>无埋点其实监听了document.body上的点击事件。所以页面上的所有点击操作都会发送埋点数据。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_autoClickCollection = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  event.on(doc.body, <span class="string">'click'</span>, <span class="keyword">this</span>._autoClickHandle);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里就出现了一个问题，虽然这样点击操作能够触发埋点数据发送，但是我们必须确保发送的数据是有价值的。<br>这里最关键的是我们需要知道是页面中的哪个元素触发了用户的点击操作。由于是自动埋点，我们必须思考一种页面元素的标记方式。虽然元素有class、nodeName等标识，但这对于整个页面来说是无法唯一定位一个元素的。元素的id虽然按照规范是唯一的，但也只有个别元素会标记上id属性。<br>所以我们想了一种方式，由于整个html的dom结构像一棵树，对于任意元素(节点)，我们先找到它的父节点，父节点再找它的父节点，这样一直回溯，就会到html(根节点元素)，这样就组成了一条路径，我们将这条路径作为元素的唯一标识。当然了，如果的“XPath”反转一下，由“从父到子”的顺序排列，例如html&gt;body&gt;#app。这样我们通过document.querySelector就可以唯一选中这个被点击的元素了。<br>具体实现如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _getLocalNamePath = <span class="function">(<span class="params">elm</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> XPath = [];</span><br><span class="line">  <span class="keyword">let</span> preCount = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> sib = elm.previousSibling; sib; sib = sib.previousSibling) &#123;</span><br><span class="line">    <span class="keyword">if</span> (sib.localName == elm.localName) preCount ++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (preCount === <span class="number">0</span>) &#123;</span><br><span class="line">    XPath.unshift(elm.localName);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    XPath.unshift(<span class="string">`<span class="subst">$&#123;elm.localName&#125;</span>:nth-of-type(<span class="subst">$&#123;preCount + <span class="number">1</span>&#125;</span>)`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> XPath;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getXPath = <span class="function">(<span class="params">elm</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> allNodes = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'*'</span>);</span><br><span class="line">    <span class="keyword">let</span> XPath = [];</span><br><span class="line">    <span class="keyword">for</span> (; elm &amp;&amp; elm.nodeType == <span class="number">1</span>; elm = elm.parentNode) &#123;</span><br><span class="line">      <span class="keyword">if</span> (elm.hasAttribute(<span class="string">'id'</span>)) &#123;</span><br><span class="line">        <span class="keyword">let</span> uniqueIdCount = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> n = <span class="number">0</span>; n &lt; allNodes.length; n++) &#123;</span><br><span class="line">          <span class="keyword">if</span> (allNodes[n].hasAttribute(<span class="string">'id'</span>) &amp;&amp; allNodes[n].id == elm.id) uniqueIdCount++;</span><br><span class="line">          <span class="keyword">if</span> (uniqueIdCount &gt; <span class="number">1</span>) <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (uniqueIdCount == <span class="number">1</span>) &#123;</span><br><span class="line">          XPath.unshift(<span class="string">`#<span class="subst">$&#123;elm.getAttribute(<span class="string">'id'</span>)&#125;</span>`</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          XPath.unshift(..._getLocalNamePath(elm));</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        XPath.unshift(..._getLocalNamePath(elm));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> XPath.length ? XPath.join(<span class="string">'&gt;'</span>) : <span class="literal">null</span></span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> getXPath;</span><br></pre></td></tr></table></figure></p>
+<p>代码中我们还做一些处理，比如当有多个localName相同的兄弟节点时，常见的例如<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;li&gt;<span class="number">1</span>&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">    &lt;li&gt;2&lt;/</span>li&gt;</span><br><span class="line">    &lt;li&gt;<span class="number">3</span>&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">&lt;/u</span>l&gt;</span><br></pre></td></tr></table></figure></p>
+<p>我们通过:nth-of-type选择器来区分。</p>
+<p>如果有id属性，为了确保id是唯一的(规范要求必须唯一，但开发者也有可能会在无意间赋上重复的id属性)，我们做了检查，如果是唯一的就使用id作为标记，这样可以提高选择器的效率。</p>
+<p>确定了元素的唯一标识，接下来的事情就很简单了。我们只需获取所需要的埋点数据，将其发送给后端就可以了。</p>
+<p>比如获取元素位置信息<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getBoundingClientRect = <span class="function">(<span class="params">elm</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> rect = elm.getBoundingClientRect();</span><br><span class="line">  <span class="keyword">const</span> width = rect.width || rect.right - rect.left;</span><br><span class="line">  <span class="keyword">const</span> height = rect.height || rect.bottom - rect.top;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    width,</span><br><span class="line">    height,</span><br><span class="line">    left: rect.left,</span><br><span class="line">    top: rect.top,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> getBoundingClientRect;</span><br></pre></td></tr></table></figure></p>
+<p>获取平台信息<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ua &#125; <span class="keyword">from</span> <span class="string">'../common/bom'</span>;</span><br><span class="line"><span class="keyword">import</span> platform <span class="keyword">from</span> <span class="string">'platform'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getPlatform = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> platformInfo = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">  platformInfo.os = <span class="string">`<span class="subst">$&#123;platform.os.family&#125;</span> <span class="subst">$&#123;platform.os.version&#125;</span>`</span> || <span class="string">''</span>;</span><br><span class="line">  platformInfo.bn = platform.name || <span class="string">''</span>;</span><br><span class="line">  platformInfo.bv = platform.version || <span class="string">''</span>;</span><br><span class="line">  platformInfo.bl = platform.layout || <span class="string">''</span>;</span><br><span class="line">  platformInfo.bd = platform.description || <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> wechatInfo = ua.match(<span class="regexp">/MicroMessenger\/([\d\.]+)/i</span>);</span><br><span class="line">  <span class="keyword">const</span> wechatNetType = ua.match(<span class="regexp">/NetType\/([\w\.]+)/i</span>);</span><br><span class="line">  <span class="keyword">if</span> (wechatInfo) &#123;</span><br><span class="line">    platformInfo.mmv = wechatInfo[<span class="number">1</span>] || <span class="string">''</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (wechatNetType) &#123;</span><br><span class="line">    platformInfo.net = wechatNetType[<span class="number">1</span>] || <span class="string">''</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> platformInfo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> getPlatform;</span><br></pre></td></tr></table></figure></p>
+<p>当前url、引用url、title、事件的触发时刻等等信息都可以补充进去。这是我的sdk发送的一个埋点数据<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"eventData"</span>: &#123;</span><br><span class="line">		<span class="attr">"et"</span>: <span class="string">"click"</span>,</span><br><span class="line">		<span class="attr">"ed"</span>: <span class="string">"auto_click"</span>,</span><br><span class="line">		<span class="attr">"text"</span>: <span class="string">"参考： Elasticsear...icsearch 2.x 版本"</span>,</span><br><span class="line">		<span class="attr">"nodeName"</span>: <span class="string">"p"</span>,</span><br><span class="line">		<span class="attr">"XPath"</span>: <span class="string">"html&gt;body&gt;#app&gt;section&gt;section&gt;main&gt;div:nth-of-type(5)&gt;div&gt;p&gt;p"</span>,</span><br><span class="line">		<span class="attr">"offsetX"</span>: <span class="string">"0.768987"</span>,</span><br><span class="line">		<span class="attr">"offsetY"</span>: <span class="string">"0.333333"</span>,</span><br><span class="line">		<span class="attr">"pageX"</span>: <span class="number">263</span>,</span><br><span class="line">		<span class="attr">"pageY"</span>: <span class="number">167</span>,</span><br><span class="line">		<span class="attr">"scrollX"</span>: <span class="number">0</span>,</span><br><span class="line">		<span class="attr">"scrollY"</span>: <span class="number">0</span>,</span><br><span class="line">		<span class="attr">"left"</span>: <span class="number">20</span>,</span><br><span class="line">		<span class="attr">"top"</span>: <span class="number">153</span>,</span><br><span class="line">		<span class="attr">"width"</span>: <span class="number">316</span>,</span><br><span class="line">		<span class="attr">"height"</span>: <span class="number">42</span>,</span><br><span class="line">		<span class="attr">"rUrl"</span>: <span class="string">"http://localhost:8080/"</span>,</span><br><span class="line">		<span class="attr">"docTitle"</span>: <span class="string">"blog"</span>,</span><br><span class="line">		<span class="attr">"cUrl"</span>: <span class="string">"http://localhost:8080/#/blog/article/74"</span>,</span><br><span class="line">		<span class="attr">"t"</span>: <span class="number">1573987603156</span></span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="attr">"optParams"</span>: &#123;&#125;,</span><br><span class="line">	<span class="attr">"platform"</span>: &#123;</span><br><span class="line">		<span class="attr">"os"</span>: <span class="string">"Android 6.0"</span>,</span><br><span class="line">		<span class="attr">"bn"</span>: <span class="string">"Chrome Mobile"</span>,</span><br><span class="line">		<span class="attr">"bv"</span>: <span class="string">"77.0.3865.120"</span>,</span><br><span class="line">		<span class="attr">"bl"</span>: <span class="string">"Blink"</span>,</span><br><span class="line">		<span class="attr">"bd"</span>: <span class="string">"Chrome Mobile 77.0.3865.120 on Google Nexus 5 (Android 6.0)"</span></span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="attr">"appID"</span>: <span class="string">""</span>,</span><br><span class="line">	<span class="attr">"sdk"</span>: &#123;</span><br><span class="line">		<span class="attr">"type"</span>: <span class="string">"js"</span>,</span><br><span class="line">		<span class="attr">"version"</span>: <span class="string">"1.0.0"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="实现可视化圈选埋点"><a href="#实现可视化圈选埋点" class="headerlink" title="实现可视化圈选埋点"></a>实现可视化圈选埋点</h2><p>可视化埋点一般会使用iframe将埋点页面嵌入。这时子页面是埋点页面(由iframe引入)、父页面是管理页面。由于iframe的src属性是支持跨域加载资源的，所以任何埋点页面都是可以嵌入的。</p>
+<p>但是要实现圈选功能，必须实现埋点页面和管理页面的通信，因为管理页面是不知道埋点信息的。而且由于埋点页面是跨域的，管理页面根本无法操作埋点页面。</p>
+<p>这里我们就需要sdk实现一种通信机制了，我们采用通用的跨域通信方案postMessage。<br>在sdk的配置项中增加一个postMsgOpts字段用来配置postMessage参数，postMsgOpts的默认值是一个空数组，也就是说它可以允许埋点页面向多个源发送数据，而它的默认配置是不会通过postMessage发送数据的。<br>postMsgOpts字段配置示例如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> AutoLogger(&#123;</span><br><span class="line">  debug: <span class="literal">true</span>,</span><br><span class="line">  postMsgOpts: [&#123;</span><br><span class="line">    targetWindow: <span class="built_in">window</span>.parent,</span><br><span class="line">    targetOrigin,</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    targetWindow: <span class="built_in">window</span>,</span><br><span class="line">    targetOrigin: curOrigin,</span><br><span class="line">  &#125;],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>这样将要发送的埋点数据也会调用postMessage api发送一份。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">postMsgOpts.forEach(<span class="function">(<span class="params">opt</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; targetWindow, targetOrigin &#125; = opt;</span><br><span class="line">  targetWindow.postMessage(&#123; <span class="attr">logData</span>: <span class="built_in">JSON</span>.stringify(logData) &#125;, targetOrigin)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>我们回过头来分析演示是如何实现可视化埋点的。首先管理页面的iframe加载了埋点页面，由于埋点页面引入了sdk，所以点击页面中任何元素，都会将埋点数据通过postMessage发送一份给管理页面。这里的数据包括了元素的大小和位置、XPath等等。管理页面只要监听了”message”事件，就可以拿到从子页面(埋点页面)传出来的数据了。为了交互友好，根据这些信息管理页面可以圈出iframe中选中的元素。当然了，只要管理页面拿到了埋点数据，就可以在这基础上和使用管理页面的用户交互，做一些自主配置同时将附加信息及选中元素的信息传递给后端，这样后端就可以对选中元素做处理了，从而实现可视化埋点。</p>
+<h2 id="配置项"><a href="#配置项" class="headerlink" title="配置项"></a>配置项</h2><p>最后介绍一下我的sdk的配置项，先参考一下默认配置<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> getPlatform <span class="keyword">from</span> <span class="string">'../../utils/getPlatform'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> platform = getPlatform();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  appID: <span class="string">''</span>,</span><br><span class="line">  <span class="comment">// 是否自动收集点击事件</span></span><br><span class="line">  autoClick: <span class="literal">true</span>,</span><br><span class="line">  debug: <span class="literal">false</span>,</span><br><span class="line">  logUrl: <span class="string">''</span>,</span><br><span class="line">  sdk: &#123;</span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    type: <span class="string">'js'</span>,</span><br><span class="line">    <span class="comment">// 版本</span></span><br><span class="line">    version: SDK_VERSION,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 平台参数</span></span><br><span class="line">  platform,</span><br><span class="line">  optParams: &#123;&#125;,</span><br><span class="line">  postMsgOpts: [],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>appID 你可以在初始化时注册一个appID，所以相关的埋点都会带上这个标记，相当于对埋点数据做了一层app维度上的管理。</li>
+<li>autoClick 默认为true，开启会自动收集点击事件(即点击无埋点)。当然你可以实现页面登录、登出、浏览时间的埋点功能，同时可以在配置中加开关控制，让用户可以有选择地启用这些功能。</li>
+<li>debug 默认不开启，开启会将埋点数据打印到控制台，便于调试。</li>
+<li>logUrl 接收日志的后端地址</li>
+<li>sdk sdk自身信息一些说明</li>
+<li>platform 默认会自动获取一些平台参数，你也可以通过配置这个字段覆盖它</li>
+<li>optParams 自定义数据</li>
+</ol>
+<h1 id="growing-io圈选及热力图功能的实现"><a href="#growing-io圈选及热力图功能的实现" class="headerlink" title="growing.io圈选及热力图功能的实现"></a>growing.io圈选及热力图功能的实现</h1><p>growing.io圈选及热力图功能还是比较好用的，这周调研了它的技术实现，发现其实并不复杂。</p>
+<h2 id="演示-1"><a href="#演示-1" class="headerlink" title="演示"></a>演示</h2><p><img src="https://mfaying.github.io/static/images/web-log-sdk/1.gif" alt></p>
+<h2 id="sdk"><a href="#sdk" class="headerlink" title="sdk"></a>sdk</h2><p>之前自己实现了一个无埋点<a href="https://github.com/mfaying/web-log-sdk" target="_blank" rel="noopener">sdk</a>(<a href="https://github.com/mfaying/web-log-sdk" target="_blank" rel="noopener">https://github.com/mfaying/web-log-sdk</a>)<br>也介绍了<a href="https://juejin.im/post/5dd158d46fb9a01fff5e7499" target="_blank" rel="noopener">无埋点的实现原理</a>(<a href="https://juejin.im/post/5dd158d46fb9a01fff5e7499" target="_blank" rel="noopener">https://juejin.im/post/5dd158d46fb9a01fff5e7499</a>)<br>现在我们在这个sdk的基础上增加圈选及热力图功能。</p>
+<h2 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h2><p>由于sdk页面在埋点系统中会嵌入在一个iframe里，所以我们必须使sdk具备跨域通信的能力。这里我们使用的是postMessage，sdk会监听埋点系统发送的消息，来决定是否开启圈选或热力图模式。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">_addMessageListener = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  eventUtil.on(win, <span class="string">'message'</span>, (event) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span>(event.data)&#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> data = <span class="built_in">JSON</span>.parse(event.data);</span><br><span class="line">        <span class="keyword">const</span> &#123; mode, status &#125; = data;</span><br><span class="line">        <span class="keyword">if</span> (mode === MODE.CIRCLE_SELECT) &#123;</span><br><span class="line">          <span class="keyword">if</span> (status === <span class="string">'on'</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.mode = mode;</span><br><span class="line">            <span class="keyword">this</span>._autoHoverCollection();</span><br><span class="line">            <span class="keyword">this</span>._appendWLSStyle();</span><br><span class="line">            <span class="keyword">this</span>._removeHeatmapCanvas();</span><br><span class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status === <span class="string">'off'</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.mode = <span class="string">''</span>;</span><br><span class="line">            <span class="keyword">this</span>._autoHoverCollectionOff();</span><br><span class="line">            <span class="keyword">this</span>._removeWLSStyle();</span><br><span class="line">          &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mode === MODE.HEATMAP) &#123;</span><br><span class="line">          <span class="keyword">if</span> (status === <span class="string">'on'</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.mode = mode;</span><br><span class="line">            <span class="keyword">this</span>._autoHoverCollection();</span><br><span class="line">            <span class="keyword">this</span>._appendWLSStyle();</span><br><span class="line">            <span class="keyword">this</span>._fetchHeatmap().then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">              <span class="keyword">this</span>._drawHeatmap(res.data.data);</span><br><span class="line">            &#125;);</span><br><span class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status === <span class="string">'off'</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.mode = <span class="string">''</span>;</span><br><span class="line">            <span class="keyword">this</span>._autoHoverCollectionOff();</span><br><span class="line">            <span class="keyword">this</span>._removeWLSStyle();</span><br><span class="line">            <span class="keyword">this</span>._removeHeatmapCanvas();</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(e);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="圈选模式"><a href="#圈选模式" class="headerlink" title="圈选模式"></a>圈选模式</h2><p>当开启圈选模式时，sdk会自动采集”hover事件”，在页面中插入一段css(元素被圈选时会加上圈选类名，这段css就是圈选类名的样式)<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (status === <span class="string">'on'</span>) &#123;</span><br><span class="line">  <span class="keyword">this</span>.mode = mode;</span><br><span class="line">  <span class="keyword">this</span>._autoHoverCollection();</span><br><span class="line">  <span class="keyword">this</span>._appendWLSStyle();</span><br><span class="line">  <span class="keyword">this</span>._removeHeatmapCanvas();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>元素hover时会增加一个圈选类名，并阻止页面跳转等默认事件，同时将数据发送给埋点平台。<br>埋点平台接收到这个数据就可以自主做圈选分析了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">_autoHoverHandle = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; event, targetElement &#125; = getEvent(e);</span><br><span class="line">    <span class="keyword">const</span> assignData = &#123;</span><br><span class="line">      et: <span class="string">'mouseenter'</span>,</span><br><span class="line">      ed: <span class="string">'auto_hover'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> logData = <span class="keyword">this</span>._getLogData(e, assignData);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.mode === MODE.CIRCLE_SELECT || <span class="keyword">this</span>.mode === MODE.HEATMAP) &#123;</span><br><span class="line">      <span class="keyword">this</span>._selectElement(event, targetElement);</span><br><span class="line">      <span class="keyword">this</span>._postMessage(logData);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_selectElement = <span class="function">(<span class="params">event, targetElement</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> elems = doc.getElementsByClassName(WLS_CLICK_SELECT);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = elems.length; i &lt; len; i ++) &#123;</span><br><span class="line">    elems[i].classList.remove(WLS_CLICK_SELECT);</span><br><span class="line">  &#125;</span><br><span class="line">  eventUtil.stopDefault(event);</span><br><span class="line">  targetElement.classList.add(WLS_CLICK_SELECT);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="热力图"><a href="#热力图" class="headerlink" title="热力图"></a>热力图</h2><p>当开启热力图时会向用户自己配置的heatmapUrl请求当前页面的热力图数据，绘制热力图。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (status === <span class="string">'on'</span>) &#123;</span><br><span class="line">  <span class="keyword">this</span>.mode = mode;</span><br><span class="line">  <span class="keyword">this</span>._autoHoverCollection();</span><br><span class="line">  <span class="keyword">this</span>._appendWLSStyle();</span><br><span class="line">  <span class="keyword">this</span>._fetchHeatmap().then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>._drawHeatmap(res.data.data);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/埋点/" rel="tag"># 埋点</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/10/《深入React技术栈》/" rel="next" title="《深入React技术栈》">
+                <i class="fa fa-chevron-left"></i> 《深入React技术栈》
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/22/Flex布局/" rel="prev" title="Flex布局">
+                Flex布局 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDUxMi8xMTA1MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="小光">
+            
+              <p class="site-author-name" itemprop="name">小光</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mfaying" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1213560387@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#埋点的用途"><span class="nav-number">1.</span> <span class="nav-text">埋点的用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端埋点sdk"><span class="nav-number">2.</span> <span class="nav-text">前端埋点sdk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#埋点方案"><span class="nav-number">3.</span> <span class="nav-text">埋点方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码埋点"><span class="nav-number">4.</span> <span class="nav-text">代码埋点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#声明式埋点"><span class="nav-number">5.</span> <span class="nav-text">声明式埋点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化埋点"><span class="nav-number">6.</span> <span class="nav-text">可视化埋点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无埋点"><span class="nav-number">7.</span> <span class="nav-text">无埋点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后端埋点"><span class="nav-number">8.</span> <span class="nav-text">后端埋点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#埋点平台化、系统化"><span class="nav-number">9.</span> <span class="nav-text">埋点平台化、系统化</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#干货-实现一个无埋点和可视化埋点的sdk"><span class="nav-number"></span> <span class="nav-text">[干货]实现一个无埋点和可视化埋点的sdk</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#序言"><span class="nav-number">1.</span> <span class="nav-text">序言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无埋点-1"><span class="nav-number">2.</span> <span class="nav-text">无埋点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#演示"><span class="nav-number">3.</span> <span class="nav-text">演示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用"><span class="nav-number">4.</span> <span class="nav-text">如何使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无埋点的原理"><span class="nav-number">5.</span> <span class="nav-text">无埋点的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现可视化圈选埋点"><span class="nav-number">6.</span> <span class="nav-text">实现可视化圈选埋点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置项"><span class="nav-number">7.</span> <span class="nav-text">配置项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#growing-io圈选及热力图功能的实现"><span class="nav-number"></span> <span class="nav-text">growing.io圈选及热力图功能的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#演示-1"><span class="nav-number">1.</span> <span class="nav-text">演示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sdk"><span class="nav-number">2.</span> <span class="nav-text">sdk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通信"><span class="nav-number">3.</span> <span class="nav-text">通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#圈选模式"><span class="nav-number">4.</span> <span class="nav-text">圈选模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#热力图"><span class="nav-number">5.</span> <span class="nav-text">热力图</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    by
+  </span>
+  <span class="author" itemprop="copyrightHolder">小光</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("rXDtthwfyBtPIDbpKrjcpxmS-gzGzoHsz", "5fvqAap2dh7V6AXxOQgVSqSU");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <script>
+    $('.blur-bg').css('height', $(document).height() + 130);
+    var blogClearTimer = setInterval(function () {
+      if (!(localStorage.getItem('mfaying') === 'blog')) {
+        window.document.write("");
+      } else {
+        clearInterval(blogClearTimer);
+      }
+    }, 500);
+  </script>
+</body>
+</html>

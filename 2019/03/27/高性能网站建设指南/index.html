@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="性能,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="《高性能网站建设指南》(笔记)">
+<meta name="keywords" content="性能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《高性能网站建设指南》(笔记)">
+<meta property="og:url" content="http://yoursite.com/2019/03/27/高性能网站建设指南/index.html">
+<meta property="og:site_name" content="小光的博客">
+<meta property="og:description" content="《高性能网站建设指南》(笔记)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/1.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/2.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/3.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/4.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/5.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/6.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/7.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/8.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/9.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/10.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/11.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/12.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/13.jpg">
+<meta property="og:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/14.jpg">
+<meta property="og:updated_time" content="2020-10-12T10:58:53.348Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《高性能网站建设指南》(笔记)">
+<meta name="twitter:description" content="《高性能网站建设指南》(笔记)">
+<meta name="twitter:image" content="https://mfaying.github.io/static/images/高性能网站建设指南/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/27/高性能网站建设指南/">
+
+
+
+
+
+  <title>《高性能网站建设指南》(笔记) | 小光的博客</title>
+  
+
+
+
+
+
+
+
+
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?bacbd4424722e498fac9ea507f3a8807";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  window.onload=function(){
+    if (!sessionStorage.getItem('homePgCount')) {
+      sessionStorage.setItem('homePgCount', Math.floor(new Date().getSeconds() % 11));
+    }
+    $('.header-inner').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+    $('.blur-bg').css("backgroundImage", 'url("https://mfaying.github.io/images/bg' + (sessionStorage.getItem('homePgCount') || 0) + '.jpg")')
+  }
+
+  </script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  <div class="blur-bg"></div>
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小光的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/27/高性能网站建设指南/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小光">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小光的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《高性能网站建设指南》(笔记)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-27T16:07:31+08:00">
+                2019-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/03/27/高性能网站建设指南/" class="leancloud_visitors" data-flag-title="《高性能网站建设指南》(笔记)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>《高性能网站建设指南》(笔记)<br><a id="more"></a></p>
+<h2 id="前端性能的重要性"><a href="#前端性能的重要性" class="headerlink" title="前端性能的重要性"></a>前端性能的重要性</h2><p>只有10%~20%的最终用户响应时间是花在从web服务器获取html文档并传送到浏览器的，如果希望有效减少页面的响应时间，就必须关注剩余80%~90%的最终用户体验。</p>
+<p>Yahoo首页首次访问html文档只占响应时间的5%，用户需要花费其余95%的时间中的大部分来等待组件的下载。还有一小部分时间花在解析html、脚本和样式表上面。(打开浏览器的network可以直观的看到各部分所花的时间)。</p>
+<p>当第二次加载同一个url时，html文档占了总响应时间的12%。很多组件无需下载，因为它们已经存在于浏览器的缓存中了。</p>
+<p>为此，后续内容会从前端对减少用户最终响应时间给出精确的指导，并提出14条提升性能的规则，这些规则按常规的优先级顺序列出。对于特定的网站，规则的适用性可能会不同。但一般来说，只需要遵守这些最佳实践就能节省25%或更多的时间。</p>
+<h2 id="HTTP概述"><a href="#HTTP概述" class="headerlink" title="HTTP概述"></a>HTTP概述</h2><p>HTTP是浏览器和服务器通过Internet进行相互通信的协议。Http1.1是今天比较常见的版本，但是一些浏览器和服务器还在使用Http1.0。Http是一种客户端服务器协议，由请求和响应构成。浏览器向一个特定的url发送http请求，url对应的宿主服务器发回http响应。和很多Internet服务一样，该协议使用简单的纯文本格式。请求的类型有GET、POST、HEAD、PUT、DELETE、OPTIONS和TRACE。我们主要关注最常见的GET请求。</p>
+<p>GET请求包含一个url，然后是请求头。http响应包含状态码、响应头和响应体。<br>下面的例子展示了一个get请求：<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/1.jpg" alt="avatar"></p>
+<p>压缩</p>
+<p>浏览器可以使用Accept-Encoding头来声明它支持压缩。服务器使用Content-Encoding头确认响应已被压缩。<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/2.jpg" alt="avatar"></p>
+<p>条件GET请求</p>
+<p>如果浏览器在其缓存中保留了组件的一个副本，但并不确定它是否仍然有效，就会生成一个条件get请求。如果确认缓存的副本仍然有效，浏览器就可以使用缓存中的副本，这会得到更小的响应和更快的用户体验。</p>
+<p>典型情况下，缓存副本的有效性源自其最后修改时间。基于响应中的Last-Modified头，浏览器可以知道组件最后的修改时间，它会使用If-Modified-Since头将最后修改时间发送给服务器。<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/3.jpg" alt="avatar"></p>
+<p>如果组件自生成日期以来没有改变过，服务器会返回一个“304 Not Modified”状态码并不在发送响应体。在http1.1中，ETag和If-None-Match头是进行条件get请求的另外一种方式。后续会讲到。</p>
+<p>Expires</p>
+<p>条件get请求和304响应仍需要在客户端和服务器之间进行一次往返确认，Expires头通过明确指出浏览器是否可以使用组件的缓存副本来消除这个需要。<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/4.jpg" alt="avatar"><br>当浏览器看到响应中有一个Expires头时，它会和相应的过期时间组件一起保存到其缓存中。只要组件没有过期，就会使用缓存而不会发送任何人http请求。</p>
+<p>Keep-Alive</p>
+<p>持久连接的引入解决了多对一请求服务器导致的socket连接低效性的问题，它使浏览器可以在一个单独的连接上进行多个请求。浏览器和服务器使用Connection头来指出对Keep-Alive的支持。在服务器的响应中Connection头看起来是一样的。<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/5.jpg" alt="avatar"></p>
+<p>浏览器或服务器通过发送一个Connection:close头来关闭连接。Connection:keep-alive并不是http1.1中必需的，但很多浏览器和服务器都包含它。</p>
+<p>http1.1中定义的管道可以在一个单独的socket上发送多个请求而无需等待响应。管道的性能优于持久连接，但一些浏览器并不支持管道。在管道被广泛应用之前，Keep-Alive依然是浏览器和服务器使用http的socket连接最有效的方式。</p>
+<h1 id="规则1-减少HTTP请求"><a href="#规则1-减少HTTP请求" class="headerlink" title="规则1 减少HTTP请求"></a>规则1 减少HTTP请求</h1><p>改善响应时间的最简单途径就是减少组件的数量，并由此减少http请求的数量。本章介绍的技术即可以减少http请求，又能避免在性能和设计之间的冲突。</p>
+<h2 id="图片地图"><a href="#图片地图" class="headerlink" title="图片地图"></a>图片地图</h2><p>一个导航栏上有五幅图片，点击一个图片会将你带到与之相关的链接。这可以通过五个分开的超链接、使用五个分开的图片来实现。然而，如果使用一个图片地图则可以更有效率，因为五个http请求被减少为只有一个http请求。响应时间将会降低，因为减少了HTTP开销。</p>
+<p>图片地图有两种类型。服务器端图片地图将所有点击提交到同一个目标URL,向其传递用户点击的x、y坐标。web应用程序将该x、y坐标映射为适当的操作。客户端图片地图更加典型，因为它可以将用户的点击映射到一个操作，而无需向后端应用程序发送请求。映射通过html的map标签实现。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">usemap</span>=<span class="string">"#map1"</span> <span class="attr">border</span>=<span class="string">0</span> <span class="attr">src</span>=<span class="string">"/images/imagemap.gif?t=1196816255"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">map</span> <span class="attr">name</span>=<span class="string">"map1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">area</span> <span class="attr">shape</span>=<span class="string">"rect"</span> <span class="attr">coords</span>=<span class="string">"0,0,31,31"</span> <span class="attr">href</span>=<span class="string">"home.html"</span> <span class="attr">title</span>=<span class="string">"Home"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">area</span> <span class="attr">shape</span>=<span class="string">"rect"</span> <span class="attr">coords</span>=<span class="string">"36,0,66,31"</span> <span class="attr">href</span>=<span class="string">"gifts.html"</span> <span class="attr">title</span>=<span class="string">"Gifts"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">area</span> <span class="attr">shape</span>=<span class="string">"rect"</span> <span class="attr">coords</span>=<span class="string">"71,0,101,31"</span> <span class="attr">href</span>=<span class="string">"cart.html"</span> <span class="attr">title</span>=<span class="string">"Cart"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">area</span> <span class="attr">shape</span>=<span class="string">"rect"</span> <span class="attr">coords</span>=<span class="string">"106,0,136,31"</span> <span class="attr">href</span>=<span class="string">"setting.html"</span> <span class="attr">title</span>=<span class="string">"Settings"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">area</span> <span class="attr">shape</span>=<span class="string">"rect"</span> <span class="attr">coords</span>=<span class="string">"141,0,171,31"</span> <span class="attr">href</span>=<span class="string">"help.html"</span> <span class="attr">title</span>=<span class="string">"Help"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">map</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>使用图片地图也有缺点。在定义图片地图上的区域坐标时，如果采取手工的方式则很难完成且容易出错，而且除了矩形之外几乎无法定义其他形状。</p>
+<h2 id="CSS-Sprites"><a href="#CSS-Sprites" class="headerlink" title="CSS Sprites"></a>CSS Sprites</h2><p>和图片地图一样，CSS Sprites也可以合并图片，但更为灵活，任何支持背景图片的html元素都可以使用，如span或div。它和图片地图几乎一样快。图片地图中的图片必须是连续的，而css sprites则没有这个限制。<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/6.jpg" alt="avatar"><br>还有一个令人惊奇的优点，合并图片还降低了下载量，很多人会认为合并后的图片会比分离的图片的总和要大，因为合并后的图片中包含有附件的空白区域，但是实际上，它降低了图片自身的开销（颜色表、格式信息等等）。<br>如果需要在页面中为背景、按钮、导航栏、链接等提供大量图片，css sprites绝对是一种优秀的解决方案。——干净的标签、很少的图片和很短的响应时间。</p>
+<h2 id="内联图片"><a href="#内联图片" class="headerlink" title="内联图片"></a>内联图片</h2><p>通过使用data:URL模式可以在web页面中包含图片但无需任何额外的HTTP请求。data:URL模式规范对它的描述为：允许将小块数据内联为立即数。数据就在其url自身之中，其格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data:[&lt;mediatype&gt;][;base64],&lt;data&gt;</span><br></pre></td></tr></table></figure></p>
+<p>一个红色五角星形状的内联图片可以定义为：<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/7.jpg" alt="avatar"><br>该模式数据大小会有所限制。Base64编码会增加图片的大小，因此整体下载量会增加。</p>
+<p>内联图片在跨越不同页面时不会缓存，所以不要去内联公司的logo图片，编码过的logo会导致页面变大。聪明的做法是使用css并将内联图片作为背景。将该css规则放在外部样式表中，这意味着数据可以缓存在样式表内部。<br>它和图片地图及css sprites的响应时间几乎一样，虽然外部样式表增加了一个额外的http请求，但被缓存后可以得到额外的收货。</p>
+<h2 id="合并脚本和样式表"><a href="#合并脚本和样式表" class="headerlink" title="合并脚本和样式表"></a>合并脚本和样式表</h2><p>前端工程师必须选择是对js和css进行“内联”（也就是将其嵌在html文档中）还是将其放在外部的脚本和样式表中。一般来说，使用外部脚本和样式表对性能更有利。然而，如果遵循模块化的原则将代码分开放到多个小文件中，会降低性能，因为每个文件都会导致一个额外的http请求。</p>
+<p>在理想情况下，一个页面应该使用不多于一个的脚本和样式表。</p>
+<p>将所有的javascript合并为一个单独的文件在开发环境中很难完成。解决<br>的方法是遵循编译型语言的模式。保持javascript的模块化，而在生成过程中从一组特定的模块生成一个目标文件。</p>
+<p>合并文件是很容易的，难的是如果页面需要大量的模块，组合的数量就会非常庞大。每个页面不一定会使用到每个模块，这值得花时间去分析一下你的页面，确保组合的数量是管理的。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>遵守减少Http请求的规则可以同时改善首次浏览和后续浏览的网站响应时间。</p>
+<h1 id="使用内容发布网络"><a href="#使用内容发布网络" class="headerlink" title="使用内容发布网络"></a>使用内容发布网络</h1><p>网站最初通常将其所有的服务器放在同一个地方。当用户群增加时，公司就必须面对服务器放置地点不再适用的事实，有必要在多个地理位置不同的服务器上部署内容。如果应用程序web服务器离用户更近，则一个http请求的响应时间将缩短。</p>
+<p>内容发布网络（CDN）是一组分布在多个不同地理位置的web服务器，用于更加有效地向用户发布内容。向特定用户发布内容的服务器的选择基于对网路可用度的测量。例如，CDN可能选择网络阶跃数最小的服务器，或者具有最短响应时间的服务器。</p>
+<p>除了缩短响应时间之外，CDN还可以带来其他优势。如备份、扩展存储能力、缓存、缓和web流量峰值压力。</p>
+<p>CDN的缺点是你的响应时间可能会受到其他网站的影响，另外的缺点是你无法直接控制组件服务器所带来的特殊麻烦。例如，修改http响应头必须通过服务提供商来完成，如果CDN服务的性能下降了，你的工作质量也随之下降。</p>
+<p>CDN用于发布静态内容，如图片、脚本、样式表和flash。提供动态html页面会引入特殊的存储需求，比如数据库连接、状态管理、验证、硬件和os优化等。这些复杂性超越了CDN的能力范围。</p>
+<h1 id="添加Expires头"><a href="#添加Expires头" class="headerlink" title="添加Expires头"></a>添加Expires头</h1><p>规则3展示了如何配置组件，使其能够最大化地利用浏览器的缓存能力来改善页面的性能。</p>
+<p>页面的访问者会进行很多http请求，但通过使用一个长久的expires头，使这些组件可以被缓存。长久的expires头最常用于图片，但应该将其用在所有组件上，包括脚本、样式表和flash。</p>
+<h2 id="Expires头"><a href="#Expires头" class="headerlink" title="Expires头"></a>Expires头</h2><p>web服务器使用expires头来告诉web客户端它可以使用一个组件的当前副本，直到指定的时间为止。http规范中简要地称该头为“在这一日期/时间之后，响应将被认为是无效的”。它在http响应中发送。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expires: Thu, 15 Apr 2010 20:00:00 GMT</span><br></pre></td></tr></table></figure></p>
+<p>它告诉浏览器该响应的有效性持续到2010年4月15日为止。在到期前，浏览器在后续的页面浏览中会使用缓存的图片。</p>
+<h2 id="Max-Age和mod-expires"><a href="#Max-Age和mod-expires" class="headerlink" title="Max-Age和mod_expires"></a>Max-Age和mod_expires</h2><p>HTTP1.1引入了Cache-Control头来克服Expires头的限制。因为Expires头使用一个特定的时间，它要求服务器和客户端的时钟严格同步。另外，过期日期需要经常检查，并且一旦未来这一天到来了，需要再服务器配置中提供一个新的日期。</p>
+<p>Cache-Control使用max-age指令指定组件被缓存多久。它以秒为单位定义了一个更新窗。如果从组件被请求开始过去的秒数少于max-age，浏览器就使用缓存的版本，这就避免了额外的Http请求。一个长久的max-age头将刷新窗设置为未来10年。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cache-Control: max-age=315360000</span><br></pre></td></tr></table></figure></p>
+<p>使用带有max-age的Cache-Control可以消除Expires的限制，你可以同时指定这两个响应头——Expires和Cache-Control max-age。如果两者同时出现，HTTP规范规定max-age指令将重写Expires头。</p>
+<p>对于Expires带来的时钟同步和配置维护问题，mod_expires Apache模块使你在使用Expires头时能够像max-age那样以相对的方式设置日期。<br>下例中，过期时间被设计为自请求开始的10年之后：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">FilesMatch</span> "\<span class="attr">.</span>(<span class="attr">gif</span>|<span class="attr">jpg</span>|<span class="attr">js</span>|<span class="attr">css</span>)$"&gt;</span></span><br><span class="line">ExpiresDefault "access plus 10 years"</span><br><span class="line"><span class="tag">&lt;/<span class="name">FilesMatch</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>它同时向相应中发送Expires头和Cache-Control max-age头。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Expires: Sun, 16 Oct 2016 05:43:02 GMT</span><br><span class="line">Cache-Control: max-age=315360000</span><br></pre></td></tr></table></figure></p>
+<p>由于Cache-Control具有优先权，同时在HTTP1.0浏览器Expires生效。</p>
+<h2 id="不仅仅是图片"><a href="#不仅仅是图片" class="headerlink" title="不仅仅是图片"></a>不仅仅是图片</h2><p>长久的Expires头应该包含任何不经常变化的组件，包括脚本、样式表和Flash组件。</p>
+<h2 id="修订文件名"><a href="#修订文件名" class="headerlink" title="修订文件名"></a>修订文件名</h2><p>如果我们将组件配置为可以由浏览器代理缓存，当这些组件改变时用户如何获得更新呢？当出现了Expires头时，直到过期为止一直会使用缓存的版本。</p>
+<p>最有效的解决方案是修改其所有链接，这样，全新的请求将从原始服务器下载最新的内容。通常将版本号嵌在组件的文件名中。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果没有长久的Expires头，它仍然会存储在浏览器的缓存中。在后续请求中，浏览器会检查缓存并发现组件已经过期。为了提高效率，浏览器会发送一个GET请求。如果组件没有改变，原始服务器可以免于发送整个组件，而是发送一个很小的头，告诉浏览器可以使用其缓存的组件。</p>
+<p>这些条件请求加起来，就是缓存节省的时间。</p>
+<h1 id="规则4——压缩组件"><a href="#规则4——压缩组件" class="headerlink" title="规则4——压缩组件"></a>规则4——压缩组件</h1><p>如果HTTP请求产生的响应包很小，传输时间就会减少，因为只需要将很小的包从服务器传递到客户端。</p>
+<p>从HTTP1.1开始，Web客户端可以通过HTTP请求中的Accept-Encoding头来标识对压缩的支持。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Accept-Encoding: gzip, deflate</span><br></pre></td></tr></table></figure></p>
+<p>如果Web服务器看到请求中有这个头，就会使用客户端列出的方法中的一种来压缩响应。Web服务器通过响应中的Content-Encoding头来通知Web客户端。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Encoding: gzip</span><br></pre></td></tr></table></figure></p>
+<p>gzip是目前最流行和最有效的压缩方法。支持deflate的浏览器也支持gzip，但很多浏览器支持gzip却不支持deflate。</p>
+<h2 id="压缩什么"><a href="#压缩什么" class="headerlink" title="压缩什么"></a>压缩什么</h2><p>压缩的内容包括XML和JSON在内的任何文本响应，但这里只关注脚本和样式表，因为他们用得最普遍。图片和PDF不应该被压缩，因为它们本来就已经被压缩了，会浪费CPU资源，还可能增加文件的大小。</p>
+<p>服务器会花费额外的CPU周期来完成压缩，客户端要对压缩文件进行解压缩。要检测收益是否大于开销，需要考虑响应的大小、连接的带宽和客户端与服务器之间的Internet距离。这些信息难以得到且也有其他变数需要考虑。根据经验通常对1KB或者2KB以上的文件进行压缩。mod_gzip_minimum_file_size指令控制着希望压缩的文件的最小值。</p>
+<h2 id="节省"><a href="#节省" class="headerlink" title="节省"></a>节省</h2><p>gzip是典型的压缩选择。gzip能将响应整体减少66%，而deflate能减少60%。</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>Apache1.3使用mod_gzip,以下是最常用的指令：<br>启用mod_gzip<br>mod_gzip_on<br>基于文件类型、MIME类型、用户代理等定义哪些需要压缩、哪些不需要。<br>mod_gzip_item_include<br>mod_gzip_item_exclude<br>例如明确压缩脚本和样式表：<br>mod_gzip_item_include file .js$<br>mod_gzip_item_include mime ^application/x-javascript$<br>mod_gzip_item_include file .css$<br>mod_gzip_item_include mime ^text/css$</p>
+<p>gzip命令行工具提供了一个选项，用于控制压缩的程度，可以在CPU使用量和数据大小的变化之间进行取舍，但mod_gzip中没有配置指令能够控制压缩级别。如果流式压缩产生的CPU负载成问题，可以考虑在磁盘或内存中缓存经过压缩的组件。mod_gzip提供了选项，可以将保存压缩过的内容自动保存在磁盘上，并在原内容发生变化时更新压缩过的内容。使用mod_gzip_can_negotiate和mod_gzip_update_static指令可以完成这一任务。</p>
+<p>Apache2.x使用mod_deflate模块。对压缩脚本和样式表的基本配置：<br>AddOutputFilterByType DEFLATE text/html text/css application/x-javascript</p>
+<p>和mod_gzip不同，mod_deflate包含了一个用于控制压缩级别的指令——DeflateCompressionLevel。</p>
+<h2 id="代理缓存"><a href="#代理缓存" class="headerlink" title="代理缓存"></a>代理缓存</h2><p>当浏览器通过代理来发送请求时，情况就变得复杂了。假设某url发送到代理的第一个请求来自于一个不支持gzip的浏览器。这是到达代理的第一个请求，因此缓存为空。代理会将请求转发到web服务器。此时服务器的响应是未经过压缩的。这个没有压缩的响应被代理缓存起来并发送给浏览器。假设到达代理的第二个请求是来自同一个url，来自于一个支持gzip的浏览器。代理会使用缓存中（未经压缩）的内容进行响应，这就失去了进行压缩的机会。如果顺序反了，情况可能更加严重。</p>
+<p>解决的方法是在web服务器的响应中添加Vary头，告诉代理根据一个或多个请求头来改变缓存的响应。因此需要在服务器的Vary响应头中包含Accept-Encoding.<br>Vary: Accept-Encoding<br>默认情况下，mod_gzip会向所有响应添加Vary: Accept-Encoding头。</p>
+<h2 id="浏览器边缘情形"><a href="#浏览器边缘情形" class="headerlink" title="浏览器边缘情形"></a>浏览器边缘情形</h2><p>不是所有浏览器都完美支持压缩</p>
+<p>在Apache1.3可以通过在mod_gzip_item_include中使用恰当的User-Agent值来指定浏览器白名单：<br>mod_gzip_item_include reqheader “User-Agent: MSIE [6-9]”<br>mod_gzip_item_include reqheader “User-Agent: Mozilla/[5-9]”</p>
+<p>在Apache2.x使用BrowserMatch指令<br>BrowserMatch ^MSIE [6-9] gzip<br>BrowserMatch ^Mozilla/[5-9] gzip</p>
+<p>将代理缓存加进来，把User-Agent作为代理的另外一种评判标准添加到Vary头中。<br>Vary: Accept-Encoding,User-Agent<br>mod_gzip检测到你在使用浏览器白名单时，会自动将User-Agent字段添加到Vary头中，不幸的是，由于User-Agent有上千种值，代理不太可能为其所代理的所有url缓存Accept-Encoding和User-Agent的所有组合。甚至这样可能会导致完全禁用为响应包进行的缓存。另外一种方法是使用Vary: <em>或Cache-Control: private头来禁用代理缓存。因为Vary: </em>头防止了浏览器使用缓存的组件，不过最好使用Cache-Control: private，Google和Yahoo都使用了这种方式。</p>
+<p>如何平衡压缩和代理支持的决定是很复杂的，需要在加快响应时间、减小带宽开销和边缘情形浏览器缺陷之间进行权衡。</p>
+<h1 id="规则5——将样式表放在顶部"><a href="#规则5——将样式表放在顶部" class="headerlink" title="规则5——将样式表放在顶部"></a>规则5——将样式表放在顶部</h1><p>我们发现将DHTML特征的样式表放在文档顶部——head中——能使页面加载得更快。</p>
+<h2 id="逐步呈现"><a href="#逐步呈现" class="headerlink" title="逐步呈现"></a>逐步呈现</h2><p>关心性能的前端工程师都希望页面能逐步地加载，为用户提供可视化的反馈是很重要的。</p>
+<p>将样式表放在文档底部，浏览器为避免当样式变化时重绘页面中的元素，浏览器会阻塞内容逐步呈现。浏览器延迟显示任何可视化组件，就会出现“白屏“。</p>
+<h2 id="将CSS放在底部"><a href="#将CSS放在底部" class="headerlink" title="将CSS放在底部"></a>将CSS放在底部</h2><p>在Internet Explorer中，将样式表放在文档底部会导致白屏的问题情形如下：<br>1.在新窗口中打开时<br>2.单击刷新按钮，在页面加载时最小化然后恢复窗口就能看到白屏。<br>3.设置为主页打开新的浏览器窗口时</p>
+<h2 id="将CSS放在顶部"><a href="#将CSS放在顶部" class="headerlink" title="将CSS放在顶部"></a>将CSS放在顶部</h2><p>若将样式表放在文档顶部的HEAD中，页面都是逐步呈现的</p>
+<p>关于Link标签和@import规则<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"styles1.css"</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css"><span class="keyword">@import</span> url(<span class="string">"styles2.css"</span>);</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>一个style块可以包含多个@import规则，但必须放在所以其他规则之前。同时@import规则有可能会导致白屏，即使是放在HEAD标签中。使用@import有时会导致组件下载的无序性。</p>
+<h2 id="无样式内容的闪烁"><a href="#无样式内容的闪烁" class="headerlink" title="无样式内容的闪烁"></a>无样式内容的闪烁</h2><p>白屏现象源自于浏览器的行为。如果样式表仍在加载，构建呈现树就是一种浪费，因为在所有样式表加载并解析完毕之前显示内容会遇到FOUC(无样式内容的闪烁，Flash of Unstyled Content)问题</p>
+<p>白屏是对FOUC问题的弥补。</p>
+<p>IE在前面介绍的情形中会选择白屏，在单击链接、使用书签或键入URL会选择第二种方式——承担FOUC风险。</p>
+<h1 id="规则6——将脚本放在底部"><a href="#规则6——将脚本放在底部" class="headerlink" title="规则6——将脚本放在底部"></a>规则6——将脚本放在底部</h1><h2 id="脚本带来的问题"><a href="#脚本带来的问题" class="headerlink" title="脚本带来的问题"></a>脚本带来的问题</h2><p>脚本会阻塞并行下载。</p>
+<h2 id="并行下载"><a href="#并行下载" class="headerlink" title="并行下载"></a>并行下载</h2><p>HTTP1.1规范，建议浏览器从每个主机名并行下载两个组件。当然这个在浏览器上是可以重新配置的。使用CNAME（DNS别名）可以将组件放在多个主机中。增加并行下载并非没有开销，取决于带宽、CPU速度，过多的并行下载反而会降低性能。</p>
+<h2 id="脚本阻塞下载"><a href="#脚本阻塞下载" class="headerlink" title="脚本阻塞下载"></a>脚本阻塞下载</h2><p>在下载脚本时并行下载实际是被禁用的，其中一个原因是脚本可能会使用document.write来修改页面内容，因此浏览器会等待，以确保页面能够恰当的布局。</p>
+<p>另一个重要的原因是保证脚本能够按照正确的顺序执行。</p>
+<h2 id="最差情况：将脚本放在顶部"><a href="#最差情况：将脚本放在顶部" class="headerlink" title="最差情况：将脚本放在顶部"></a>最差情况：将脚本放在顶部</h2><p>影响：</p>
+<ol>
+<li>脚本会阻塞对其后面内容的呈现</li>
+<li>脚本会阻塞对其后面组件的下载</li>
+</ol>
+<h2 id="正确地放置"><a href="#正确地放置" class="headerlink" title="正确地放置"></a>正确地放置</h2><p>在很多情况下，很难将脚本移到底部。例如，如果脚本使用document.write向页面中插入了内容，就不能将其移动到页面中靠后的位置。此外还会有作用域问题。很多情况下，可以用其他方法解决这些情形。</p>
+<p>经常出行的另外一种建议是使用Defferred脚本。DEFER属性表明脚本不包含document.write,浏览器得到这一线索可以继续呈现。但是在firefox中即使是延迟脚本也会产生阻塞。如果一个脚本可以延迟，那么它一定可以移到页面底部，这是最佳方式。</p>
+<h1 id="避免CSS表达式"><a href="#避免CSS表达式" class="headerlink" title="避免CSS表达式"></a>避免CSS表达式</h1><p>使用CSS表达式将背景色设置为每小时变化一次：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">backgroud-color</span>: expression( (new Date()).getHours() % <span class="number">2</span> ? <span class="string">"#FFF"</span> : <span class="string">"#000"</span> );</span><br></pre></td></tr></table></figure></p>
+<p>对于低版本IE不支持min-width,可以识别表达式，而其他浏览器识别静态配置：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">width</span>: expression( document.body.clientWidth &lt; <span class="number">600</span> ? <span class="string">"600px"</span> : <span class="string">"auto"</span> );</span><br><span class="line"><span class="attribute">min-width</span>: <span class="number">600px</span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="更新表达式"><a href="#更新表达式" class="headerlink" title="更新表达式"></a>更新表达式</h2><p>表达式的问题在于对其进行的求值的频率比人们期望的要高。它们不只是页面呈现和大小改变时求值，当页面滚动、甚至用户鼠标在页面上移过时都要求值。</p>
+<h2 id="围绕问题展开工作"><a href="#围绕问题展开工作" class="headerlink" title="围绕问题展开工作"></a>围绕问题展开工作</h2><p>用两种技术可以避免css表达式产生这一问题——创建一次性表达式和使用事件处理器取代css表达式。</p>
+<h2 id="一次性表达式"><a href="#一次性表达式" class="headerlink" title="一次性表达式"></a>一次性表达式</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">p &#123;</span><br><span class="line">    background-color: expression( altBgcolor(this) );</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">altBgcolor</span>(<span class="params">elem</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    elem.style.backgroundColor = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getHours() % <span class="number">2</span> ? <span class="string">"#F08A00"</span> : <span class="string">"#B8D4FF"</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>css表达式调用了altBgcolor()函数，而该函数将样式的backgroud-color属性设置为一个明确的值，并移除了CSS表达式。</p>
+<h2 id="事件处理器"><a href="#事件处理器" class="headerlink" title="事件处理器"></a>事件处理器</h2><p>当浏览器的大小改变时，这个例子使用setMinWidth()函数来修改所有段落元素的大小<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setMinWidth</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> aElements = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"p"</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; aElements.length; i ++) &#123;</span><br><span class="line">        aElements[i].runtimeStyle.width = ( <span class="built_in">document</span>.body.clientWidth &lt; <span class="number">600</span> ? <span class="string">"600px"</span> : <span class="string">"auto"</span> );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="number">1</span> != navigator.userAgent.indexOf(<span class="string">"MSIE"</span>)) &#123;</span><br><span class="line">    <span class="built_in">window</span>.onresize = setMinWidth;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>但这在第一次呈现时并不能恰当的设置段落的大小，所以需要使用”一次性表达式“介绍得方法设置初始宽度。</p>
+<h1 id="规则8——使用外部javascript和css"><a href="#规则8——使用外部javascript和css" class="headerlink" title="规则8——使用外部javascript和css"></a>规则8——使用外部javascript和css</h1><h2 id="内联vs外置"><a href="#内联vs外置" class="headerlink" title="内联vs外置"></a>内联vs外置</h2><p>纯粹而言，内联快一些，这主要是因为外部示例需要承担多个HTTP请求带来的开销。</p>
+<p>但是JavaScript和css文件外置有机会被浏览器缓存起来。</p>
+<p>如果你的网站的本质上能够为用户带来高完整缓存率，使用外部文件的收益就更大。如果不太可能产生完整缓存，则内联是更好的选择。</p>
+<h2 id="组件重用"><a href="#组件重用" class="headerlink" title="组件重用"></a>组件重用</h2><p>如果你的网站中每个页面都使用了相同的javascript和css,使用外部文件可以提高这些组件的重用率。在这种情况下使用外部文件更加具有优势，因为当用户在页面间导航时，javascript和css组件已经位于浏览器的缓存中了。</p>
+<p>在典型情况下，页面之间javascript和css的重用既不可能100%重叠，也不可能100%无关。</p>
+<p>最好的答案就是折中，将你的页面划分成几种页面类型，然后为每种类型创建单独的脚本和样式表。这比维护一个单独的文件要复杂，但通常比为每个页面维护不同的脚本和样式表要容易，并且对于给定的任意页面都只需要下载很少的多余的javascript和css。</p>
+<h2 id="主页"><a href="#主页" class="headerlink" title="主页"></a>主页</h2><p>我所见过的使用内联方式反而更好的一个例外是主页。</p>
+<p>页面查看</p>
+<p>主页拥有没有很高的页面查看数量，然而，通常每个会话只有一个页面查看。</p>
+<p>空缓存vs完整缓存</p>
+<p>完整缓存的百分比要比其他网站更低。出于安全的原因，很多用户选择在每次关闭浏览器时清空缓存。下一次用户打开浏览器时，产生的是一个主页的空缓存页面查看。</p>
+<p>组件重用</p>
+<p>重用率很低，很多主页是用户来到网站后访问的唯一一个页面，因此它们谈不上重用。</p>
+<p>分析了这些基准，我们更加倾向于适用内联，当然，没有适用于所有主页的唯一答案。</p>
+<h2 id="两全其美"><a href="#两全其美" class="headerlink" title="两全其美"></a>两全其美</h2><p>这里介绍得两项技术使你既可以获得内联的优势，同时也能缓存外部文件。</p>
+<h2 id="加载后下载"><a href="#加载后下载" class="headerlink" title="加载后下载"></a>加载后下载</h2><p>对于作为多次页面查看中的第一次的主页，我们希望为主页内联javascript和css，但又能为所有后续页面查看提供外部文件。这可以通过在主页加载完成后动态下载外部组件来实现（通过onload事件）。这能够将外部文件放到浏览器的缓存中以便用户接下来访问其他页面。</p>
+<p>这些页面中javascript和css被加载到页面中两次（先是内联的，然后是外部的）。要使其能够工作，必须处理双重定义。例如脚本，可以定义但不能执行函数（至少不能让用户察觉）。使用了相对单位（百分比或em）的css如果指定两次可能会产生问题。将这些组件放到一个不可见的IFrame中是一种更好的方式。</p>
+<h2 id="动态内联"><a href="#动态内联" class="headerlink" title="动态内联"></a>动态内联</h2><p>这可以通过使用前一个例子中的加载后下载技术来完成。当用户第一次访问页面时，服务器发现没有cookie,于是生成一个内联了组件的页面。然后服务器添加javascript来在页面加载后动态下载外部文件(并设置cookie)。下一次访问页面时，服务器看到了cookie，就会生成一个使用外部文件的页面。</p>
+<p>这种方式的美好之处在于它的宽容。即便cookie的状态和缓存的状态不匹配，页面也能够工作，只是没有本应该的那么优化而已。</p>
+<h1 id="减少DNS查找"><a href="#减少DNS查找" class="headerlink" title="减少DNS查找"></a>减少DNS查找</h1><p>DNS将主机名映射到IP地址上，在DNS查找的响应时间依赖于DNS解析器（通常由你的ISP提供），它所承担的请求压力、你与它之前的距离和你的带宽速度。</p>
+<h2 id="DNS缓存和TTL"><a href="#DNS缓存和TTL" class="headerlink" title="DNS缓存和TTL"></a>DNS缓存和TTL</h2><p>DNS查找可以被缓存起来以提高性能。这种缓存可以发生在由你的ISP或者局域网中的一台特殊的缓存服务器上，但我们这里要探索的是发生在独立用户的计算机上的DNS缓存。<br>例如，在用户请求了一个主机名之后，DNS信息会留在操作系统的DNS缓存中，之后对于该主机名的请求将无需进行过多的DNS查找，至少短时间内不需要。<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/8.jpg" alt="avatar"></p>
+<p>很多浏览器拥有其自己的缓存，和操作系统的缓存相分离。只要浏览器在其缓存中保留了DNS记录，它就不会麻烦操作系统来请求这个记录。只有当浏览器缓存丢失了记录时，它才会向操作系统询问地址——然后操作系统或者通过其缓存来响应这个请求，或者将请求发送给一台远程服务器，这时就会发生潜在的速度降低。</p>
+<p>设计者知道IP地址会变化以及缓存会消耗内存。因此，应该周期性地清除缓存中的DNS记录，并通过大量不同的配置设置检测清除的频率有多高。</p>
+<h2 id="影响DNS缓存的因素"><a href="#影响DNS缓存的因素" class="headerlink" title="影响DNS缓存的因素"></a>影响DNS缓存的因素</h2><p>服务器可以表明记录可以被缓存多久。查找返回的DNS记录包含了一个存活时间（Time-to-live,TTL）值。该值告诉客户端可以对该记录缓存多久。</p>
+<p>尽管操作系统缓存会考虑TTL值，但浏览器通常忽略该值，并设置它自己的时间限制。此外Keep-Alive特性可以同时覆盖TTL和浏览器的时间限制。只要浏览器和web服务器通信着，并保持TCP连接打开的状态，就没有理由进行DNS查找。</p>
+<p>浏览器对缓存的DNS记录的数量也有限制，而不管缓存记录的时间，访问较多的域名，较早的DNS记录将被丢弃。不过操作系统可能依然保留着该记录，这能扭转一下局面。</p>
+<h2 id="TTL值"><a href="#TTL值" class="headerlink" title="TTL值"></a>TTL值</h2><p>不同网站的TTL值差距很大，许多网站都在努力做到当服务器、虚拟IP地址（VIP）或联合定位掉线时提供快速故障转移。这也是提供较多TTL的原因。MySpace定位到一个联合定位工具，对于其当前的网络拓扑，故障转移并不是很重要，因此他们选择了较长的TTL。</p>
+<p>客户端收到的DNS记录的平均TTL值只有最大TTL值的一半。这是因为DNS解析器自身也拥有与DNS记录相关的TTL。当浏览器进行DNS查找时，DNS解析器返回的时间是其记录的TTL的剩余时间。如果最大TTL是5分钟，DNS解析器返回的TTL范围可能是1~300秒。</p>
+<h2 id="浏览器视角"><a href="#浏览器视角" class="headerlink" title="浏览器视角"></a>浏览器视角</h2><p>Microsoft Windows上的DNS缓存由DNS Client服务进行管理。你可以使用ipconfig命令来查看和刷新DNS Client服务。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /displaydns</span><br><span class="line">ipconfig /flushdns</span><br></pre></td></tr></table></figure></p>
+<p>重新启动也可以清空DNS Client服务缓存。重新启动浏览器会清空浏览器缓存，但不会清空DNS Client服务缓存。</p>
+<p>IE</p>
+<p>IE的DNS缓存由三个注册表设置控制</p>
+<p>部分设置的默认值值如下：<br>DnsCacheTimeout——30分钟<br>KeepAliveTimeout–1分钟<br>ServerInfoTimeout–2分钟</p>
+<p>如果DNS服务器TTL值小于30分钟的话，对浏览器进行DNS查找的频率产生的影响很小。一旦浏览器缓存了DNS记录，就会使用30分钟作为TTL值。如果发生了错误，刷新DNS查找就会比这要快，在正常情况下，很短的TTL值（30min以下）在IE中不会增加DNS查找的数量。</p>
+<p>Keep-Alive,一个持久的TCP连接将会一直使用，直到其空闲1分钟为止。由于连接是持久的，因此无需DNS查找。</p>
+<p>ServerInfoTimeout的值为2分钟，说明尽管没有Keep-Alive，如果一个主机名每两分钟重用了一次，并且没有发生错误，也无需尽心DNS查找。</p>
+<p>当网络操作中心尝试通过DNS变化来转移流量时，如果一个IP上的流量已经被转移走，但该IP仍在运行，则使用旧的DNS记录的IE用户至少需要30分钟才能更新DNS。至少每两分钟访问一次的活跃用户会一直使用旧的IP，直到发生错误。</p>
+<h2 id="Firefox"><a href="#Firefox" class="headerlink" title="Firefox"></a>Firefox</h2><p>具有下列配置设置</p>
+<p>1.network.dnsCacheExpiration-1分钟<br>2.network.dnsCacheEntries-20<br>3.network.http.keep-alive.timeout-5分钟</p>
+<h2 id="减少DNS查找-1"><a href="#减少DNS查找-1" class="headerlink" title="减少DNS查找"></a>减少DNS查找</h2><p>当客户端的DNS缓存为空(浏览器和操作系统都是)时，DNS查找的数量与web页面中唯一主机名的数量相等。减少唯一主机名的数量就可以减少DNS查找的数量。</p>
+<p>减少唯一主机名的数量会潜在地减少页面中并行下载的数量。</p>
+<p>我的建议是将组件分别放到至少2个，但不要超过4个主机名下。</p>
+<p>另外，确保服务器支持Keep-Alive还能减少DNS查找。</p>
+<h1 id="规则10——精简javascript"><a href="#规则10——精简javascript" class="headerlink" title="规则10——精简javascript"></a>规则10——精简javascript</h1><h2 id="精简"><a href="#精简" class="headerlink" title="精简"></a>精简</h2><p>精简是从代码中移除不必要的字符以减少其大小，进而改善加载时间的实践。在代码被精简后，所有的注释以及不必要的空白字符（空格、换行和制表符）都将被移除。</p>
+<p>这里，我需要谈一下另外一种更具挑战性的精简方式——混淆。</p>
+<h2 id="混淆"><a href="#混淆" class="headerlink" title="混淆"></a>混淆</h2><p>混淆和精简一样，它也会移除注释和空白，同时它还会改写代码。作为改写的一部分，函数和变量的名字将被转换为更短的字符串，这时的代码更加精炼，也更加难以阅读。通常这样做是为了增加对代码进行反向工程的难度，但这对提高性能也有帮助，因为这比精简更能减小代码的大小。</p>
+<p>精简是一个安全并且相当简单的过程，而混淆则更为复杂一些。混淆有三个主要的缺点——</p>
+<p>缺陷 混淆过程本身很有可能引入错误<br>维护 由于混淆会改变javascript符号，因此需要对任何不能改变的符号（例如API函数）进行标记，防止混淆器修改它们。<br>调试 经过混淆的代码很难阅读。这使得在产品环境中调试问题更加困难。</p>
+<p>我的建议是使用精简而不是混淆。最终的决定需要考虑混淆能够带来的额外的代码大小减少量。</p>
+<h2 id="节省-1"><a href="#节省-1" class="headerlink" title="节省"></a>节省</h2><p>这里使用JSMin和Dojo Compressor（已改名ShrinkSafe）精简javascript代码。</p>
+<p>我们精简来自YUI库的event.js。</p>
+<p>经过JSMin的处理后，所有不必要的空白将被移除</p>
+<p>Dojo Compressor移除了大部分的空白，同时还缩短了变量名。</p>
+<p>混淆相比精简可以进一步减小代码尺寸，结合了gzip压缩后，之间的差别将会减小。</p>
+<h2 id="锦上添花"><a href="#锦上添花" class="headerlink" title="锦上添花"></a>锦上添花</h2><p>内联脚本也可以精简</p>
+<h2 id="精简css"><a href="#精简css" class="headerlink" title="精简css"></a>精简css</h2><p>精简css能够带来的节省通常要小于精简javascript，因为通常css中的注释和空白比javsscript少。最大的潜在节省来自于优化css-合并相同的类、移除不使用的类等。css的依赖顺序的本质决定了这将是一个复杂的问题。这个领域还需要进一步研究和工具开发。最佳的解决方案还是移除注释和空白，并进行一些直观的优化，比如使用缩写（”#606”代替”#660066”）和移除不必要的字符串（”0”代替”0px”）</p>
+<h1 id="规则11——避免重定向"><a href="#规则11——避免重定向" class="headerlink" title="规则11——避免重定向"></a>规则11——避免重定向</h1><p>重定向用于将用户从一个URL重新路由到另一个URL。重定向有很多种——301和302是最常用的两种。重定向可能有很多不同的原因，包括网站重新设计、跟踪流量、记录广告点击和建立易于记忆的URL。</p>
+<h2 id="重定向的类型"><a href="#重定向的类型" class="headerlink" title="重定向的类型"></a>重定向的类型</h2><p>当web服务器向浏览器返回一个重定向时，响应中就会拥有一个范围在3xx的状态码。这表示用户代理必须执行进一步操作才能完成请求。<br>300 Multiple Choices(基于Content-Type)<br>301 Moved Permancently<br>302 Moved Temporarily(亦称Found)<br>303 See Other(对302的说明)<br>304 Not Modified<br>305 Use Proxy<br>306 (已废弃)<br>307 Temporary Redirect (对302的说明)</p>
+<p>“304 Not Modified”并不真的是重定向——它用来响应条件GET请求，避免下载已经存在于流量器缓存中的数据</p>
+<p>301和302是使用得最多的。状态码303和307是在http1.1规范中添加的，用来澄清对302的使用（滥用），但是几乎没有人用303和307，绝大多数网站仍然在沿用302.</p>
+<p>下面是一个301响应头的一个示例<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/9.jpg" alt="avatar"><br>浏览器会自动将用户带到Location字段所给出的URL。重定向所必需的所有信息都出现在这个头中了。响应体通常是空的。不管叫什么名字，301和302响应在实际中都不会被缓存，除非有附加的头——如Expires或Cache-Control等——要求它这么做。</p>
+<p>还有其他方法可以自动将用户重定向到其他URL。HTML文档的头中包含的meta refresh标签可以在其content属性所指定的秒数之后重定向用户<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"refresh"</span> <span class="attr">content</span>=<span class="string">"0; url=http://strbesouders.com/newuri"</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>javascript也可以用于执行重定向，将document.location设置为期望的url即可。如果你必须进行重定向，最好的技术是使用标准的3xx HTTP状态码，这主要是为了确保后退按钮能够正确工作。</p>
+<h2 id="重定向之外的其他选择"><a href="#重定向之外的其他选择" class="headerlink" title="重定向之外的其他选择"></a>重定向之外的其他选择</h2><h2 id="缺少结尾的斜线"><a href="#缺少结尾的斜线" class="headerlink" title="缺少结尾的斜线"></a>缺少结尾的斜线</h2><p>很多web开发人员没有意识到，在url的结尾必须出现斜线（/）而没出现时，如<a href="http://astrology.yahoo.com/astrology会导致一个301响应" target="_blank" rel="noopener">http://astrology.yahoo.com/astrology会导致一个301响应</a>, 包含了一个到<a href="http://astrology.yahoo.com/astrology" target="_blank" rel="noopener">http://astrology.yahoo.com/astrology</a> 的重定向。当缺少结尾的斜线时发送重定向有着很充分的理由——它允许自动索引（autoindexing,自动转到默认的index.html上）并且能够获得与当前目录相关的url(如logo.gif)。然而，很多流行的web页面并不依赖自动索引，而是依赖特定的url和处理器。另外，url通常也与根目录相关而不是和当前目录相关。</p>
+<p>注意当主机名后缺少结尾斜线时不会发生重定向。例如，<a href="http://www.yahoo.com" target="_blank" rel="noopener">http://www.yahoo.com</a> 不会产生重定向。然而，你在浏览器中看到的最终的url是包含结尾斜线的——<a href="http://www.yahoo.com/" target="_blank" rel="noopener">http://www.yahoo.com/</a> .导致自动产生结尾斜线的原因是，浏览器在运行get请求时必需指定一些路径。如果没有路径，例如<a href="http://www.yahoo.com" target="_blank" rel="noopener">http://www.yahoo.com</a> 它就会简单地使用文档根（/）<br>GET / HTTP 1.1<br>当缺少结尾斜线时发送重定向是很多web服务器的默认行为，包括Apache. Alias指令是一种简单的方法。另一种选择是使用mod_rewrite模块，但Alias更加简单。（注1）Astrology网站的问题可以通过向Apache配置中添加下列内容来解决——<br>Alias /astrology /user/local/apache/htdocs/astrology/astrology.html</p>
+<p>如果使用Apache2.0中的处理器，一种更为清晰的解决方案是使用DirectorySlash指令。假设有一个名为astrologyhandler的处理器，可以像下面这样使用DirectorySlash<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Localtion</span> /<span class="attr">astrology</span>&gt;</span></span><br><span class="line">    DirectorySlash Off</span><br><span class="line">    SetHandler astrologyhandler</span><br><span class="line"><span class="tag">&lt;/<span class="name">Localtion</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这些方法都不能解决查找与当期目录相关的url问题，因此页面中组件的url必须与根目录相关。而且，你还必须知道各模块运行的顺序（尤其是mod_dir和mod_autoindex）,因为这样使用DirectorySlash可能会有安全隐患。</p>
+<p>总之，如果你的网站包含目录并使用了自动索引，用户就必须忍受一个到达预期页面的重定向。检查一下你的web日志就能看到发出了多少301状态，这能帮助你认识到多么值得去解决缺少结尾斜线的问题。</p>
+<h2 id="连接网站"><a href="#连接网站" class="headerlink" title="连接网站"></a>连接网站</h2><p>想象一下网站后端被重写的情形。这经常发生，新的实现中的url很可能会有所不同。将用户从旧的url转移到新的url的最简单的方式就是重定向。重定向是使用定义良好的API——url来整合两个代码基础的一种方式。</p>
+<p>将旧网站连接到新网站只是重定向这种常见应用中的表现形式之一。其他形式还包括将一个网站的不同部分连接起来，以及基于一些条件（浏览器类型、用户账户类型等）来引导用户。使用重定向来连接两个网站很简单而且只需要很少的额外代码。</p>
+<p>其实整合后端还有其他的选择，但比重定向需要更多的开发工作，不过这样不会损害用户体验。</p>
+<p>1.Alias、mod_rewrite和DirectorySlash要求除url之外还要提交到一个接口（处理器或文件名），但易于实现。<br>2.如果两个后端位于同一台服务器，则它们的代码很可能自己就能连接。例如，旧的处理器代码可以通过编程调用新的处理器代码。<br>3.如果域名变了，可以使用一个CNAME（一条DNS记录，用于创建从一个域名指向另一个域名的别名）让两个主机名指向相同的服务器。如果能做到这一点，这里提到的技术（Alias、mod_rewrite、DirectorySlash和直接连接代码）就是可行的。</p>
+<h2 id="跟踪内部流量"><a href="#跟踪内部流量" class="headerlink" title="跟踪内部流量"></a>跟踪内部流量</h2><p>重定向经常用于跟踪用户流量的流向。例如，sports链接的url是<a href="http://www.yahoo.com/r/26.单击这个链接将产生301响应，其Location被设置为http://sports.yahoo.com/。通过分析来自www.yahoo.com的web服务器日志可以得知人们离开Yahoo!的首页后的流量去向。" target="_blank" rel="noopener">http://www.yahoo.com/r/26.单击这个链接将产生301响应，其Location被设置为http://sports.yahoo.com/。通过分析来自www.yahoo.com的web服务器日志可以得知人们离开Yahoo!的首页后的流量去向。</a></p>
+<p>另一种选择是使用Referer日志来跟踪流量去向。每个http请求都包含一个url，表明从哪个页面发起的请求，也就是引用方（有的时候没有引用页，当用户键入url或使用书签时）。在这里，当用户从Yahoo!主页导航到Sports页时，sports.yahoo.com的访问日志中会包含一个Referer，其值为<a href="http://www/yahoo.com/。" target="_blank" rel="noopener">http://www/yahoo.com/。</a></p>
+<h2 id="跟踪出站流量"><a href="#跟踪出站流量" class="headerlink" title="跟踪出站流量"></a>跟踪出站流量</h2><p>出站流量使用referer就不太现实了<br>Yahoo!search目前将每个搜索结果链接包装到一个重定向中来解决跟踪的问题。搜索结果的url都指向rds.yahoo.com并将最终的目标当作参数包含在该url中。例如，下面是指向wikipedia的“Performance”词条的搜索结果链接<br><a href="http://rds.yahoo.com/[...]5742/**http%3a/en.wikipedia.org/wiki/Performance" target="_blank" rel="noopener">http://rds.yahoo.com/[...]5742/**http%3a/en.wikipedia.org/wiki/Performance</a><br>单击这个搜索结果会访问rds.yahoo.com，它将返回一个302响应，其Location被设置为<a href="http://en.wikipedia.org/wiki/Performance.管理员通过分析rds.yahoo.com上的web服务器日志的**参数就能跟踪用户去了哪里。这个重定向使得获取目标页面变慢了。" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/Performance.管理员通过分析rds.yahoo.com上的web服务器日志的**参数就能跟踪用户去了哪里。这个重定向使得获取目标页面变慢了。</a></p>
+<p>除了重定向，还可以选择信标——一个http请求，其url中包含有跟踪信息。跟踪信息可以从信标web服务器的访问日志中提取出来。信标响应通常是一个1px*1px的透明图片；不过204响应更为优秀，因为它更小，从来不会被缓存，而且绝对不会改变浏览器状态。<br>在Yahoo!search,目标是无论何时用户单击搜索结果链接时都要发送一个信标。这通过为每个连接提供onClick处理器来完成（当启用了javascript时）。onclick处理器将调用一个函数，请求一个图片，并在图片的url中包含要跟踪的信息。<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/10.jpg" alt="avatar"><br>这种情况下，挑战是发送信标和页面自身被卸载之间的竞态情形。图片信标的onload处理器可以用于确保在卸载文档之前信标应传送完毕。<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/11.jpg" alt="avatar"><br>这种方法可能和使用重定向一样慢，另一种方式是使用XMLHttpRequest来发送信标，但在卸载页面之前只需等请求到达readyState 2即可。这比等待重定向的整个http响应要快，但你必须决定是否有必要采取这么复杂的方式。</p>
+<h2 id="美化URL"><a href="#美化URL" class="headerlink" title="美化URL"></a>美化URL</h2><p>使用重定向的另一种动机是使url更加美观并且易于记忆。如<a href="http://www.google.com/tools/firfox/toolbar/FT3/intl/en/index.html" target="_blank" rel="noopener">http://www.google.com/tools/firfox/toolbar/FT3/intl/en/index.html</a> -&gt; <a href="http://www.google.com" target="_blank" rel="noopener">http://www.google.com</a>.<br>但是，使用alias、mod_rewrite、DirectorySlash和直接链接代码来避免重定向也能达到目的。</p>
+<h1 id="规则12——移除重复脚本"><a href="#规则12——移除重复脚本" class="headerlink" title="规则12——移除重复脚本"></a>规则12——移除重复脚本</h1><p>导致一个脚本的重复有两个主要因素——团队大小和脚本数量</p>
+<p>重复脚本损伤性能的方式有两种——不必要的http请求和执行JavaScript所浪费的时间。</p>
+<h2 id="避免重复脚本"><a href="#避免重复脚本" class="headerlink" title="避免重复脚本"></a>避免重复脚本</h2><p>第一种方法是，实现一个脚本管理模块。包含脚本的典型方式是在html页面中使用script标签——<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"menu_1.0.17.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>另一种选择是在php中创建一个称作insertScript的函数<br>&lt;?php insertScript(“menu.js”) ?&gt;<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/12.jpg" alt="avatar"></p>
+<h1 id="规则13——配置ETag"><a href="#规则13——配置ETag" class="headerlink" title="规则13——配置ETag"></a>规则13——配置ETag</h1><h2 id="Etag是什么？"><a href="#Etag是什么？" class="headerlink" title="Etag是什么？"></a>Etag是什么？</h2><p>实体标签是web服务器和浏览器用于确认缓存组件的有效性的一种机制。</p>
+<p>发送条件get请求是，服务器在检测缓存的组件是否和原始服务器上的组件匹配时有两种方式——<br>1.比较最新修改日期<br>2.比较实体标签</p>
+<p>原始服务器通过Last-Modified响应头来返回组件的最新修改日期</p>
+<p>下一次请求是浏览器会使用If-Modified-Since头将最新修改日期传回到原始服务器以进行比较。如果匹配，会返回一个304 Not Modified</p>
+<h2 id="实体标签"><a href="#实体标签" class="headerlink" title="实体标签"></a>实体标签</h2><p>ETag提供了另外一种方式，Etag在http1.1中引入，标识了一个组件的一个特定版本的字符串。唯一的格式约束是该字符串必须用引号引起来。原始服务器使用Etag响应头来指定组件的Etag<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/13.jpg" alt="avatar"></p>
+<p>Etag的加入为验证实体提供了比最新修改日期更为灵活的机制。例如，如果实体依据User-Agent或Accept-Language头而改变，实体的状态可以反映在Etag中。</p>
+<p>此后，浏览器会使用If-None-Match头将ETag传回原始服务器。如果Etag是匹配的，就会返回304状态码。<br><img src="https://mfaying.github.io/static/images/高性能网站建设指南/14.jpg" alt="avatar"></p>
+<h2 id="ETag带来的问题"><a href="#ETag带来的问题" class="headerlink" title="ETag带来的问题"></a>ETag带来的问题</h2><p>Etag的问题在于，通常使用组件的某些属性来改造它，这些属性对于特定的、寄宿了网站的服务器来说是唯一的。当浏览器从一台服务器上获取了原始组件，之后，又向另外一台不同的服务器发起条件GET请求时，Etag是不会匹配的——而对于使用服务器的集群来处理请求的网站来说，这是很常见的一种情况。</p>
+<p>Apache1.3和2.x的ETag格式是inode-size-timestamp。文件系统使用inode来存储诸如文件类型、所有者、组合访问模式等信息。尽管在多台服务器上一个给定的文件可能位于相同的目录、具有相同的文件大小、权限、时间戳等，从一台服务器到另一台服务器，其inode仍然是不同的。</p>
+<p>IIS5.0和6.0在Etag上有类似的问题。IIS上Etag的格式是filetimestamp:changeNumber。changeNumber适用于跟踪IIS配置变化的计数器。对于一个网站背后的所有IIS服务器来说，changeNumber不大可能相同。</p>
+<p>最后的结果是对于完全相同的组件，从一台服务器到另一台，apache和IIS产生的Etag是不会匹配的。如果Etag不匹配，用户就不会按照Etage的设计计划那样接收到更小更快的304响应。</p>
+<p>If-None-Match比If-Modified-Since具有更高的优先级。如果请求中同时出现了这两个头，则原始服务器“禁止返回304”，除非请求中的条件头字段一致。</p>
+<h2 id="Etag——用还是不用"><a href="#Etag——用还是不用" class="headerlink" title="Etag——用还是不用"></a>Etag——用还是不用</h2><p>一种选择是对Etag进行配置，以利用其灵活的验证能力。例如可以使用一段根据浏览器是否为IE而变化的脚本。如果使用PHP来生成脚本，你可以通过设置Etag头来反映浏览器状态。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> ( strops($_SERVER[<span class="string">"HTTP_USER_AGENT"</span>], <span class="string">"MSIE"</span>) ) &#123;</span><br><span class="line">    header(<span class="string">"ETag: MSIE"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    header(<span class="string">"Etag: notMSIE"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>如果你的组件必须通过最新修改日期之外的一些东西来进行验证，则Etag是一种强大的方法。</p>
+<p>如果你无须自定义Etag,最好简单地将其移除。Apache和IIS都将Etag视为一个性能问题，并建议修改Etage的内容。</p>
+<p>Apache1.3.23版和之后版本支持FileEtag指令。使用这一指令，可以从ETag中移除inode值，只留下大小和时间戳作为组件的Etag。类似的，在IIS中可以为所有服务器设置相同的ChangeNumber,保留文件的时间戳作为Etag中仅有的另一块信息。然而Last-Modified头可以提供完全等价的信息，而且移除Etag可以减小响应和后续请求的Http头的大小。</p>
+<p>在Apache中，只需向Apache配置文件中简单地添加下面一行配置就能移除Etag——<br>FileEtag none</p>
+<h1 id="规则14——使Ajax可缓存"><a href="#规则14——使Ajax可缓存" class="headerlink" title="规则14——使Ajax可缓存"></a>规则14——使Ajax可缓存</h1><p>Ajax</p>
+<p>术语ajax由Jesse James Garrett于2005年提出，Ajax表示“异步的JavaScript和XML”。Ajax不是一个单独的，需要许可证的技术，而是一组技术，包括JavaScript、CSS、DOM和异步数据获取。Ajax的目的是为了突破Web本质的开始-停止交互方式。向用户显示一个白屏然后重绘整个页面不是一种很好地用户体验。而Ajax在UI和Web服务器之间插入了一层。这个Ajax层位于客户端，与Web服务器进行交互以获取请求的信息，并与表现层交互，仅更新那些必要的组件。它将web体验从“浏览页面”转变为“与应用程序进行交互”。</p>
+<h2 id="现实世界中的Ajax缓存"><a href="#现实世界中的Ajax缓存" class="headerlink" title="现实世界中的Ajax缓存"></a>现实世界中的Ajax缓存</h2><p>重复请求两次Yahoo!Mail消息列表，并没有被缓存，没有被缓存的原因是响应中包含一个值为no-store的Cache-Control头，以及一个日期为过去某一天的Expires头。这些都告诉浏览器不要缓存响应。</p>
+<p>使这些Ajax请求可缓存，除了改变HTTP头之外还需要进行更多的工作。响应的个性化和动态本质必须被反映到缓存中。可供采用的最好的方式是使用查询字符串参数。例如，这个响应只对当前用户有效。可以将用户名放到查询字符串中来做到这一点——<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/ws/mail/v1/formrpc?m=GetMessage&amp;yid=steve_souders&amp;msgid=001234</span><br></pre></td></tr></table></figure></p>
+<p>该响应可能会因为数据隐私原因而不能缓存。当数据被认为是私有的时，大多会使用Cache-Control: no-store。在使用了这个头之后，响应根本就不会被写入到磁盘上。但是，HTTP规范警告说不要依赖这一机制来确保数据的隐私性，恶意的或危险的缓存会完全忽略Cache-Control: no-store头。</p>
+<p>处理数据隐私性的另外一个更好的方式是使用安全通信协议如SSL。SSL响应是可缓存的，因此它提供了一种妥协——在确保数据隐私的同时在当前会话中缓存响应以改善用户体验。</p>
+<p>和Yahoo!Mail示例类似的例子，缓存一个电子表格，如果用户修改了该电子表格，我们必须确保产生变化后不会再使用缓存的请求。简单的解决方法还是使用查询字符串。Googole Spreadsheets的后端应该具有一个时间戳，来表示末次修改发生的时间，并将其嵌入到Ajax请求的查询字符串中——<br>/ar?id=[snip…]&amp;srow=0&amp;erow=100&amp;t=1177458941</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/性能/" rel="tag"># 性能</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/25/《数据结构与算法javascript描述》/" rel="next" title="《数据结构与算法JavaScript描述》(笔记)">
+                <i class="fa fa-chevron-left"></i> 《数据结构与算法JavaScript描述》(笔记)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/22/深入浅出Node-js/" rel="prev" title="《深入浅出Node.js》">
+                《深入浅出Node.js》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDUxMi8xMTA1MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="小光">
+            
+              <p class="site-author-name" itemprop="name">小光</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mfaying" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1213560387@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前端性能的重要性"><span class="nav-number">1.</span> <span class="nav-text">前端性能的重要性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP概述"><span class="nav-number">2.</span> <span class="nav-text">HTTP概述</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#规则1-减少HTTP请求"><span class="nav-number"></span> <span class="nav-text">规则1 减少HTTP请求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图片地图"><span class="nav-number">1.</span> <span class="nav-text">图片地图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS-Sprites"><span class="nav-number">2.</span> <span class="nav-text">CSS Sprites</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内联图片"><span class="nav-number">3.</span> <span class="nav-text">内联图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合并脚本和样式表"><span class="nav-number">4.</span> <span class="nav-text">合并脚本和样式表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用内容发布网络"><span class="nav-number"></span> <span class="nav-text">使用内容发布网络</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加Expires头"><span class="nav-number"></span> <span class="nav-text">添加Expires头</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Expires头"><span class="nav-number">1.</span> <span class="nav-text">Expires头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Max-Age和mod-expires"><span class="nav-number">2.</span> <span class="nav-text">Max-Age和mod_expires</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不仅仅是图片"><span class="nav-number">3.</span> <span class="nav-text">不仅仅是图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修订文件名"><span class="nav-number">4.</span> <span class="nav-text">修订文件名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#规则4——压缩组件"><span class="nav-number"></span> <span class="nav-text">规则4——压缩组件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#压缩什么"><span class="nav-number">1.</span> <span class="nav-text">压缩什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节省"><span class="nav-number">2.</span> <span class="nav-text">节省</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理缓存"><span class="nav-number">4.</span> <span class="nav-text">代理缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器边缘情形"><span class="nav-number">5.</span> <span class="nav-text">浏览器边缘情形</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#规则5——将样式表放在顶部"><span class="nav-number"></span> <span class="nav-text">规则5——将样式表放在顶部</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#逐步呈现"><span class="nav-number">1.</span> <span class="nav-text">逐步呈现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将CSS放在底部"><span class="nav-number">2.</span> <span class="nav-text">将CSS放在底部</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将CSS放在顶部"><span class="nav-number">3.</span> <span class="nav-text">将CSS放在顶部</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无样式内容的闪烁"><span class="nav-number">4.</span> <span class="nav-text">无样式内容的闪烁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#规则6——将脚本放在底部"><span class="nav-number"></span> <span class="nav-text">规则6——将脚本放在底部</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#脚本带来的问题"><span class="nav-number">1.</span> <span class="nav-text">脚本带来的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并行下载"><span class="nav-number">2.</span> <span class="nav-text">并行下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脚本阻塞下载"><span class="nav-number">3.</span> <span class="nav-text">脚本阻塞下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最差情况：将脚本放在顶部"><span class="nav-number">4.</span> <span class="nav-text">最差情况：将脚本放在顶部</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正确地放置"><span class="nav-number">5.</span> <span class="nav-text">正确地放置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#避免CSS表达式"><span class="nav-number"></span> <span class="nav-text">避免CSS表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新表达式"><span class="nav-number">1.</span> <span class="nav-text">更新表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#围绕问题展开工作"><span class="nav-number">2.</span> <span class="nav-text">围绕问题展开工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一次性表达式"><span class="nav-number">3.</span> <span class="nav-text">一次性表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件处理器"><span class="nav-number">4.</span> <span class="nav-text">事件处理器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#规则8——使用外部javascript和css"><span class="nav-number"></span> <span class="nav-text">规则8——使用外部javascript和css</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#内联vs外置"><span class="nav-number">1.</span> <span class="nav-text">内联vs外置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件重用"><span class="nav-number">2.</span> <span class="nav-text">组件重用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主页"><span class="nav-number">3.</span> <span class="nav-text">主页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两全其美"><span class="nav-number">4.</span> <span class="nav-text">两全其美</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加载后下载"><span class="nav-number">5.</span> <span class="nav-text">加载后下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态内联"><span class="nav-number">6.</span> <span class="nav-text">动态内联</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#减少DNS查找"><span class="nav-number"></span> <span class="nav-text">减少DNS查找</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS缓存和TTL"><span class="nav-number">1.</span> <span class="nav-text">DNS缓存和TTL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#影响DNS缓存的因素"><span class="nav-number">2.</span> <span class="nav-text">影响DNS缓存的因素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TTL值"><span class="nav-number">3.</span> <span class="nav-text">TTL值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器视角"><span class="nav-number">4.</span> <span class="nav-text">浏览器视角</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Firefox"><span class="nav-number">5.</span> <span class="nav-text">Firefox</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#减少DNS查找-1"><span class="nav-number">6.</span> <span class="nav-text">减少DNS查找</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#规则10——精简javascript"><span class="nav-number"></span> <span class="nav-text">规则10——精简javascript</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#精简"><span class="nav-number">1.</span> <span class="nav-text">精简</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混淆"><span class="nav-number">2.</span> <span class="nav-text">混淆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节省-1"><span class="nav-number">3.</span> <span class="nav-text">节省</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锦上添花"><span class="nav-number">4.</span> <span class="nav-text">锦上添花</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#精简css"><span class="nav-number">5.</span> <span class="nav-text">精简css</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#规则11——避免重定向"><span class="nav-number"></span> <span class="nav-text">规则11——避免重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向的类型"><span class="nav-number">1.</span> <span class="nav-text">重定向的类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向之外的其他选择"><span class="nav-number">2.</span> <span class="nav-text">重定向之外的其他选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺少结尾的斜线"><span class="nav-number">3.</span> <span class="nav-text">缺少结尾的斜线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接网站"><span class="nav-number">4.</span> <span class="nav-text">连接网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跟踪内部流量"><span class="nav-number">5.</span> <span class="nav-text">跟踪内部流量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跟踪出站流量"><span class="nav-number">6.</span> <span class="nav-text">跟踪出站流量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#美化URL"><span class="nav-number">7.</span> <span class="nav-text">美化URL</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#规则12——移除重复脚本"><span class="nav-number"></span> <span class="nav-text">规则12——移除重复脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#避免重复脚本"><span class="nav-number">1.</span> <span class="nav-text">避免重复脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#规则13——配置ETag"><span class="nav-number"></span> <span class="nav-text">规则13——配置ETag</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Etag是什么？"><span class="nav-number">1.</span> <span class="nav-text">Etag是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体标签"><span class="nav-number">2.</span> <span class="nav-text">实体标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ETag带来的问题"><span class="nav-number">3.</span> <span class="nav-text">ETag带来的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Etag——用还是不用"><span class="nav-number">4.</span> <span class="nav-text">Etag——用还是不用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#规则14——使Ajax可缓存"><span class="nav-number"></span> <span class="nav-text">规则14——使Ajax可缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#现实世界中的Ajax缓存"><span class="nav-number">1.</span> <span class="nav-text">现实世界中的Ajax缓存</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    by
+  </span>
+  <span class="author" itemprop="copyrightHolder">小光</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("rXDtthwfyBtPIDbpKrjcpxmS-gzGzoHsz", "5fvqAap2dh7V6AXxOQgVSqSU");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <script>
+    $('.blur-bg').css('height', $(document).height() + 130);
+    var blogClearTimer = setInterval(function () {
+      if (!(localStorage.getItem('mfaying') === 'blog')) {
+        window.document.write("");
+      } else {
+        clearInterval(blogClearTimer);
+      }
+    }, 500);
+  </script>
+</body>
+</html>
