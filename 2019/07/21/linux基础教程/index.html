@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="linux常用操作Q：如何查看哪些进程占用的CPU、内存资源最多？ A：获取占用CPU资源最多的10个进程，可以使用如下命令组合： 1ps aux|head -1;ps aux|grep -v PID|sort -rn -k +3|head 获取占用内存资源最多的10个进程，可以使用如下命令组合： 1ps aux|head -1;ps aux|grep -v PID|sort -rn -k +4|">
+<meta name="description" content="经常会忘记 tar 压缩和解压命令的使用，故记下来。 　　1. 打包压缩123tar -zcvf pack.tar.gz pack/  #打包压缩为一个.gz格式的压缩包tar -jcvf pack.tar.bz2 pack/ #打包压缩为一个.bz2格式的压缩包tar -Jcvf pack.tar.xz pack/  #打包压缩为一个.xz格式的压缩包　　2. 解包解压123tar -zxvf">
 <meta name="keywords" content="linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux基础教程">
 <meta property="og:url" content="http://yoursite.com/2019/07/21/linux基础教程/index.html">
 <meta property="og:site_name" content="小光的博客">
-<meta property="og:description" content="linux常用操作Q：如何查看哪些进程占用的CPU、内存资源最多？ A：获取占用CPU资源最多的10个进程，可以使用如下命令组合： 1ps aux|head -1;ps aux|grep -v PID|sort -rn -k +3|head 获取占用内存资源最多的10个进程，可以使用如下命令组合： 1ps aux|head -1;ps aux|grep -v PID|sort -rn -k +4|">
+<meta property="og:description" content="经常会忘记 tar 压缩和解压命令的使用，故记下来。 　　1. 打包压缩123tar -zcvf pack.tar.gz pack/  #打包压缩为一个.gz格式的压缩包tar -jcvf pack.tar.bz2 pack/ #打包压缩为一个.bz2格式的压缩包tar -Jcvf pack.tar.xz pack/  #打包压缩为一个.xz格式的压缩包　　2. 解包解压123tar -zxvf">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-03-07T03:06:49.894Z">
+<meta property="og:updated_time" content="2021-04-10T13:01:27.731Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux基础教程">
-<meta name="twitter:description" content="linux常用操作Q：如何查看哪些进程占用的CPU、内存资源最多？ A：获取占用CPU资源最多的10个进程，可以使用如下命令组合： 1ps aux|head -1;ps aux|grep -v PID|sort -rn -k +3|head 获取占用内存资源最多的10个进程，可以使用如下命令组合： 1ps aux|head -1;ps aux|grep -v PID|sort -rn -k +4|">
+<meta name="twitter:description" content="经常会忘记 tar 压缩和解压命令的使用，故记下来。 　　1. 打包压缩123tar -zcvf pack.tar.gz pack/  #打包压缩为一个.gz格式的压缩包tar -jcvf pack.tar.bz2 pack/ #打包压缩为一个.bz2格式的压缩包tar -Jcvf pack.tar.xz pack/  #打包压缩为一个.xz格式的压缩包　　2. 解包解压123tar -zxvf">
 
 
 
@@ -404,7 +404,9 @@
       
 
       
-        <h1 id="linux常用操作"><a href="#linux常用操作" class="headerlink" title="linux常用操作"></a>linux常用操作</h1><p>Q：如何查看哪些进程占用的CPU、内存资源最多？</p>
+        <p>经常会忘记 tar 压缩和解压命令的使用，故记下来。</p>
+<p>　　1. 打包压缩<br>1<br>2<br>3<br>tar -zcvf pack.tar.gz pack/  #打包压缩为一个.gz格式的压缩包<br>tar -jcvf pack.tar.bz2 pack/ #打包压缩为一个.bz2格式的压缩包<br>tar -Jcvf pack.tar.xz pack/  #打包压缩为一个.xz格式的压缩包<br>　　2. 解包解压<br>1<br>2<br>3<br>tar -zxvf pack.tar.gz /pack  #解包解压.gz格式的压缩包到pack文件夹<br>tar -jxvf pack.tar.bz2 /pack #解包解压.bz2格式的压缩包到pack文件夹<br>tar -Jxvf pack.tar.xz /pack  #解包解压.xz格式的压缩包到pack文件夹</p>
+<h1 id="linux常用操作"><a href="#linux常用操作" class="headerlink" title="linux常用操作"></a>linux常用操作</h1><p>Q：如何查看哪些进程占用的CPU、内存资源最多？</p>
 <p>A：获取占用CPU资源最多的10个进程，可以使用如下命令组合：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux|head -1;ps aux|grep -v PID|sort -rn -k +3|head</span><br></pre></td></tr></table></figure>
 <p>获取占用内存资源最多的10个进程，可以使用如下命令组合：</p>
@@ -412,6 +414,10 @@
 <p>Q：如何查看日志</p>
 <p>A：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f log</span><br></pre></td></tr></table></figure>
+<p>Q：如何查看磁盘空间</p>
+<p>查看磁盘各分区大小、已用空间等信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -h</span><br></pre></td></tr></table></figure></p>
+<p>查看foo目录的大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -sh foo</span><br></pre></td></tr></table></figure></p>
+<p>有时候，硬盘比较满了，我们想找一些目录来清除，可以用下面命令查看当前目录以下搜索文件和子目录大小。找出特别大的，看里面有没有文件可删：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -sh *</span><br></pre></td></tr></table></figure></p>
 <h1 id="Linux-简介"><a href="#Linux-简介" class="headerlink" title="Linux 简介"></a>Linux 简介</h1><p>Linux 是一套免费使用和自由传播的类 Unix 操作系统，是一个基于 POSIX 和 UNIX 的多用户、多任务、支持多线程和多 CPU 的操作系统。</p>
 <p>Linux 继承了 Unix 以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。</p>
 <h1 id="Linux-的发行版"><a href="#Linux-的发行版" class="headerlink" title="Linux 的发行版"></a>Linux 的发行版</h1><p>Linux 的发行版说简单点就是将 Linux 内核与应用软件做一个打包。</p>
@@ -1014,7 +1020,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-count">73</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
