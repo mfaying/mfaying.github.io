@@ -300,6 +300,475 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/26/web-components/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小光">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小光的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/06/26/web-components/" itemprop="url">web-components</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-26T15:40:57+08:00">
+                2021-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2021/06/26/web-components/" class="leancloud_visitors" data-flag-title="web-components">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>【Chrome官方文章翻译】可重用的Web Components</p>
+<p>可重用的Web Components</p>
+<p>Web Components可以让开发者<code>创造标签</code>，开发者可以增强现有HTML标签，扩展其他开发者编写的标签。</p>
+<p>它提供了基于web标准的方式，可以让你用少量的、模块化的代码去编写可重用的组件。</p>
+<h2 id="定义一个新元素"><a href="#定义一个新元素" class="headerlink" title="定义一个新元素"></a>定义一个新元素</h2><p>使用window.customElements.define可以定义一个新元素。</p>
+<p>它的第一个参数是标签名，第二个参数是一个继承HTMLElement的类。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppDrawer</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.customElements.define(<span class="string">'app-drawer'</span>, AppDrawer);</span><br></pre></td></tr></table></figure>
+<p>那么如何使用它呢？你只要像使用正常的html标签一样使用它就可以了！</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Web Components<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">app-drawer</span>&gt;</span>app-drawer<span class="tag">&lt;/<span class="name">app-drawer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">      <span class="class"><span class="keyword">class</span> <span class="title">AppDrawer</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">      <span class="built_in">window</span>.customElements.define(<span class="string">"app-drawer"</span>, AppDrawer);</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>自定义的元素和普通的HTML元素没有区别。它的实例可以在页面中声明，然后使用JS定义它。它也可以使用事件监听等HTML元素具有的特性。这在后面将会详细介绍。</p>
+<h2 id="自定义元素的JS-API"><a href="#自定义元素的JS-API" class="headerlink" title="自定义元素的JS API"></a>自定义元素的JS API</h2><p>自定义元素的功能使用ES2015 class实现，由于它继承了HTMLElement，所以拥有完整的DOM API。这也意味着JS里的属性、方法成了DOM接口的一部分，就像是我们在用JS为标签创建API。</p>
+<p>例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppDrawer</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// A getter/setter for an open property.</span></span><br><span class="line">  <span class="keyword">get</span> open() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.hasAttribute(<span class="string">'open'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">set</span> open(val) &#123;</span><br><span class="line">    <span class="comment">// Reflect the value of the open property as an HTML attribute.</span></span><br><span class="line">    <span class="keyword">if</span> (val) &#123;</span><br><span class="line">      <span class="keyword">this</span>.setAttribute(<span class="string">'open'</span>, <span class="string">''</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.removeAttribute(<span class="string">'open'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.toggleDrawer();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Can define constructor arguments if you wish.</span></span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="comment">// If you define a constructor, always call super() first!</span></span><br><span class="line">    <span class="comment">// This is specific to CE and required by the spec.</span></span><br><span class="line">    <span class="keyword">super</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Setup a click listener on &lt;app-drawer&gt; itself.</span></span><br><span class="line">    <span class="keyword">this</span>.addEventListener(<span class="string">'click'</span>, e =&gt; &#123;</span><br><span class="line">      <span class="keyword">this</span>.toggleDrawer();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  toggleDrawer() &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">customElements.define(<span class="string">'app-drawer'</span>, AppDrawer);</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，我们创建了拥有open属性和toggleDrawer()方法的app-drawer元素。</p>
+<p>在定义元素的class语法中，this指向元素本身。在这个例子中它可以获取属性、监听事件。其实其他DOM API它都可以使用，比如获取children(this.children)、选择元素（this.querySelectorAll(‘.items’)）等等。</p>
+<h3 id="自定义元素命名规则"><a href="#自定义元素命名规则" class="headerlink" title="自定义元素命名规则"></a>自定义元素命名规则</h3><ol>
+<li><p>必须包含破折号（-），这是为了区分自定义元素和HTML元素，并且确保兼容性（即使HTML增加新标签也不会导致冲突）</p>
+</li>
+<li><p>不能重复注册相同标签，否则会抛DOMException，因为这完全没必要。</p>
+</li>
+<li><p>不支持自闭合标签的写法，因为在HTML规范里只有一些标签是允许自闭合的。所以只有<code>&lt;app-drawer&gt;&lt;/app-drawer&gt;</code>这样写才是正确的。</p>
+</li>
+</ol>
+<h2 id="自定义元素的生命周期（custom-element-reactions）"><a href="#自定义元素的生命周期（custom-element-reactions）" class="headerlink" title="自定义元素的生命周期（custom element reactions）"></a>自定义元素的生命周期（custom element reactions）</h2><p>自定义元素有它的生命周期hooks。罗列如下：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>触发时机</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>constructor</td>
+<td>实例被创建或升级时执行，通常用来初始化一些状态、设置事件监听或者创建shadow dom</td>
+</tr>
+<tr>
+<td>connectedCallback</td>
+<td>当元素被添加到DOM中触发，通常在这个时候进行数据请求等</td>
+</tr>
+<tr>
+<td>disconnectedCallback</td>
+<td>元素在DOM中被移除时触发，通常做一些清理操作</td>
+</tr>
+<tr>
+<td>attributeChangedCallback(attrName, oldVal, newVal)</td>
+<td>当监听的属性（在observedAttributes属性列表中）被增加、删除、更新、替换时触发。在元素被解析器创建或升级相应属性值初始化时也会触发</td>
+</tr>
+<tr>
+<td>adoptedCallback</td>
+<td>元素被移动到一个新文档中触发（如：调用document.adoptNode(el))）</td>
+</tr>
+</tbody>
+</table>
+<p>例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppDrawer</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>(); <span class="comment">// always call super() first in the constructor.</span></span><br><span class="line">  &#125;</span><br><span class="line">  connectedCallback() &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  disconnectedCallback() &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  attributeChangedCallback(attrName, oldVal, newVal) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>回调函数是同步的。比如当调用el.setAttribute()，attributeChangedCallback()会立刻执行。</p>
+<p>这些回调函数不是在所有情况下都是可靠的，比如用户关闭标签页时disconnectedCallback不会执行。</p>
+<h2 id="JS和HTML属性"><a href="#JS和HTML属性" class="headerlink" title="JS和HTML属性"></a>JS和HTML属性</h2><h3 id="使用JS设置HTML属性"><a href="#使用JS设置HTML属性" class="headerlink" title="使用JS设置HTML属性"></a>使用JS设置HTML属性</h3><p>使用JS设置HTML属性是很常见的，比如在JS中执行</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">div.id = <span class="string">'my-id'</span>;</span><br><span class="line">div.hidden = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+<p>html属性就会变为</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"my-id"</span> hidden&gt;</span><br></pre></td></tr></table></figure>
+<p>这是很有用的功能。比如你想实现样式根据JS状态改变。</p>
+<p>在下面这个例子中我们可以通过点击切换app-drawer元素的透明度，并为它设置一些属性。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Web Components<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">    <span class="selector-tag">app-drawer</span><span class="selector-attr">[disabled]</span> &#123;</span></span><br><span class="line"><span class="css">      <span class="selector-tag">opacity</span>: 0<span class="selector-class">.5</span>;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    app-drawer &#123;</span><br><span class="line">      opacity: 1;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">app-drawer</span>&gt;</span>app-drawer<span class="tag">&lt;/<span class="name">app-drawer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">      <span class="class"><span class="keyword">class</span> <span class="title">AppDrawer</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">static</span> <span class="keyword">get</span> observedAttributes() &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">return</span> [<span class="string">"disabled"</span>];</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">        <span class="keyword">get</span> disabled() &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">return</span> <span class="keyword">this</span>.hasAttribute(<span class="string">"disabled"</span>);</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">        <span class="keyword">set</span> disabled(val) &#123;</span></span><br><span class="line">          if (val) &#123;</span><br><span class="line"><span class="javascript">            <span class="keyword">this</span>.setAttribute(<span class="string">"disabled"</span>, <span class="string">""</span>);</span></span><br><span class="line"><span class="javascript">          &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">this</span>.removeAttribute(<span class="string">"disabled"</span>);</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">        <span class="comment">// Only called for the disabled and open attributes due to observedAttributes</span></span></span><br><span class="line">        attributeChangedCallback(name, oldValue, newValue) &#123;</span><br><span class="line"><span class="javascript">          <span class="comment">// When the drawer is disabled, update keyboard/screen reader behavior.</span></span></span><br><span class="line"><span class="javascript">          <span class="keyword">if</span> (<span class="keyword">this</span>.disabled) &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">this</span>.setAttribute(<span class="string">"tabindex"</span>, <span class="string">"-1"</span>);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">this</span>.setAttribute(<span class="string">"aria-disabled"</span>, <span class="string">"true"</span>);</span></span><br><span class="line"><span class="javascript">          &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">this</span>.setAttribute(<span class="string">"tabindex"</span>, <span class="string">"0"</span>);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">this</span>.setAttribute(<span class="string">"aria-disabled"</span>, <span class="string">"false"</span>);</span></span><br><span class="line">          &#125;</span><br><span class="line"><span class="javascript">          <span class="comment">// <span class="doctag">TODO:</span> also react to the open attribute changing.</span></span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">        <span class="comment">// Can define constructor arguments if you wish.</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">constructor</span>() &#123;</span></span><br><span class="line"><span class="javascript">          <span class="comment">// If you define a constructor, always call super() first!</span></span></span><br><span class="line"><span class="javascript">          <span class="comment">// This is specific to CE and required by the spec.</span></span></span><br><span class="line"><span class="javascript">          <span class="keyword">super</span>();</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">          <span class="comment">// Setup a click listener on &lt;app-drawer&gt; itself.</span></span></span><br><span class="line"><span class="javascript">          <span class="keyword">this</span>.addEventListener(<span class="string">"click"</span>, e =&gt; &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">this</span>.toggleDrawer();</span></span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        toggleDrawer() &#123;</span><br><span class="line"><span class="javascript">          <span class="keyword">this</span>.disabled = <span class="built_in">Math</span>.random() &gt; <span class="number">0.5</span> ? <span class="literal">true</span> : <span class="literal">false</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">      customElements.define(<span class="string">"app-drawer"</span>, AppDrawer);</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="元素升级"><a href="#元素升级" class="headerlink" title="元素升级"></a>元素升级</h2><p>我们前面学习了使用customElements.define定义元素，它的定义和注册（使用）是一起的，但其实你可以在定义之前就注册（使用）这个元素。也就说你先注册<code>&lt;app-drawer&gt;</code>，但不执行<code>customElements.define(&#39;app-drawer&#39;, ...)</code>也是可以的。</p>
+<p>因为浏览器对未知标签会区别对待。</p>
+<p>如果你先元素标签，后面再调用define()方法定义元素，这种方式就叫做元素升级。</p>
+<p>你可以使用<code>window.customElements.whenDefined()</code>方法来监听元素在什么时候被定义。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">customElements.whenDefined(<span class="string">'app-drawer'</span>).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'app-drawer defined'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>下面这个例子，在所有子元素被升级后再做了一些操作。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">share-buttons</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">social-button</span> <span class="attr">type</span>=<span class="string">"twitter"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"..."</span>&gt;</span>Twitter<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">social-button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">social-button</span> <span class="attr">type</span>=<span class="string">"fb"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"..."</span>&gt;</span>Facebook<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">social-button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">social-button</span> <span class="attr">type</span>=<span class="string">"plus"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"..."</span>&gt;</span>G+<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">social-button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">share-buttons</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="comment">// Fetch all the children of &lt;share-buttons&gt; that are not defined yet.</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> undefinedButtons = buttons.querySelectorAll(<span class="string">':not(:defined)'</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> promises = [...undefinedButtons].map(<span class="function"><span class="params">socialButton</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">return</span> customElements.whenDefined(socialButton.localName);</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="javascript"><span class="comment">// Wait for all the social-buttons to be upgraded.</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">Promise</span>.all(promises).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// All social-button children are ready.</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">// do some thing</span></span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="元素定义"><a href="#元素定义" class="headerlink" title="元素定义"></a>元素定义</h2><p>自定义元素可以在它的内部代码中使用DOM API管理自己的内容。而元素生命周期也使得这种管理更加方便。</p>
+<p>例子 - 使用默认的HTML创建一个元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">customElements.define(<span class="string">'x-foo-with-markup'</span>, <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;</span><br><span class="line">  connectedCallback() &#123;</span><br><span class="line">    <span class="keyword">this</span>.innerHTML = <span class="string">"&lt;b&gt;I'm an x-foo-with-markup!&lt;/b&gt;"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>网页上会呈现为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">x-foo-with-markup</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">b</span>&gt;</span>I'm an x-foo-with-markup!<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">x-foo-with-markup</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用Shadow-DOM创建元素"><a href="#使用Shadow-DOM创建元素" class="headerlink" title="使用Shadow DOM创建元素"></a>使用Shadow DOM创建元素</h2><p>Shadow DOM可以在页面中提供一块区域让元素有隔离的渲染和样式。你甚至可以将整个应用隐藏到一个标签中。</p>
+<p>在constructor中调用this.attachShadow方法就可以使用Shadow DOM了。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Web Components<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">x-foo-shadowdom</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">b</span>&gt;</span>User's<span class="tag">&lt;/<span class="name">b</span>&gt;</span> custom text<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">x-foo-shadowdom</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> tmpl = <span class="built_in">document</span>.createElement(<span class="string">"template"</span>);</span></span><br><span class="line">      tmpl.innerHTML = `</span><br><span class="line"><span class="xml">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"><span class="selector-pseudo">:host</span> &#123;&#125;</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span> <span class="comment">&lt;!-- look ma, scoped styles --&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;<span class="name">b</span>&gt;</span>I'm in shadow dom!<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line">`;</span><br><span class="line"></span><br><span class="line">      customElements.define(</span><br><span class="line"><span class="javascript">        <span class="string">"x-foo-shadowdom"</span>,</span></span><br><span class="line"><span class="javascript">        <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">constructor</span>() &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">super</span>(); <span class="comment">// always call super() first in the constructor.</span></span></span><br><span class="line"></span><br><span class="line"><span class="javascript">            <span class="comment">// Attach a shadow root to the element.</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">let</span> shadowRoot = <span class="keyword">this</span>.attachShadow(&#123; <span class="attr">mode</span>: <span class="string">"open"</span> &#125;);</span></span><br><span class="line"><span class="javascript">            shadowRoot.appendChild(tmpl.content.cloneNode(<span class="literal">true</span>));</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      );</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>网页呈现结果</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">x-foo-shadowdom</span>&gt;</span></span><br><span class="line">  #shadow-root</span><br><span class="line">    <span class="tag">&lt;<span class="name">b</span>&gt;</span>I'm in shadow dom!<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span> <span class="comment">&lt;!-- slotted content appears here --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">x-foo-shadowdom</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用-lt-template-gt-创建元素"><a href="#使用-lt-template-gt-创建元素" class="headerlink" title="使用&lt;template&gt;创建元素"></a>使用<code>&lt;template&gt;</code>创建元素</h2><p>template可以让你很方便地声明元素的结构。</p>
+<p>例子 - 使用template注册一个Shadow DOM元素</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"x-foo-from-template"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">    <span class="selector-tag">p</span> &#123; <span class="attribute">color</span>: green; &#125;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>I'm in Shadow DOM. My markup was stamped from a <span class="symbol">&amp;lt;</span>template<span class="symbol">&amp;gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">let</span> tmpl = <span class="built_in">document</span>.querySelector(<span class="string">'#x-foo-from-template'</span>);</span></span><br><span class="line"><span class="javascript">  <span class="comment">// If your code is inside of an HTML Import you'll need to change the above line to:</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">// let tmpl = document.currentScript.ownerDocument.querySelector('#x-foo-from-template');</span></span></span><br><span class="line"></span><br><span class="line"><span class="javascript">  customElements.define(<span class="string">'x-foo-from-template'</span>, <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">constructor</span>() &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">super</span>(); <span class="comment">// always call super() first in the constructor.</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> shadowRoot = <span class="keyword">this</span>.attachShadow(&#123;<span class="attr">mode</span>: <span class="string">'open'</span>&#125;);</span></span><br><span class="line"><span class="javascript">      shadowRoot.appendChild(tmpl.content.cloneNode(<span class="literal">true</span>));</span></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">  &#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这个例子中有几个关键的知识点：</p>
+<ol>
+<li><p>定义了一个新标签<code>&lt;x-foo-from-template&gt;</code></p>
+</li>
+<li><p>使用template创建Shadow DOM</p>
+</li>
+<li><p>由于Shadow DOM的存在，元素DOM是内置的</p>
+</li>
+<li><p>由于Shadow DOM的存在，元素的CSS也是内置的，并且样式作用限定在了元素的内部</p>
+</li>
+</ol>
+<h2 id="给自定义元素加样式"><a href="#给自定义元素加样式" class="headerlink" title="给自定义元素加样式"></a>给自定义元素加样式</h2><p>即使你的元素使用Shadow DOM限定了样式，元素的样式也会受页面样式的影响。</p>
+<p>页面的样式也被称为用户定义样式（user-defined styles）。如果它和Shadow DOM有相同的样式，则用户自定义样式生效。</p>
+<h2 id="给未定义的元素设置样式"><a href="#给未定义的元素设置样式" class="headerlink" title="给未定义的元素设置样式"></a>给未定义的元素设置样式</h2><p>元素未定义（升级）之前，你可以使用:not(:defined)伪类为它设置样式。</p>
+<p>这种预设样式也是有用的，比如你可以让元素占有一定布局空间，即使它还没被定义。</p>
+<p>下面这个例子，元素在被定义之前也占据一定空间。当然了，当元素被定义后，app-drawer:not(:defined)选择器也就失效了。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">app-drawer</span><span class="selector-pseudo">:not(</span><span class="selector-pseudo">:defined)</span> &#123;</span><br><span class="line">  <span class="comment">/* Pre-style, give layout, replicate app-drawer's eventual styles, etc. */</span></span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100vh</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100vh</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="扩展元素"><a href="#扩展元素" class="headerlink" title="扩展元素"></a>扩展元素</h2><p>自定义元素API不仅对创建新的HTML元素有用的，对于扩展其他自定义元素甚至是浏览器内置元素也是有用的。</p>
+<h3 id="扩展自定义元素"><a href="#扩展自定义元素" class="headerlink" title="扩展自定义元素"></a>扩展自定义元素</h3><p>拓展自定义元素使用继承它的class定义来完成。</p>
+<p>例子 - 创建<code>&lt;fancy-app-drawer&gt;</code>继承自<code>&lt;app-drawer&gt;</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FancyDrawer</span> <span class="keyword">extends</span> <span class="title">AppDrawer</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>(); <span class="comment">// always call super() first in the constructor. This also calls the extended class' constructor.</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  toggleDrawer() &#123;</span><br><span class="line">    <span class="comment">// Possibly different toggle implementation?</span></span><br><span class="line">    <span class="comment">// Use ES2015 if you need to call the parent method.</span></span><br><span class="line">    <span class="comment">// super.toggleDrawer()</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  anotherMethod() &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">customElements.define(<span class="string">'fancy-app-drawer'</span>, FancyDrawer);</span><br></pre></td></tr></table></figure>
+<h3 id="继承原生HTML元素"><a href="#继承原生HTML元素" class="headerlink" title="继承原生HTML元素"></a>继承原生HTML元素</h3><p>假如你想创造一个功能更强大的<code>&lt;button&gt;</code>，用来替代原生<code>&lt;button&gt;</code>的功能和行为。最佳方案就是使用自定义元素去扩展已有HTML元素的功能。</p>
+<p>这种继承自HTML元素的自定义元素也被称作定制内置元素（customized built-in element）。它不仅能获得原生元素的特性（属性、方法、可访问性），还能增强元素的功能。没有比使用定制内置元素去编写一个逐步增强的web应用更好的方式了。</p>
+<p>注：定制内置元素不是所有浏览器都支持。</p>
+<p>例子 - <code>&lt;FancyButton&gt;</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// See https://html.spec.whatwg.org/multipage/indices.html#element-interfaces</span></span><br><span class="line"><span class="comment">// for the list of other DOM interfaces.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FancyButton</span> <span class="keyword">extends</span> <span class="title">HTMLButtonElement</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>(); <span class="comment">// always call super() first in the constructor.</span></span><br><span class="line">    <span class="keyword">this</span>.addEventListener(<span class="string">'click'</span>, e =&gt; <span class="keyword">this</span>.drawRipple(e.offsetX, e.offsetY));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Material design ripple animation.</span></span><br><span class="line">  drawRipple(x, y) &#123;</span><br><span class="line">    <span class="keyword">let</span> div = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">    div.classList.add(<span class="string">'ripple'</span>);</span><br><span class="line">    <span class="keyword">this</span>.appendChild(div);</span><br><span class="line">    div.style.top = <span class="string">`<span class="subst">$&#123;y - div.clientHeight<span class="regexp">/2&#125;px`;</span></span></span></span><br><span class="line"><span class="string"><span class="subst"><span class="regexp">    div.style.left = `$&#123;x - div.clientWidth/</span><span class="number">2</span>&#125;</span>px`</span>;</span><br><span class="line">    div.style.backgroundColor = <span class="string">'currentColor'</span>;</span><br><span class="line">    div.classList.add(<span class="string">'run'</span>);</span><br><span class="line">    div.addEventListener(<span class="string">'transitionend'</span>, e =&gt; div.remove());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">customElements.define(<span class="string">'fancy-button'</span>, FancyButton, &#123;<span class="attr">extends</span>: <span class="string">'button'</span>&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们注意到这里define()需要指定继承了哪个浏览器标签。这是必要的，因为即使是不同的标签也可能继承相同的DOM接口。比如<code>&lt;q&gt;</code>、<code>&lt;blockquote&gt;</code>就都继承HTMLQuoteElement。</p>
+<p>定制内置元素可以为原生标签添加is=””属性。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- This &lt;button&gt; is a fancy button. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">is</span>=<span class="string">"fancy-button"</span> <span class="attr">disabled</span>&gt;</span>Fancy button!<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// Custom elements overload createElement() to support the is="" attribute.</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">let</span> button = <span class="built_in">document</span>.createElement(<span class="string">'button'</span>, &#123;<span class="attr">is</span>: <span class="string">'fancy-button'</span>&#125;);</span></span><br><span class="line"><span class="javascript">  button.textContent = <span class="string">'Fancy button!'</span>;</span></span><br><span class="line"><span class="javascript">  button.disabled = <span class="literal">true</span>;</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.body.appendChild(button);</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>或者使用new操作符</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> button = <span class="keyword">new</span> FancyButton();</span><br><span class="line">button.textContent = <span class="string">'Fancy button!'</span>;</span><br><span class="line">button.disabled = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+<p>例子 - 扩展<code>&lt;img&gt;</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- This &lt;img&gt; is a bigger img. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">is</span>=<span class="string">"bigger-img"</span> <span class="attr">width</span>=<span class="string">"15"</span> <span class="attr">height</span>=<span class="string">"20"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">customElements.define(<span class="string">'bigger-img'</span>, <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">Image</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// Give img default size if users don't specify.</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">constructor</span>(width=50, height=50) &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">super</span>(width * <span class="number">10</span>, height * <span class="number">10</span>);</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="javascript">&#125;, &#123;<span class="attr">extends</span>: <span class="string">'img'</span>&#125;);</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>或者创建一个image实例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> BiggerImage = customElements.get(<span class="string">'bigger-img'</span>);</span><br><span class="line"><span class="keyword">const</span> image = <span class="keyword">new</span> BiggerImage(<span class="number">15</span>, <span class="number">20</span>); <span class="comment">// pass constructor values like so.</span></span><br><span class="line"><span class="built_in">console</span>.assert(image.width === <span class="number">150</span>);</span><br><span class="line"><span class="built_in">console</span>.assert(image.height === <span class="number">200</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="一些细节"><a href="#一些细节" class="headerlink" title="一些细节"></a>一些细节</h2><h3 id="未知元素vs未定义元素"><a href="#未知元素vs未定义元素" class="headerlink" title="未知元素vs未定义元素"></a>未知元素vs未定义元素</h3><p>HTML是开放、灵活的。比如你声明一个<code>&lt;randomtagthatdoesntexist&gt;</code>标签是不会抛错的。这是因为html规范允许这么做，规范中这个标签会被解析为HTMLUnknownElement。</p>
+<p>所以对于自定义元素，不合法的自定义元素命名可能会被解析为HTMLElement（或HTMLUnknownElement）。</p>
+<h2 id="API参考"><a href="#API参考" class="headerlink" title="API参考"></a>API参考</h2><p>全局customElements上的defines可以用来定义元素。</p>
+<h3 id="define-tagName-constructor-options"><a href="#define-tagName-constructor-options" class="headerlink" title="define(tagName, constructor, options)"></a>define(tagName, constructor, options)</h3><p>例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">customElements.define(<span class="string">'my-app'</span>, <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123; ... &#125;);</span><br><span class="line">customElements.define(</span><br><span class="line">  <span class="string">'fancy-button'</span>, <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">HTMLButtonElement</span> </span>&#123; ... &#125;, &#123;<span class="attr">extends</span>: <span class="string">'button'</span>&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="get-tagName"><a href="#get-tagName" class="headerlink" title="get(tagName)"></a>get(tagName)</h3><p>传入一个有效的自定义元素名称，它会返回这个元素的构造函数。如果元素没被注册则返回undefined。</p>
+<p>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let Drawer = customElements.get(&apos;app-drawer&apos;);</span><br><span class="line">let drawer = new Drawer();</span><br></pre></td></tr></table></figure>
+<h3 id="whenDefined-tagName"><a href="#whenDefined-tagName" class="headerlink" title="whenDefined(tagName)"></a>whenDefined(tagName)</h3><p>返回一个Promise，当元素被定义时会执行resolve。如果元素已经被定义，则立即执行resolve。当传入tagName是无效命名时执行reject。</p>
+<p>例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">customElements.whenDefined(<span class="string">'app-drawer'</span>).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'ready!'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="历史和浏览器支持"><a href="#历史和浏览器支持" class="headerlink" title="历史和浏览器支持"></a>历史和浏览器支持</h2><h3 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h3><p>Chrome 36+实现了v0版的自定义元素API，使用的是document.registerElement（不是customElements.define）来定义元素。v0这个版本已经弃用了。</p>
+<p>目前浏览器供应商们使用的都是现在的v1版，使用customElements.define()来定义元素。</p>
+<h3 id="浏览器支持"><a href="#浏览器支持" class="headerlink" title="浏览器支持"></a>浏览器支持</h3><p>Chrome 54, Safari 10.1, Firefox 63都实现了v1版，Edg也在开发中。</p>
+<p>你可以使用下面代码来判断浏览器是否支持v1版。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> supportsCustomElementsV1 = <span class="string">'customElements'</span> <span class="keyword">in</span> <span class="built_in">window</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="Polyfill"><a href="#Polyfill" class="headerlink" title="Polyfill"></a>Polyfill</h2><p>到浏览器广泛支持之前，v1版可以使用Polyfill。</p>
+<p>我们建议使用webcomponents.js loader去实现web components polyfill的最优加载。它使用了特征检测，只有在需要的时候才会异步加载polyfill。</p>
+<p>polyfill安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @webcomponents/webcomponentsjs</span><br></pre></td></tr></table></figure>
+<p>polyfill使用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Use the custom element on the page. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">my-element</span>&gt;</span><span class="tag">&lt;/<span class="name">my-element</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Load polyfills; note that "loader" will load these async --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"</span> <span class="attr">defer</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Load a custom element definitions in `waitFor` and return a promise --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"module"</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="function"><span class="keyword">function</span> <span class="title">loadScript</span>(<span class="params">src</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span></span><br><span class="line">      script.src = src;</span><br><span class="line">      script.onload = resolve;</span><br><span class="line">      script.onerror = reject;</span><br><span class="line"><span class="javascript">      <span class="built_in">document</span>.head.appendChild(script);</span></span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">  WebComponents.waitFor(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// At this point we are guaranteed that all required polyfills have</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// loaded, and can use web components APIs.</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// Next, load element definitions that call `customElements.define`.</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// Note: returning a promise causes the custom elements</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// polyfill to wait until all definitions are loaded and then upgrade</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// the document in one batch, for better performance.</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> loadScript(<span class="string">'my-element.js'</span>);</span></span><br><span class="line">  &#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注：defined css伪类不能被polyfill。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>自定义元素让我们可以定义新的HTML标签，创建可复用的组件。结合其他的特性比如Shadow DOM、<code>&lt;template&gt;</code>等，我们开始逐渐意识到Web Components这个蓝图。</p>
+<p>它可以：</p>
+<ol>
+<li><p>跨浏览器（web标准）创建和扩展可复用组件</p>
+</li>
+<li><p>不需要库或框架的开发（强大的JS/HTML）</p>
+</li>
+<li><p>熟悉的编程模型（DOM/CSS/HTML）</p>
+</li>
+<li><p>和其他新的web平台特性完美融合（ (Shadow DOM, <code>&lt;template&gt;</code>, CSS自定义属性等）</p>
+</li>
+<li><p>和浏览器DevTools的紧密集成</p>
+</li>
+<li><p>使用已有的可访问特性。</p>
+</li>
+</ol>
+<h2 id="本文翻译自"><a href="#本文翻译自" class="headerlink" title="本文翻译自"></a>本文翻译自</h2><ul>
+<li><a href="https://developers.google.com/web/fundamentals/web-components/customelements" target="_blank" rel="noopener">Reusable Web Components</a> By Eric Bidelman<br>Engineer @ Google working on web tooling: Headless Chrome, Puppeteer, Lighthouse</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/25/vscode快捷键/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小光">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小光的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/25/vscode快捷键/" itemprop="url">VSCode快捷键</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-25T22:30:45+08:00">
+                2021-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2021/05/25/vscode快捷键/" class="leancloud_visitors" data-flag-title="VSCode快捷键">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="编辑器相关"><a href="#编辑器相关" class="headerlink" title="编辑器相关"></a>编辑器相关</h1><h2 id="1-搜索文件、文件夹"><a href="#1-搜索文件、文件夹" class="headerlink" title="1.搜索文件、文件夹"></a>1.搜索文件、文件夹</h2><p>Command + P</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/1%E6%90%9C%E7%B4%A2%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9.gif" alt></p>
+<h2 id="2-搜索所有文件的文本"><a href="#2-搜索所有文件的文本" class="headerlink" title="2.搜索所有文件的文本"></a>2.搜索所有文件的文本</h2><p>Command + Shift + F</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/2%E6%90%9C%E7%B4%A2%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%87%E6%9C%AC.gif" alt></p>
+<h2 id="3-切换工作区（项目）"><a href="#3-切换工作区（项目）" class="headerlink" title="3.切换工作区（项目）"></a>3.切换工作区（项目）</h2><p>CTRL + R</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/3%E5%88%87%E6%8D%A2%E5%B7%A5%E4%BD%9C%E5%8C%BA%EF%BC%88%E9%A1%B9%E7%9B%AE%EF%BC%89.gif" alt></p>
+<h2 id="4-切换tab（文件）"><a href="#4-切换tab（文件）" class="headerlink" title="4.切换tab（文件）"></a>4.切换tab（文件）</h2><p>CTRL + TAB</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/4%E5%88%87%E6%8D%A2tab%EF%BC%88%E6%96%87%E4%BB%B6%EF%BC%89.gif" alt></p>
+<h2 id="5-分屏"><a href="#5-分屏" class="headerlink" title="5.分屏"></a>5.分屏</h2><p>Command + \ </p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/5%E5%88%86%E5%B1%8F.gif" alt></p>
+<h2 id="6-快速打开和关闭侧边栏"><a href="#6-快速打开和关闭侧边栏" class="headerlink" title="6.快速打开和关闭侧边栏"></a>6.快速打开和关闭侧边栏</h2><p>Command + B </p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/6%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80%E5%92%8C%E5%85%B3%E9%97%AD%E4%BE%A7%E8%BE%B9%E6%A0%8F.gif" alt></p>
+<h2 id="7-打开集成终端「Open-new-Terminal」"><a href="#7-打开集成终端「Open-new-Terminal」" class="headerlink" title="7.打开集成终端「Open new Terminal」"></a>7.打开集成终端「Open new Terminal」</h2><p>Control + ` </p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/7%E6%89%93%E5%BC%80%E9%9B%86%E6%88%90%E7%BB%88%E7%AB%AF%E3%80%8COpen%20new%20Terminal%E3%80%8D.gif" alt></p>
+<h1 id="代码编写相关"><a href="#代码编写相关" class="headerlink" title="代码编写相关"></a>代码编写相关</h1><h2 id="8-选中当前行"><a href="#8-选中当前行" class="headerlink" title="8.选中当前行"></a>8.选中当前行</h2><p>⌘ + L</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/8%E9%80%89%E4%B8%AD%E5%BD%93%E5%89%8D%E8%A1%8C.gif" alt></p>
+<h2 id="9-删除当前行"><a href="#9-删除当前行" class="headerlink" title="9.删除当前行"></a>9.删除当前行</h2><p>Command + X</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/9%E5%88%A0%E9%99%A4%E5%BD%93%E5%89%8D%E8%A1%8C.gif" alt></p>
+<h2 id="10-删除光标前面的代码（当前行）"><a href="#10-删除光标前面的代码（当前行）" class="headerlink" title="10.删除光标前面的代码（当前行）"></a>10.删除光标前面的代码（当前行）</h2><p>Command + Delete</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/10%E5%88%A0%E9%99%A4%E5%85%89%E6%A0%87%E5%89%8D%E9%9D%A2%E7%9A%84%E4%BB%A3%E7%A0%81%EF%BC%88%E5%BD%93%E5%89%8D%E8%A1%8C%EF%BC%89.gif" alt></p>
+<h2 id="11-快速到行首-行尾"><a href="#11-快速到行首-行尾" class="headerlink" title="11.快速到行首/行尾"></a>11.快速到行首/行尾</h2><p>Command + ← / →</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/11%E5%BF%AB%E9%80%9F%E5%88%B0%E8%A1%8C%E9%A6%96%3A%E8%A1%8C%E5%B0%BE.gif" alt></p>
+<h2 id="12-局部选择"><a href="#12-局部选择" class="headerlink" title="12.局部选择"></a>12.局部选择</h2><p>首先选中你需要的单词，然后按下面的快捷键即可：</p>
+<p>Command + D</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/12%E5%B1%80%E9%83%A8%E9%80%89%E6%8B%A9.gif" alt></p>
+<h2 id="13-全局选择"><a href="#13-全局选择" class="headerlink" title="13.全局选择"></a>13.全局选择</h2><p>首先选中你需要的单词，然后按下面的快捷键即可：</p>
+<p>Command + Shift + L</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/13%E5%85%A8%E5%B1%80%E9%80%89%E6%8B%A9.gif" alt></p>
+<h2 id="14-选中一行中的部分代码"><a href="#14-选中一行中的部分代码" class="headerlink" title="14.选中一行中的部分代码"></a>14.选中一行中的部分代码</h2><p>Command + Shift + ← / →</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/14%E9%80%89%E4%B8%AD%E4%B8%80%E8%A1%8C%E4%B8%AD%E7%9A%84%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81.gif" alt></p>
+<h2 id="15-往上-下添加光标"><a href="#15-往上-下添加光标" class="headerlink" title="15.往上/下添加光标"></a>15.往上/下添加光标</h2><p>Command + Option + ↑ / ↓</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/15%E5%BE%80%E4%B8%8A%3A%E4%B8%8B%E6%B7%BB%E5%8A%A0%E5%85%89%E6%A0%87.gif" alt></p>
+<h2 id="16-多行选中"><a href="#16-多行选中" class="headerlink" title="16.多行选中"></a>16.多行选中</h2><p>需配合鼠标一起使用，按住快捷键，使用鼠标点击需要的行</p>
+<p>Shift + Option</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/16%E5%A4%9A%E8%A1%8C%E9%80%89%E4%B8%AD.gif" alt></p>
+<h2 id="17-往上-下复制行"><a href="#17-往上-下复制行" class="headerlink" title="17.往上/下复制行"></a>17.往上/下复制行</h2><p>Shift + Option + ⬆️ / ⬇️</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/17%E5%BE%80%E4%B8%8A%3A%E4%B8%8B%E5%A4%8D%E5%88%B6%E8%A1%8C.gif" alt></p>
+<h2 id="18-代码折叠和展开"><a href="#18-代码折叠和展开" class="headerlink" title="18.代码折叠和展开"></a>18.代码折叠和展开</h2><p>折叠：Command + Option + [<br>展开：Command + Option + ]</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/18%E4%BB%A3%E7%A0%81%E6%8A%98%E5%8F%A0%E5%92%8C%E5%B1%95%E5%BC%80.gif" alt></p>
+<h2 id="19-跳转到指定行数"><a href="#19-跳转到指定行数" class="headerlink" title="19.跳转到指定行数"></a>19.跳转到指定行数</h2><p>Command + P 打开编辑器命令，然后输入: ，再输入行数即可。</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/19%E8%B7%B3%E8%BD%AC%E5%88%B0%E6%8C%87%E5%AE%9A%E8%A1%8C%E6%95%B0.gif" alt></p>
+<h2 id="20-文件中跳转特定符号"><a href="#20-文件中跳转特定符号" class="headerlink" title="20.文件中跳转特定符号"></a>20.文件中跳转特定符号</h2><p>Command + Shift + O</p>
+<p>在比较大的代码文件中，能让我们快速找到想要编辑的方法、属性或者类.</p>
+<p>加上@，还可以分类展示所有符号</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/vscode-shortcuts/gif/20%E6%96%87%E4%BB%B6%E4%B8%AD%E8%B7%B3%E8%BD%AC%E7%89%B9%E5%AE%9A%E7%AC%A6%E5%8F%B7.gif" alt></p>
+<h2 id="21-重命名符号"><a href="#21-重命名符号" class="headerlink" title="21.重命名符号"></a>21.重命名符号</h2><p>选中一个，然后按：</p>
+<p>F2</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/24/docker教程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -382,7 +851,386 @@
       
         
           
-            
+            <h1 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h1><p>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。</p>
+<p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
+<p>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
+<h1 id="Docker的应用场景"><a href="#Docker的应用场景" class="headerlink" title="Docker的应用场景"></a>Docker的应用场景</h1><ol>
+<li>Web 应用的自动化打包和发布。</li>
+<li>自动化测试和持续集成、发布。</li>
+<li>在服务型环境中部署和调整数据库或其他的后台应用。</li>
+<li>从头编译或者扩展现有的 OpenShift 或 Cloud Foundry 平台来搭建自己的 PaaS 环境。</li>
+</ol>
+<h1 id="Docker-的优点"><a href="#Docker-的优点" class="headerlink" title="Docker 的优点"></a>Docker 的优点</h1><h2 id="快速，一致地交付您的应用程序"><a href="#快速，一致地交付您的应用程序" class="headerlink" title="快速，一致地交付您的应用程序"></a>快速，一致地交付您的应用程序</h2><p>Docker 允许开发人员使用您提供的应用程序或服务的本地容器在标准化环境中工作，从而简化了开发的生命周期。</p>
+<p>容器非常适合持续集成和持续交付（CI / CD）工作流程，请考虑以下示例方案：</p>
+<ol>
+<li>您的开发人员在本地编写代码，并使用 Docker 容器与同事共享他们的工作。</li>
+<li>他们使用 Docker 将其应用程序推送到测试环境中，并执行自动或手动测试。</li>
+<li>当开发人员发现错误时，他们可以在开发环境中对其进行修复，然后将其重新部署到测试环境中，以进行测试和验证。</li>
+<li>测试完成后，将修补程序推送给生产环境，就像将更新的镜像推送到生产环境一样简单。</li>
+</ol>
+<h2 id="响应式部署和扩展"><a href="#响应式部署和扩展" class="headerlink" title="响应式部署和扩展"></a>响应式部署和扩展</h2><p>Docker 是基于容器的平台，允许高度可移植的工作负载。Docker 容器可以在开发人员的本机上，数据中心的物理或虚拟机上，云服务上或混合环境中运行。</p>
+<p>Docker 的可移植性和轻量级的特性，还可以使您轻松地完成动态管理的工作负担，并根据业务需求指示，实时扩展或拆除应用程序和服务。</p>
+<h2 id="在同一硬件上运行更多工作负载"><a href="#在同一硬件上运行更多工作负载" class="headerlink" title="在同一硬件上运行更多工作负载"></a>在同一硬件上运行更多工作负载</h2><p>Docker 轻巧快速。它为基于虚拟机管理程序的虚拟机提供了可行、经济、高效的替代方案。Docker 非常适合于高密度环境以及中小型部署，你可以用更少的资源做更多的事情。</p>
+<h1 id="Docker-架构"><a href="#Docker-架构" class="headerlink" title="Docker 架构"></a>Docker 架构</h1><p>Docker 包括三个基本概念:</p>
+<ul>
+<li><p>镜像（Image）：Docker 镜像是用于创建 Docker 容器的模板。就相当于是一个 root 文件系统。比如官方镜像 ubuntu:16.04 就包含了完整的一套 Ubuntu16.04 最小系统的 root 文件系统。</p>
+</li>
+<li><p>容器（Container）：容器是独立运行的一个或一组应用，是镜像运行时的实体。镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。</p>
+</li>
+<li><p>仓库（Repository）：仓库可看成一个代码控制中心，用来保存镜像。</p>
+</li>
+</ul>
+<p>Docker 使用客户端-服务器 (C/S) 架构模式，使用远程API来管理和创建Docker容器。</p>
+<p><img src="https://file-stores.oss-cn-beijing.aliyuncs.com/blog/docker/docker%E6%9E%B6%E6%9E%84.png" alt></p>
+<p>其中：</p>
+<p>Docker 主机(Host): 一个物理或者虚拟的机器用于执行 Docker 守护进程和容器。</p>
+<p>Docker Registry: Docker 仓库用来保存镜像，可以理解为代码控制中的代码仓库。官方Docker Hub(<a href="https://hub.docker.com" target="_blank" rel="noopener">https://hub.docker.com</a>) 提供了庞大的镜像集合供使用。</p>
+<p>Docker Machine： Docker Machine是一个简化Docker安装的命令行工具，通过一个简单的命令行即可在相应的平台上安装Docker。</p>
+<h1 id="Docker-安装"><a href="#Docker-安装" class="headerlink" title="Docker 安装"></a>Docker 安装</h1><p>这里以在CentOS上安装docker为例做介绍。其他系统安装docker的方式也是类似的。</p>
+<h2 id="使用官方安装脚本自动安装"><a href="#使用官方安装脚本自动安装" class="headerlink" title="使用官方安装脚本自动安装"></a>使用官方安装脚本自动安装</h2><p>安装命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
+<h2 id="启动-Docker"><a href="#启动-Docker" class="headerlink" title="启动 Docker"></a>启动 Docker</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start docker</span><br></pre></td></tr></table></figure>
+<h2 id="卸载-docker"><a href="#卸载-docker" class="headerlink" title="卸载 docker"></a>卸载 docker</h2><p>删除安装包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove docker-ce</span><br></pre></td></tr></table></figure>
+<p>删除镜像、容器、配置文件等内容：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
+<h1 id="Docker-镜像加速"><a href="#Docker-镜像加速" class="headerlink" title="Docker 镜像加速"></a>Docker 镜像加速</h1><p>国内从 DockerHub 拉取镜像有时会遇到困难，此时可以配置镜像加速器。</p>
+<p>Docker 官方和国内很多云服务商都提供了国内加速器服务，例如：</p>
+<ul>
+<li>科大镜像：<a href="https://docker.mirrors.ustc.edu.cn/" target="_blank" rel="noopener">https://docker.mirrors.ustc.edu.cn/</a></li>
+<li>网易：<a href="https://hub-mirror.c.163.com/" target="_blank" rel="noopener">https://hub-mirror.c.163.com/</a></li>
+<li>阿里云：https://&lt;你的ID&gt;.mirror.aliyuncs.com</li>
+<li>七牛云加速器：<a href="https://reg-mirror.qiniu.com" target="_blank" rel="noopener">https://reg-mirror.qiniu.com</a></li>
+</ul>
+<p>对于使用 systemd 的系统，请在 /etc/docker/daemon.json 中写入如下内容（如果文件不存在请新建该文件）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;registry-mirrors&quot;:[&quot;https://reg-mirror.qiniu.com/&quot;]&#125;</span><br></pre></td></tr></table></figure>
+<p>之后重新启动服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+<h2 id="检查加速器是否生效"><a href="#检查加速器是否生效" class="headerlink" title="检查加速器是否生效"></a>检查加速器是否生效</h2><p>在命令行执行 docker info，如果从结果中看到了如下内容，说明配置成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker info</span><br><span class="line">Registry Mirrors:</span><br><span class="line">    https://reg-mirror.qiniu.com</span><br></pre></td></tr></table></figure>
+<h1 id="Docker-容器使用"><a href="#Docker-容器使用" class="headerlink" title="Docker 容器使用"></a>Docker 容器使用</h1><h2 id="获取镜像"><a href="#获取镜像" class="headerlink" title="获取镜像"></a>获取镜像</h2><p>如果我们本地没有镜像，比如ubuntu镜像，我们可以使用 docker pull 命令来载入 ubuntu 镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull ubuntu</span><br></pre></td></tr></table></figure>
+<h2 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h2><p>使用 ubuntu 镜像启动一个容器，并以命令行模式进入该容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>-i: 交互式操作。允许你对容器内的标准输入 (STDIN) 进行交互。</li>
+<li>-t: 终端。</li>
+<li>ubuntu: ubuntu 镜像。</li>
+<li>/bin/bash：放在镜像名后的是命令，这里我们希望有个交互式 Shell，因此用的是 /bin/bash。</li>
+</ul>
+<p>此时我们已经进入ubuntu容器了，我们尝试在容器中运行命令ls查看当前目录下的文件列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@0123ce188bd8:/# ls</span><br><span class="line">bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var</span><br></pre></td></tr></table></figure>
+<p>我们可以通过运行 exit 命令或者使用 CTRL+D 来退出容器。</p>
+<h2 id="启动容器（后台模式）"><a href="#启动容器（后台模式）" class="headerlink" title="启动容器（后台模式）"></a>启动容器（后台模式）</h2><p>在大部分的场景下，我们希望 docker 的服务是在后台运行的，我们可以过 -d 指定容器的运行模式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~$ docker run -d ubuntu:15.10 /bin/sh -c &quot;while true; do echo hello world; sleep 1; done&quot;</span><br><span class="line">2b1b7a428627c51ab8810d541d759f072b4fc75487eed05812646b8534a2fe63</span><br></pre></td></tr></table></figure>
+<p>2b1b7a428627…这个长字符串叫做容器 ID，我们可以通过容器 ID 来查看对应的容器发生了什么。</p>
+<p>首先，我们需要确认容器有在运行，可以通过 docker ps 来查看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~$ docker ps</span><br><span class="line">CONTAINER ID        IMAGE                  COMMAND              ...  </span><br><span class="line">5917eac21c36        ubuntu:15.10           &quot;/bin/sh -c &apos;while t…&quot;    ...</span><br></pre></td></tr></table></figure>
+<p>输出详情介绍：</p>
+<ul>
+<li><p>CONTAINER ID: 容器 ID。</p>
+</li>
+<li><p>IMAGE: 使用的镜像。</p>
+</li>
+<li><p>COMMAND: 启动容器时运行的命令。</p>
+</li>
+<li><p>CREATED: 容器的创建时间。</p>
+</li>
+<li><p>STATUS: 容器状态。</p>
+</li>
+</ul>
+<p>状态有7种：</p>
+<ul>
+<li>created（已创建）</li>
+<li>restarting（重启中）</li>
+<li>running 或 Up（运行中）</li>
+<li>removing（迁移中）</li>
+<li>paused（暂停）</li>
+<li>exited（停止）</li>
+<li>dead（死亡）</li>
+<li>PORTS: 容器的端口信息和使用的连接类型（tcp\udp）。</li>
+</ul>
+<ul>
+<li>NAMES: 容器名称。</li>
+</ul>
+<p>在宿主主机内使用 docker logs 命令，查看容器内的标准输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~$ docker logs 2b1b7a428627</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure>
+<h2 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h2><p>我们使用 docker stop 命令来停止容器:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop 2b1b7a428627</span><br></pre></td></tr></table></figure>
+<h2 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart 2b1b7a428627</span><br></pre></td></tr></table></figure>
+<h2 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h2><p>在使用 -d 参数时，容器启动后会进入后台。此时想要进入容器，可以通过以下指令进入：</p>
+<ul>
+<li><p>docker attach</p>
+</li>
+<li><p>docker exec：推荐大家使用 docker exec 命令，因为此退出容器终端，不会导致容器的停止。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker attach 1e560fca3906</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it 243c32535da7 /bin/bash</span><br></pre></td></tr></table></figure>
+<h2 id="导出容器"><a href="#导出容器" class="headerlink" title="导出容器"></a>导出容器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker export 1e560fca3906 &gt; ubuntu.tar</span><br></pre></td></tr></table></figure>
+<h2 id="导入容器快照"><a href="#导入容器快照" class="headerlink" title="导入容器快照"></a>导入容器快照</h2><p>可以使用 docker import 从容器快照文件中再导入为镜像，以下实例将快照文件 ubuntu.tar 导入到镜像 test/ubuntu:v1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat docker/ubuntu.tar | docker import - test/ubuntu:v1</span><br></pre></td></tr></table></figure>
+<p>使用docker images查看镜像列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<p>此外，也可以通过指定 URL 或者某个目录来导入，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker import http://example.com/exampleimage.tgz example/imagerepo</span><br></pre></td></tr></table></figure>
+<h2 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm 1e560fca3906</span><br></pre></td></tr></table></figure>
+<p>删除容器时，容器必须是停止状态，否则会报错。</p>
+<p>下面的命令可以清理掉所有处于终止状态的容器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container prune</span><br></pre></td></tr></table></figure>
+<h2 id="运行一个-web-应用"><a href="#运行一个-web-应用" class="headerlink" title="运行一个 web 应用"></a>运行一个 web 应用</h2><p>接下来让我们尝试使用 docker 构建一个 web 应用程序。</p>
+<p>我们使用现成的镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~# docker pull training/webapp  # 载入镜像</span><br><span class="line">runoob@runoob:~# docker run -d -P training/webapp python app.py</span><br></pre></td></tr></table></figure>
+<p>参数说明:</p>
+<ul>
+<li><p>-d:让容器在后台运行。</p>
+</li>
+<li><p>-P:将容器内部使用的网络端口随机映射到我们使用的主机上。</p>
+</li>
+</ul>
+<p>使用 docker ps 来查看我们正在运行的容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~#  docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             ...        PORTS                 </span><br><span class="line">d3d5e39ed9d3        training/webapp     &quot;python app.py&quot;     ...        0.0.0.0:32769-&gt;5000/tcp</span><br></pre></td></tr></table></figure>
+<p>这里多了端口信息。</p>
+<p>Docker 开放了 5000 端口（默认 Python Flask 端口）映射到主机端口 32769 上。</p>
+<p>这时我们就可以通过浏览器访问WEB应用了！</p>
+<p>我们也可以通过 -p 参数来设置不一样的端口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~$ docker run -d -p 5000:5000 training/webapp python app.py</span><br></pre></td></tr></table></figure>
+<h2 id="网络端口的快捷方式"><a href="#网络端口的快捷方式" class="headerlink" title="网络端口的快捷方式"></a>网络端口的快捷方式</h2><p>通过 docker ps 命令可以查看到容器的端口映射，docker 还提供了另一个快捷方式 docker port，使用 docker port 可以查看指定 （ID 或者名字）容器的某个确定端口映射到宿主机的端口号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~$ docker port bf08b7f2cd89</span><br><span class="line">5000/tcp -&gt; 0.0.0.0:5000</span><br></pre></td></tr></table></figure>
+<h2 id="查看-WEB-应用程序日志"><a href="#查看-WEB-应用程序日志" class="headerlink" title="查看 WEB 应用程序日志"></a>查看 WEB 应用程序日志</h2><p>docker logs [ID或者名字] 可以查看容器内部的标准输出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">unoob@runoob:~$ docker logs -f bf08b7f2cd89</span><br><span class="line"> * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)</span><br><span class="line">192.168.239.1 - - [09/May/2016 16:30:37] &quot;GET / HTTP/1.1&quot; 200 -</span><br><span class="line">192.168.239.1 - - [09/May/2016 16:30:37] &quot;GET /favicon.ico HTTP/1.1&quot; 404 -</span><br></pre></td></tr></table></figure>
+<p>-f: 让 docker logs 像使用 tail -f 一样来输出容器内部的标准输出。</p>
+<h2 id="查看WEB应用程序容器的进程"><a href="#查看WEB应用程序容器的进程" class="headerlink" title="查看WEB应用程序容器的进程"></a>查看WEB应用程序容器的进程</h2><p>我们还可以使用 docker top 来查看容器内部运行的进程</p>
+<p>runoob@runoob:~$ docker top wizardly_chandrasekhar<br>UID     PID         PPID          …       TIME                CMD<br>root    23245       23228         …       00:00:00            python app.py</p>
+<h2 id="检查-WEB-应用程序"><a href="#检查-WEB-应用程序" class="headerlink" title="检查 WEB 应用程序"></a>检查 WEB 应用程序</h2><p>使用 docker inspect 来查看 Docker 的底层信息。它会返回一个 JSON 文件记录着 Docker 容器的配置和状态信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~$ docker inspect wizardly_chandrasekhar</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;Id&quot;: &quot;bf08b7f2cd897b5964943134aa6d373e355c286db9b9885b1f60b6e8f82b2b85&quot;,</span><br><span class="line">        &quot;Created&quot;: &quot;2018-09-17T01:41:26.174228707Z&quot;,</span><br><span class="line">        &quot;Path&quot;: &quot;python&quot;,</span><br><span class="line">        &quot;Args&quot;: [</span><br><span class="line">            &quot;app.py&quot;</span><br><span class="line">        ],</span><br><span class="line">        &quot;State&quot;: &#123;</span><br><span class="line">            &quot;Status&quot;: &quot;running&quot;,</span><br><span class="line">            &quot;Running&quot;: true,</span><br><span class="line">            &quot;Paused&quot;: false,</span><br><span class="line">            &quot;Restarting&quot;: false,</span><br><span class="line">            &quot;OOMKilled&quot;: false,</span><br><span class="line">            &quot;Dead&quot;: false,</span><br><span class="line">            &quot;Pid&quot;: 23245,</span><br><span class="line">            &quot;ExitCode&quot;: 0,</span><br><span class="line">            &quot;Error&quot;: &quot;&quot;,</span><br><span class="line">            &quot;StartedAt&quot;: &quot;2018-09-17T01:41:26.494185806Z&quot;,</span><br><span class="line">            &quot;FinishedAt&quot;: &quot;0001-01-01T00:00:00Z&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<h1 id="Docker-镜像使用"><a href="#Docker-镜像使用" class="headerlink" title="Docker 镜像使用"></a>Docker 镜像使用</h1><p>当运行容器时，使用的镜像如果在本地中不存在，docker 就会自动从 docker 镜像仓库中下载，默认是从 Docker Hub 公共镜像源下载。</p>
+<h2 id="列出镜像列表"><a href="#列出镜像列表" class="headerlink" title="列出镜像列表"></a>列出镜像列表</h2><p>我们可以使用 docker images 来列出本地主机上的镜像。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~$ docker images           </span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">ubuntu              14.04               90d5884b1ee0        5 days ago          188 MB</span><br><span class="line">php                 5.6                 f40e9e0f10c8        9 days ago          444.8 MB</span><br></pre></td></tr></table></figure>
+<p>各个选项说明:</p>
+<ul>
+<li><p>REPOSITORY：表示镜像的仓库源</p>
+</li>
+<li><p>TAG：镜像的标签</p>
+</li>
+<li><p>IMAGE ID：镜像ID</p>
+</li>
+<li><p>CREATED：镜像创建时间</p>
+</li>
+<li><p>SIZE：镜像大小</p>
+</li>
+</ul>
+<p>同一仓库源可以有多个 TAG，代表这个仓库源的不同个版本，如 ubuntu 仓库源里，有 15.10、14.04 等多个不同的版本，我们使用 REPOSITORY:TAG 来定义不同的镜像。如果你不指定一个镜像的版本标签，例如你只使用 ubuntu，docker 将默认使用 ubuntu:latest 镜像。</p>
+<h2 id="获取一个新的镜像"><a href="#获取一个新的镜像" class="headerlink" title="获取一个新的镜像"></a>获取一个新的镜像</h2><p>当我们在本地主机上使用一个不存在的镜像时 Docker 就会自动下载这个镜像。如果我们想预先下载这个镜像，我们可以使用 docker pull 命令来下载它。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Crunoob@runoob:~$ docker pull ubuntu:13.10</span><br></pre></td></tr></table></figure>
+<h2 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h2><p>我们可以从 Docker Hub 网站来搜索镜像，Docker Hub 网址为： <a href="https://hub.docker.com/" target="_blank" rel="noopener">https://hub.docker.com/</a></p>
+<p>我们也可以使用 docker search 命令来搜索镜像。</p>
+<h2 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h2><p>镜像删除使用 docker rmi 命令，比如我们删除 hello-world 镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker rmi hello-world</span><br></pre></td></tr></table></figure>
+<h2 id="创建镜像"><a href="#创建镜像" class="headerlink" title="创建镜像"></a>创建镜像</h2><p>当我们从 docker 镜像仓库中下载的镜像不能满足我们的需求时，我们可以通过以下两种方式对镜像进行更改。</p>
+<p>1、从已经创建的容器中更新镜像，并且提交这个镜像<br>2、使用 Dockerfile 指令来创建一个新的镜像</p>
+<h3 id="更新镜像"><a href="#更新镜像" class="headerlink" title="更新镜像"></a>更新镜像</h3><p>更新镜像之前，我们需要使用镜像来创建一个容器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~$ docker run -t -i ubuntu:15.10 /bin/bash</span><br><span class="line">root@e218edb10161:/#</span><br></pre></td></tr></table></figure></p>
+<p>在运行的容器内使用 apt-get update 命令进行更新。</p>
+<p>在完成操作之后，输入 exit 命令来退出这个容器。</p>
+<p>此时 ID 为 e218edb10161 的容器，是按我们的需求更改的容器。我们可以通过命令 docker commit 来提交容器副本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~$ docker commit -m=&quot;has update&quot; -a=&quot;runoob&quot; e218edb10161 runoob/ubuntu:v2</span><br><span class="line">sha256:70bf1840fd7c0d2d8ef0a42a817eb29f854c1af8f7c59fc03ac7bdee9545aff8</span><br></pre></td></tr></table></figure>
+<p>各个参数说明：</p>
+<ul>
+<li><p>-m: 提交的描述信息</p>
+</li>
+<li><p>-a: 指定镜像作者</p>
+</li>
+<li><p>e218edb10161：容器 ID</p>
+</li>
+<li><p>runoob/ubuntu:v2: 指定要创建的目标镜像名</p>
+</li>
+</ul>
+<h3 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h3><p>我们使用命令 docker build ， 从零开始来创建一个新的镜像。为此，我们需要创建一个 Dockerfile 文件，其中包含一组指令来告诉 Docker 如何构建我们的镜像。这个我们后面会介绍。</p>
+<h2 id="设置镜像标签"><a href="#设置镜像标签" class="headerlink" title="设置镜像标签"></a>设置镜像标签</h2><p>我们可以使用 docker tag 命令，为镜像添加一个新的标签。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~$ docker tag 860c279d2fec runoob/centos:dev</span><br></pre></td></tr></table></figure>
+<p>docker tag 镜像ID，这里是 860c279d2fec，用户名称、镜像源名(repository name)和新的标签名(tag)。</p>
+<h1 id="Docker-容器连接"><a href="#Docker-容器连接" class="headerlink" title="Docker 容器连接"></a>Docker 容器连接</h1><p>容器中可以运行一些网络应用，要让外部也可以访问这些应用，可以通过 -P 或 -p 参数来指定端口映射。</p>
+<p>两种方式的区别是:</p>
+<ul>
+<li>-P :是容器内部端口随机映射到主机的高端口。</li>
+<li>-p : 是容器内部端口绑定到指定的主机端口。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 5000:5000 training/webapp python app.py</span><br></pre></td></tr></table></figure>
+<p>另外，我们可以指定容器绑定的网络地址，比如绑定 127.0.0.1。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">runoob@runoob:~$ docker run -d -p 127.0.0.1:5001:5000 training/webapp python app.py</span><br><span class="line">95c6ceef88ca3e71eaf303c2833fd6701d8d1b2572b5613b5a932dfdfe8a857c</span><br><span class="line">runoob@runoob:~$ docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND           ...     PORTS                                NAMES</span><br><span class="line">95c6ceef88ca        training/webapp     &quot;python app.py&quot;   ...  5000/tcp, 127.0.0.1:5001-&gt;5000/tcp   adoring_stonebraker</span><br><span class="line">33e4523d30aa        training/webapp     &quot;python app.py&quot;   ...  0.0.0.0:5000-&gt;5000/tcp               berserk_bartik</span><br><span class="line">fce072cc88ce        training/webapp     &quot;python app.py&quot;   ...    0.0.0.0:32768-&gt;5000/tcp              grave_hopper</span><br></pre></td></tr></table></figure>
+<p>如果要绑定 UDP 端口，可以在端口后面加上 /udp。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 127.0.0.1:5000:5000/udp training/webapp python app.py</span><br></pre></td></tr></table></figure>
+<h2 id="Docker-容器互联"><a href="#Docker-容器互联" class="headerlink" title="Docker 容器互联"></a>Docker 容器互联</h2><p>端口映射并不是唯一把 docker 连接到另一个容器的方法。</p>
+<p>docker 有一个连接系统允许将多个容器连接在一起，共享连接信息。</p>
+<p>docker 连接会创建一个父子关系，其中父容器可以看到子容器的信息。</p>
+<h3 id="新建网络"><a href="#新建网络" class="headerlink" title="新建网络"></a>新建网络</h3><p>先创建一个新的 Docker 网络。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create -d bridge test-net</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li><p>-d：参数指定 Docker 网络类型，有 bridge、overlay。</p>
+</li>
+<li><p>其中 overlay 网络类型用于 Swarm mode，在本小节中你可以忽略它。</p>
+</li>
+</ul>
+<h3 id="连接容器"><a href="#连接容器" class="headerlink" title="连接容器"></a>连接容器</h3><p>运行一个容器并连接到新建的 test-net 网络:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -itd --name test1 --network test-net ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
+<p>打开新的终端，再运行一个容器并加入到 test-net 网络:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -itd --name test2 --network test-net ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
+<p>下面通过 ping 来证明 test1 容器和 test2 容器建立了互联关系。</p>
+<p>如果 test1、test2 容器内中无 ping 命令，则在容器内执行以下命令安装 ping（即学即用：可以在一个容器里安装好，提交容器到镜像，在以新的镜像重新运行以上俩个容器）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt install iputils-ping</span><br></pre></td></tr></table></figure>
+<p>然后在 test1 容器输入以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it test1 /bin/bash</span><br><span class="line"></span><br><span class="line">ping test2</span><br></pre></td></tr></table></figure>
+<p>可以测试到test1 容器和 test2 容器建立了互联关系。</p>
+<p>如果你有多个容器之间需要互相连接，推荐使用 Docker Compose，后面会介绍。</p>
+<h3 id="配置-DNS"><a href="#配置-DNS" class="headerlink" title="配置 DNS"></a>配置 DNS</h3><p>我们可以在宿主机的 /etc/docker/daemon.json 文件中增加以下内容来设置全部容器的 DNS：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"dns"</span> : [</span><br><span class="line">    <span class="string">"114.114.114.114"</span>,</span><br><span class="line">    <span class="string">"8.8.8.8"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置后，启动容器的 DNS 会自动配置为 114.114.114.114 和 8.8.8.8。</p>
+<p>配置完，需要重启 docker 才能生效。</p>
+<p>查看容器的 DNS 是否生效可以使用以下命令，它会输出容器的 DNS 信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it --rm  ubuntu  cat etc/resolv.conf</span><br></pre></td></tr></table></figure>
+<h3 id="手动指定容器的配置"><a href="#手动指定容器的配置" class="headerlink" title="手动指定容器的配置"></a>手动指定容器的配置</h3><p>如果只想在指定的容器设置 DNS，则可以使用以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it --rm -h host_ubuntu  --dns=114.114.114.114 --dns-search=test.com ubuntu</span><br></pre></td></tr></table></figure>
+<h1 id="Docker-仓库管理"><a href="#Docker-仓库管理" class="headerlink" title="Docker 仓库管理"></a>Docker 仓库管理</h1><p>仓库（Repository）是集中存放镜像的地方。以下介绍一下 Docker Hub。当然不止 docker hub，只是远程的服务商不一样，操作都是一样的。</p>
+<h2 id="Docker-Hub"><a href="#Docker-Hub" class="headerlink" title="Docker Hub"></a>Docker Hub</h2><p>目前 Docker 官方维护了一个公共仓库 Docker Hub。</p>
+<p>大部分需求都可以通过在 Docker Hub 中直接下载镜像来实现。</p>
+<h2 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h2><p>在 <a href="https://hub.docker.com" target="_blank" rel="noopener">https://hub.docker.com</a> 免费注册一个 Docker 账号。</p>
+<h2 id="登录和退出"><a href="#登录和退出" class="headerlink" title="登录和退出"></a>登录和退出</h2><p>登录需要输入用户名和密码，登录成功后，我们就可以从 docker hub 上拉取自己账号下的全部镜像。</p>
+<h2 id="退出"><a href="#退出" class="headerlink" title="退出"></a>退出</h2><p>退出 docker hub 可以使用以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logout</span><br></pre></td></tr></table></figure>
+<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>你可以通过 docker search 命令来查找官方仓库中的镜像，并利用 docker pull 命令来将它下载到本地。</p>
+<h2 id="推送镜像"><a href="#推送镜像" class="headerlink" title="推送镜像"></a>推送镜像</h2><p>用户登录后，可以通过 docker push 命令将自己的镜像推送到 Docker Hub。</p>
+<p>以下命令中的 username 请替换为你的 Docker 账号用户名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ docker tag ubuntu:18.04 username/ubuntu:18.04</span><br><span class="line">$ docker image ls</span><br><span class="line"></span><br><span class="line">REPOSITORY      TAG        IMAGE ID            CREATED           ...  </span><br><span class="line">ubuntu          18.04      275d79972a86        6 days ago        ...  </span><br><span class="line">username/ubuntu 18.04      275d79972a86        6 days ago        ...  </span><br><span class="line"></span><br><span class="line">$ docker push username/ubuntu:18.04</span><br><span class="line">$ docker search username/ubuntu</span><br><span class="line"></span><br><span class="line">NAME             DESCRIPTION       STARS         OFFICIAL    AUTOMATED</span><br><span class="line">username/ubuntu</span><br></pre></td></tr></table></figure>
+<h1 id="Docker-Dockerfile"><a href="#Docker-Dockerfile" class="headerlink" title="Docker Dockerfile"></a>Docker Dockerfile</h1><h2 id="什么是-Dockerfile？"><a href="#什么是-Dockerfile？" class="headerlink" title="什么是 Dockerfile？"></a>什么是 Dockerfile？</h2><p>Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。</p>
+<h2 id="使用-Dockerfile-定制镜像"><a href="#使用-Dockerfile-定制镜像" class="headerlink" title="使用 Dockerfile 定制镜像"></a>使用 Dockerfile 定制镜像</h2><p>下面以定制一个 nginx 镜像（构建好的镜像内会有一个 /usr/share/nginx/html/index.html 文件）为例讲解使用 Dockerfile 定制镜像。</p>
+<p>在一个空目录下，新建一个名为 Dockerfile 文件，并在文件内添加以下内容：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> nginx</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">'这是一个本地构建的nginx镜像'</span> &gt; /usr/share/nginx/html/index.html</span></span><br></pre></td></tr></table></figure>
+<h3 id="FROM-和-RUN-指令的作用"><a href="#FROM-和-RUN-指令的作用" class="headerlink" title="FROM 和 RUN 指令的作用"></a>FROM 和 RUN 指令的作用</h3><p>FROM：定制的镜像都是基于 FROM 的镜像，这里的 nginx 就是定制需要的基础镜像。后续的操作都是基于 nginx。</p>
+<p>RUN：用于执行后面跟着的命令行命令。有以下俩种格式：</p>
+<p>shell 格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RUN &lt;命令行命令&gt;</span><br><span class="line"># &lt;命令行命令&gt; 等同于，在终端操作的 shell 命令。</span><br></pre></td></tr></table></figure>
+<p>exec 格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RUN [&quot;可执行文件&quot;, &quot;参数1&quot;, &quot;参数2&quot;]</span><br><span class="line"># 例如：</span><br><span class="line"># RUN [&quot;./test.php&quot;, &quot;dev&quot;, &quot;offline&quot;] 等价于 RUN ./test.php dev offline</span><br></pre></td></tr></table></figure>
+<p>注意：Dockerfile 的指令每执行一次都会在 docker 上新建一层。所以过多无意义的层，会造成镜像膨胀过大。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line">RUN yum install wget</span><br><span class="line">RUN wget -O redis.tar.gz &quot;http://download.redis.io/releases/redis-5.0.3.tar.gz&quot;</span><br><span class="line">RUN tar -xvf redis.tar.gz</span><br><span class="line">以上执行会创建 3 层镜像。可简化为以下格式：</span><br><span class="line">FROM centos</span><br><span class="line">RUN yum install wget \</span><br><span class="line">    &amp;&amp; wget -O redis.tar.gz &quot;http://download.redis.io/releases/redis-5.0.3.tar.gz&quot; \</span><br><span class="line">    &amp;&amp; tar -xvf redis.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="开始构建镜像"><a href="#开始构建镜像" class="headerlink" title="开始构建镜像"></a>开始构建镜像</h3><p>通过目录下的 Dockerfile 构建一个 nginx:v3（镜像名称:镜像标签）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker build -t nginx:v3 .</span><br></pre></td></tr></table></figure>
+<p>指令最后一个 . 是上下文路径，那么什么是上下文路径呢？</p>
+<p>上下文路径，是指 docker 在构建镜像，有时候想要使用到本机的文件（比如复制），docker build 命令得知这个路径后，会将路径下的所有内容打包。</p>
+<p>解析：由于 docker 的运行模式是 C/S。我们本机是 C，docker 引擎是 S。实际的构建过程是在 docker 引擎下完成的，所以这个时候无法用到我们本机的文件。这就需要把我们本机的指定目录下的文件一起打包提供给 docker 引擎使用。</p>
+<p>注意：上下文路径下不要放无用的文件，因为会一起打包发送给 docker 引擎。</p>
+<h2 id="Dockerfile指令详解"><a href="#Dockerfile指令详解" class="headerlink" title="Dockerfile指令详解"></a>Dockerfile指令详解</h2><h3 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h3><p>复制指令，从上下文目录中复制文件或者目录到容器里指定路径。</p>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">COPY [--chown=&lt;user&gt;:&lt;group&gt;] &lt;源路径1&gt;...  &lt;目标路径&gt;</span><br><span class="line">COPY [--chown=&lt;user&gt;:&lt;group&gt;] [&quot;&lt;源路径1&gt;&quot;,...  &quot;&lt;目标路径&gt;&quot;]</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">COPY hom* /mydir/</span><br><span class="line">COPY hom?.txt /mydir/</span><br></pre></td></tr></table></figure>
+<h3 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h3><p>ADD 指令和 COPY 的使用格式一致（同样需求下，官方推荐使用 COPY）。功能也类似，不同之处如下：</p>
+<p>ADD 在执行 &lt;源文件&gt; 为 tar 压缩文件的话，压缩格式为 gzip, bzip2 以及 xz 的情况下，会自动复制并解压到 &lt;目标路径&gt;。</p>
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p>类似于 RUN 指令，用于运行程序，但二者运行的时间点不同:</p>
+<p>CMD 在docker run 时运行。<br>RUN 是在 docker build。</p>
+<p>作用：为启动的容器指定默认要运行的程序，程序运行结束，容器也就结束。CMD 指令指定的程序可被 docker run 命令行参数中指定要运行的程序所覆盖。</p>
+<p>注意：如果 Dockerfile 中如果存在多个 CMD 指令，仅最后一个生效。</p>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CMD &lt;shell 命令&gt; </span><br><span class="line">CMD [&quot;&lt;可执行文件或命令&gt;&quot;,&quot;&lt;param1&gt;&quot;,&quot;&lt;param2&gt;&quot;,...] </span><br><span class="line">CMD [&quot;&lt;param1&gt;&quot;,&quot;&lt;param2&gt;&quot;,...]  # 该写法是为 ENTRYPOINT 指令指定的程序提供默认参数</span><br></pre></td></tr></table></figure>
+<p>推荐使用第二种格式，执行过程比较明确。第一种格式实际上在运行的过程中也会自动转换成第二种格式运行，并且默认可执行文件是 sh。</p>
+<h3 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h3><p>类似于 CMD 指令，但其不会被 docker run 的命令行参数指定的指令所覆盖，而且这些命令行参数会被当作参数送给 ENTRYPOINT 指令指定的程序。</p>
+<p>但是, 如果运行 docker run 时使用了 –entrypoint 选项，将覆盖 CMD 指令指定的程序。</p>
+<p>优点：在执行 docker run 的时候可以指定 ENTRYPOINT 运行所需的参数。</p>
+<p>注意：如果 Dockerfile 中如果存在多个 ENTRYPOINT 指令，仅最后一个生效。</p>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENTRYPOINT [&quot;&lt;executeable&gt;&quot;,&quot;&lt;param1&gt;&quot;,&quot;&lt;param2&gt;&quot;,...]</span><br></pre></td></tr></table></figure>
+<p>可以搭配 CMD 命令使用：一般是变参才会使用 CMD ，这里的 CMD 等于是在给 ENTRYPOINT 传参，以下示例会提到。</p>
+<p>示例：</p>
+<p>假设已通过 Dockerfile 构建了 nginx:test 镜像：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> nginx</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"nginx"</span>, <span class="string">"-c"</span>] <span class="comment"># 定参</span></span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"/etc/nginx/nginx.conf"</span>] <span class="comment"># 变参</span></span></span><br></pre></td></tr></table></figure>
+<p>1、不传参运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run  nginx:test</span><br></pre></td></tr></table></figure>
+<p>容器内会默认运行以下命令，启动主进程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -c /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<p>2、传参运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run  nginx:test -c /etc/nginx/new.conf</span><br></pre></td></tr></table></figure>
+<p>容器内会默认运行以下命令，启动主进程(/etc/nginx/new.conf:假设容器内已有此文件)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -c /etc/nginx/new.conf</span><br></pre></td></tr></table></figure>
+<h3 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h3><p>设置环境变量，定义了环境变量，那么在后续的指令中，就可以使用这个环境变量。</p>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENV &lt;key&gt; &lt;value&gt;</span><br><span class="line">ENV &lt;key1&gt;=&lt;value1&gt; &lt;key2&gt;=&lt;value2&gt;...</span><br></pre></td></tr></table></figure>
+<p>以下示例设置 NODE_VERSION = 7.2.0 ， 在后续的指令中可以通过 $NODE_VERSION 引用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENV NODE_VERSION 7.2.0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RUN curl -SLO &quot;https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz&quot; \</span><br><span class="line">  &amp;&amp; curl -SLO &quot;https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="ARG"><a href="#ARG" class="headerlink" title="ARG"></a>ARG</h3><p>构建参数，与 ENV 作用一至。不过作用域不一样。ARG 设置的环境变量仅对 Dockerfile 内有效，也就是说只有 docker build 的过程中有效，构建好的镜像内不存在此环境变量。</p>
+<p>构建命令 docker build 中可以用 –build-arg &lt;参数名&gt;=&lt;值&gt; 来覆盖。</p>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ARG &lt;参数名&gt;[=&lt;默认值&gt;]</span><br></pre></td></tr></table></figure>
+<h3 id="VOLUME"><a href="#VOLUME" class="headerlink" title="VOLUME"></a>VOLUME</h3><p>定义匿名数据卷。在启动容器时忘记挂载数据卷，会自动挂载到匿名卷。</p>
+<p>作用：</p>
+<p>  避免重要的数据，因容器重启而丢失，这是非常致命的。<br>  避免容器不断变大。</p>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VOLUME [&quot;&lt;路径1&gt;&quot;, &quot;&lt;路径2&gt;&quot;...]</span><br><span class="line">VOLUME &lt;路径&gt;</span><br></pre></td></tr></table></figure>
+<p>在启动容器 docker run 的时候，我们可以通过 -v 参数修改挂载点。</p>
+<h3 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h3><p>仅仅只是声明端口。</p>
+<p>作用：</p>
+<p>  帮助镜像使用者理解这个镜像服务的守护端口，以方便配置映射。<br>  在运行时使用随机端口映射时，也就是 docker run -P 时，会自动随机映射 EXPOSE 的端口。</p>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPOSE &lt;端口1&gt; [&lt;端口2&gt;...]</span><br></pre></td></tr></table></figure>
+<h3 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h3><p>指定工作目录。用 WORKDIR 指定的工作目录，会在构建镜像的每一层中都存在。（WORKDIR 指定的工作目录，必须是提前创建好的）。</p>
+<p>docker build 构建镜像过程中的，每一个 RUN 命令都是新建的一层。只有通过 WORKDIR 创建的目录才会一直存在。</p>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WORKDIR &lt;工作目录路径&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="USER"><a href="#USER" class="headerlink" title="USER"></a>USER</h3><p>用于指定执行后续命令的用户和用户组，这边只是切换后续命令执行的用户（用户和用户组必须提前已经存在）。</p>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USER &lt;用户名&gt;[:&lt;用户组&gt;]</span><br></pre></td></tr></table></figure>
+<h3 id="HEALTHCHECK"><a href="#HEALTHCHECK" class="headerlink" title="HEALTHCHECK"></a>HEALTHCHECK</h3><p>用于指定某个程序或者指令来监控 docker 容器服务的运行状态。</p>
+<p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HEALTHCHECK [选项] CMD &lt;命令&gt;：设置检查容器健康状况的命令</span><br><span class="line">HEALTHCHECK NONE：如果基础镜像有健康检查指令，使用这行可以屏蔽掉其健康检查指令</span><br><span class="line"></span><br><span class="line">HEALTHCHECK [选项] CMD &lt;命令&gt; : 这边 CMD 后面跟随的命令使用，可以参考 CMD 的用法。</span><br></pre></td></tr></table></figure></p>
+<h3 id="ONBUILD"><a href="#ONBUILD" class="headerlink" title="ONBUILD"></a>ONBUILD</h3><p>用于延迟构建命令的执行。简单的说，就是 Dockerfile 里用 ONBUILD 指定的命令，在本次构建镜像的过程中不会执行（假设镜像为 test-build）。当有新的 Dockerfile 使用了之前构建的镜像 FROM test-build ，这是执行新镜像的 Dockerfile 构建时候，会执行 test-build 的 Dockerfile 里的 ONBUILD 指定的命令。</p>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ONBUILD &lt;其它指令&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h1><h2 id="Compose-简介"><a href="#Compose-简介" class="headerlink" title="Compose 简介"></a>Compose 简介</h2><p>Compose 是用于定义和运行多容器 Docker 应用程序的工具。通过 Compose，您可以使用 YML 文件来配置应用程序需要的所有服务。然后，使用一个命令，就可以从 YML 文件配置中创建并启动所有服务。</p>
+<p>Compose 使用的三个步骤：</p>
+<ul>
+<li><p>使用 Dockerfile 定义应用程序的环境。</p>
+</li>
+<li><p>使用 docker-compose.yml 定义构成应用程序的服务，这样它们可以在隔离环境中一起运行。</p>
+</li>
+<li><p>最后，执行 docker-compose up 命令来启动并运行整个应用程序。</p>
+</li>
+</ul>
+<h2 id="Compose-安装"><a href="#Compose-安装" class="headerlink" title="Compose 安装"></a>Compose 安装</h2><p>Linux 上运行以下命令以下载 Docker Compose 的某个稳定版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<p>将可执行权限应用于二进制文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<p>创建软链：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<p>测试是否安装成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker-compose --version</span><br><span class="line">cker-compose version 1.24.1, build 4667896b</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="1、准备"><a href="#1、准备" class="headerlink" title="1、准备"></a>1、准备</h3><p>创建一个测试目录composetest,在测试目录中创建一个名为 app.py 的文件，并复制粘贴以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line"></span><br><span class="line">import redis</span><br><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">cache = redis.Redis(host=&apos;redis&apos;, port=6379)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_hit_count():</span><br><span class="line">    retries = 5</span><br><span class="line">    while True:</span><br><span class="line">        try:</span><br><span class="line">            return cache.incr(&apos;hits&apos;)</span><br><span class="line">        except redis.exceptions.ConnectionError as exc:</span><br><span class="line">            if retries == 0:</span><br><span class="line">                raise exc</span><br><span class="line">            retries -= 1</span><br><span class="line">            time.sleep(0.5)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;)</span><br><span class="line">def hello():</span><br><span class="line">    count = get_hit_count()</span><br><span class="line">    return &apos;Hello World! I have been seen &#123;&#125; times.\n&apos;.format(count)</span><br></pre></td></tr></table></figure>
+<p>在此示例中，redis 是应用程序网络上的 redis 容器的主机名，该主机使用的端口为 6379。</p>
+<p>在 composetest 目录中创建另一个名为 requirements.txt 的文件，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flask</span><br><span class="line">redis</span><br></pre></td></tr></table></figure>
+<h3 id="2、创建-Dockerfile-文件"><a href="#2、创建-Dockerfile-文件" class="headerlink" title="2、创建 Dockerfile 文件"></a>2、创建 Dockerfile 文件</h3><p>在 composetest 目录中，创建一个名为的文件 Dockerfile，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FROM python:3.7-alpine</span><br><span class="line">WORKDIR /code</span><br><span class="line">ENV FLASK_APP app.py</span><br><span class="line">ENV FLASK_RUN_HOST 0.0.0.0</span><br><span class="line">RUN apk add --no-cache gcc musl-dev linux-headers</span><br><span class="line">COPY requirements.txt requirements.txt</span><br><span class="line">RUN pip install -r requirements.txt</span><br><span class="line">COPY . .</span><br><span class="line">CMD [&quot;flask&quot;, &quot;run&quot;]</span><br></pre></td></tr></table></figure>
+<p>Dockerfile 内容解释：</p>
+<ul>
+<li>FROM python:3.7-alpine: 从 Python 3.7 映像开始构建镜像。</li>
+<li>WORKDIR /code: 将工作目录设置为 /code。</li>
+<li>ENV设置 flask 命令使用的环境变量。</li>
+<li>RUN apk add –no-cache gcc musl-dev linux-headers: 安装 gcc，以便诸如 MarkupSafe 和 SQLAlchemy 之类的 Python 包可以编译加速。</li>
+<li>COPY requirements.txt requirements.txt和RUN pip install -r requirements.txt，复制 requirements.txt 并安装 Python 依赖项。</li>
+<li>COPY . .: 将 . 项目中的当前目录复制到 . 镜像中的工作目录。</li>
+<li>CMD [“flask”, “run”]: 容器提供默认的执行命令为：flask run。</li>
+</ul>
+<h3 id="3、创建-docker-compose-yml"><a href="#3、创建-docker-compose-yml" class="headerlink" title="3、创建 docker-compose.yml"></a>3、创建 docker-compose.yml</h3><p>在测试目录中创建一个名为 docker-compose.yml 的文件，然后粘贴以下内容：</p>
+<p>docker-compose.yml 配置文件</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yaml 配置</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">"5000:5000"</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">"redis:alpine"</span></span><br></pre></td></tr></table></figure>
+<p>该 Compose 文件定义了两个服务：web 和 redis。</p>
+<p>web：该 web 服务使用从 Dockerfile 当前目录中构建的镜像。然后，它将容器和主机绑定到暴露的端口 5000。此示例服务使用 Flask Web 服务器的默认端口 5000 。</p>
+<p>redis：该 redis 服务使用 Docker Hub 的公共 Redis 映像。</p>
+<h3 id="4、使用-Compose-命令构建和运行您的应用"><a href="#4、使用-Compose-命令构建和运行您的应用" class="headerlink" title="4、使用 Compose 命令构建和运行您的应用"></a>4、使用 Compose 命令构建和运行您的应用</h3><p>在测试目录中，执行以下命令来启动应用程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up</span><br></pre></td></tr></table></figure>
+<p>如果你想在后台执行该服务可以加上 -d 参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1567,318 +2415,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/13/掘金文章的主题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="小光">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小光的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/01/13/掘金文章的主题/" itemprop="url">掘金文章的主题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-13T21:45:26+08:00">
-                2021-01-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2021/01/13/掘金文章的主题/" class="leancloud_visitors" data-flag-title="掘金文章的主题">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>linux常用 <a href="https://www.cnblogs.com/sparkbj/p/6148817.html" target="_blank" rel="noopener">https://www.cnblogs.com/sparkbj/p/6148817.html</a></p>
-<ul>
-<li>koa框架源码</li>
-<li>微前端</li>
-<li>mysql知识</li>
-<li>g6/gg-editor</li>
-<li>图像</li>
-<li>webpack</li>
-<li>linux命令</li>
-<li><a href="https://www.cnblogs.com/mafeng/p/10696956.html" target="_blank" rel="noopener">https://www.cnblogs.com/mafeng/p/10696956.html</a></li>
-<li><a href="https://www.cnblogs.com/psc0218/p/12679425.html" target="_blank" rel="noopener">https://www.cnblogs.com/psc0218/p/12679425.html</a></li>
-<li><a href="https://www.cnblogs.com/mingaixin/p/4304699.html" target="_blank" rel="noopener">https://www.cnblogs.com/mingaixin/p/4304699.html</a></li>
-<li><p>docker</p>
-</li>
-<li><p>ts用法总结 done</p>
-</li>
-<li>工具分享 done</li>
-<li>reveal.js done</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/05/工具分享/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="小光">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小光的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/12/05/工具分享/" itemprop="url">开发工具分享</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-05T18:05:21+08:00">
-                2020-12-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2020/12/05/工具分享/" class="leancloud_visitors" data-flag-title="开发工具分享">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>分享一些开发中觉得好用的工具</p>
-<h1 id="zsh—shell工具"><a href="#zsh—shell工具" class="headerlink" title="zsh—shell工具"></a>zsh—shell工具</h1><p><a href="https://ohmyz.sh/" target="_blank" rel="noopener">网站</a></p>
-<p>非常好用的shell，支持众多插件和主题。</p>
-<h1 id="TODO-TREE"><a href="#TODO-TREE" class="headerlink" title="TODO TREE"></a>TODO TREE</h1><p>VS Code插件，可以显示代码中的TODO。</p>
-<h1 id="Postman—接口调试"><a href="#Postman—接口调试" class="headerlink" title="Postman—接口调试"></a>Postman—接口调试</h1><p><a href="https://www.postman.com/" target="_blank" rel="noopener">网站</a></p>
-<p>可以很方便地发送http请求，调试接口。</p>
-<h1 id="Charles—抓包工具"><a href="#Charles—抓包工具" class="headerlink" title="Charles—抓包工具"></a>Charles—抓包工具</h1><p><a href="https://www.charlesproxy.com/" target="_blank" rel="noopener">网站</a></p>
-<p>抓包工具，抓取页面的http请求。</p>
-<h1 id="caniuse—查看兼容性"><a href="#caniuse—查看兼容性" class="headerlink" title="caniuse—查看兼容性"></a>caniuse—查看兼容性</h1><p><a href="https://www.caniuse.com/" target="_blank" rel="noopener">网站</a></p>
-<p>查询CSS、JS语法在浏览器中的兼容性。</p>
-<h1 id="GitBook—编写书籍"><a href="#GitBook—编写书籍" class="headerlink" title="GitBook—编写书籍"></a>GitBook—编写书籍</h1><p><a href="https://www.gitbook.com/" target="_blank" rel="noopener">网站</a></p>
-<p>使用Git和Markdown来编写你的书籍。</p>
-<h1 id="reveal-js—PPT制作"><a href="#reveal-js—PPT制作" class="headerlink" title="reveal.js—PPT制作"></a>reveal.js—PPT制作</h1><p><a href="https://github.com/hakimel/reveal.js/" target="_blank" rel="noopener">github地址</a></p>
-<p>使用markdown或者写代码的方式高效制作PPT。</p>
-<h1 id="Typora—Markdown编辑器"><a href="#Typora—Markdown编辑器" class="headerlink" title="Typora—Markdown编辑器"></a>Typora—Markdown编辑器</h1><p><a href="https://www.typora.io/" target="_blank" rel="noopener">网站</a></p>
-<p>免费的轻量级Markdown编辑器</p>
-<h1 id="稿定设计—在线的photoshop"><a href="#稿定设计—在线的photoshop" class="headerlink" title="稿定设计—在线的photoshop"></a>稿定设计—在线的photoshop</h1><p><a href="https://ps.gaoding.com/#/" target="_blank" rel="noopener">网站</a></p>
-<h1 id="processon—画图工具"><a href="#processon—画图工具" class="headerlink" title="processon—画图工具"></a>processon—画图工具</h1><p><a href="https://www.processon.com/" target="_blank" rel="noopener">网站</a></p>
-<p>在线流程图，UML，原型图等。</p>
-<h1 id="iconfont—海量icon"><a href="#iconfont—海量icon" class="headerlink" title="iconfont—海量icon"></a>iconfont—海量icon</h1><p><a href="https://www.iconfont.cn/" target="_blank" rel="noopener">网站</a></p>
-<h1 id="二维码生成工具"><a href="#二维码生成工具" class="headerlink" title="二维码生成工具"></a>二维码生成工具</h1><p><a href="https://cli.im/" target="_blank" rel="noopener">网站</a></p>
-<h1 id="ESLint—代码检查"><a href="#ESLint—代码检查" class="headerlink" title="ESLint—代码检查"></a>ESLint—代码检查</h1><p>代码规范检查及修复</p>
-<h1 id="Prettier—代码格式化"><a href="#Prettier—代码格式化" class="headerlink" title="Prettier—代码格式化"></a>Prettier—代码格式化</h1><p>代码格式化</p>
-<h1 id="JSONView—json格式化"><a href="#JSONView—json格式化" class="headerlink" title="JSONView—json格式化"></a>JSONView—json格式化</h1><p>Chrome插件</p>
-<p>json格式化和高亮，看接口数据就很方便了。</p>
-<h1 id="json在线格式化"><a href="#json在线格式化" class="headerlink" title="json在线格式化"></a>json在线格式化</h1><p><a href="https://www.sojson.com/" target="_blank" rel="noopener">网站</a></p>
-<p>这个网站还有很多其他工具，如<a href="https://www.sojson.com/web/use.html" target="_blank" rel="noopener">网页颜色搭配</a>等</p>
-<h1 id="时间戳在线转换工具"><a href="#时间戳在线转换工具" class="headerlink" title="时间戳在线转换工具"></a>时间戳在线转换工具</h1><p><a href="https://tool.lu/timestamp/" target="_blank" rel="noopener">网站</a></p>
-<h1 id="base64和图片互转"><a href="#base64和图片互转" class="headerlink" title="base64和图片互转"></a>base64和图片互转</h1><p><a href="http://tool.chinaz.com/tools/imgtobase/" target="_blank" rel="noopener">网站</a></p>
-<h1 id="视频转gif"><a href="#视频转gif" class="headerlink" title="视频转gif"></a>视频转gif</h1><p><a href="https://ezgif.com/video-to-gif" target="_blank" rel="noopener">网站</a></p>
-<p>找了很多都有视频大小的限制，这个没有限制。</p>
-<h1 id="图片在线压缩"><a href="#图片在线压缩" class="headerlink" title="图片在线压缩"></a>图片在线压缩</h1><p><a href="https://www.bejson.com/ui/compress_img/" target="_blank" rel="noopener">网站</a></p>
-<p>你还有推荐的工具欢迎在下方评论中留言哦~</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1931,7 +2467,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-count">75</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
