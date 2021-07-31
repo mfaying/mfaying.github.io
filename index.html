@@ -300,6 +300,312 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/25/前端早早聊-前端搞可视化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小光">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小光的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/07/25/前端早早聊-前端搞可视化/" itemprop="url">【笔记】前端早早聊-前端搞可视化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-25T16:32:49+08:00">
+                2021-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2021/07/25/前端早早聊-前端搞可视化/" class="leancloud_visitors" data-flag-title="【笔记】前端早早聊-前端搞可视化">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="如何设计与实现思维导图可视化方案"><a href="#如何设计与实现思维导图可视化方案" class="headerlink" title="如何设计与实现思维导图可视化方案"></a>如何设计与实现思维导图可视化方案</h1><p>分享人：泽辉，小米</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>web版的xmind，支持定制需求。应用于测试用例管理。</li>
+<li>智能制造工艺流程、资产原型管理、前端能力地图管理、小米笔记思维导图。自定义节点、节点间的连接。</li>
+</ul>
+<h2 id="起步面临的问题"><a href="#起步面临的问题" class="headerlink" title="起步面临的问题"></a>起步面临的问题</h2><ul>
+<li>技术选型繁多</li>
+<li>有些选型不再迭代</li>
+<li>可控制集成扩展有限，比如支持DOM自定义、扩展至React/Vue</li>
+<li>业务组件化诉求高，定制化需求无法开箱即用，二次开发成本高</li>
+</ul>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ol>
+<li>满足丰富的应用场景</li>
+<li>技术层面定制化程度高。底层可控、算法可控、工作流可控。</li>
+</ol>
+<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><p>底层使用D3.js</p>
+<ul>
+<li>控制粒度精细</li>
+<li>成熟产品丰富</li>
+</ul>
+<h2 id="方案设计"><a href="#方案设计" class="headerlink" title="方案设计"></a>方案设计</h2><h3 id="mife-graphic实现方案"><a href="#mife-graphic实现方案" class="headerlink" title="mife-graphic实现方案"></a>mife-graphic实现方案</h3><p>1.引擎</p>
+<ul>
+<li>D3.js、Echarts、Antv、mife-graphic.core</li>
+</ul>
+<p>2.Component扩展</p>
+<ul>
+<li><p>Component.chart</p>
+</li>
+<li><p>Component.flow</p>
+</li>
+<li><p>Component.okr</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<p>3.Editor/React/Vue上层封装</p>
+<ul>
+<li>Hina-Editor、Sale-Manage…</li>
+</ul>
+<h3 id="物料市场"><a href="#物料市场" class="headerlink" title="物料市场"></a>物料市场</h3><p>各个组件 -&gt; 不同的组合 -&gt; 不同的功能需要</p>
+<h3 id="Graphic-API"><a href="#Graphic-API" class="headerlink" title="Graphic API"></a>Graphic API</h3><p>Constructors</p>
+<ul>
+<li>constructor</li>
+</ul>
+<p>Properties</p>
+<ul>
+<li>data</li>
+<li>gLink</li>
+<li>gNode</li>
+<li>gTransform</li>
+<li>gZoom<br>….</li>
+</ul>
+<p>Methods</p>
+<ul>
+<li>resizeUpdate</li>
+<li>setTransform<br>…</li>
+</ul>
+<p>通过继承这一层组件可以开发更多的底层组件。</p>
+<h2 id="简单实现"><a href="#简单实现" class="headerlink" title="简单实现"></a>简单实现</h2><p>selection-init</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">svgInit</span>(<span class="params"><span class="keyword">this</span>: Core.Graphic, selection: d3.Selection&lt;<span class="built_in">any</span>, <span class="built_in">any</span>, <span class="built_in">any</span>, <span class="built_in">any</span>&gt;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; clientWidth, clientHeight &#125; = <span class="keyword">this</span>.options.container;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">this</span>.svg = selection</span><br><span class="line">    .append(<span class="string">'svg'</span>)</span><br><span class="line">    .attr(<span class="string">'viewBox'</span>, [<span class="number">0</span>, <span class="number">0</span>, clientWidth, clientHeight].join(<span class="string">' '</span>))</span><br><span class="line">    .style(<span class="string">'width'</span>, <span class="string">`<span class="subst">$&#123;clientWidth&#125;</span>px`</span>)</span><br><span class="line">    .style(<span class="string">'height'</span>, <span class="string">`<span class="subst">$&#123;clientHeight&#125;</span>px`</span>)</span><br><span class="line">    .style(<span class="string">'position'</span>, <span class="string">'absolute'</span>)</span><br><span class="line">    .style(<span class="string">'top'</span>, <span class="string">'0'</span>)</span><br><span class="line">    .style(<span class="string">'left'</span>, <span class="string">'0'</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.svg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>selection-event</p>
+<p>selection-update</p>
+<p>…</p>
+<p>实现都比较容易理解，这里不一一例举了。</p>
+<h2 id="方案设计核心原则"><a href="#方案设计核心原则" class="headerlink" title="方案设计核心原则"></a>方案设计核心原则</h2><h3 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a>单一职责原则</h3><ul>
+<li>一个程序只做好一件事</li>
+<li>如果功能过于复杂就拆分开，每个部分保持独立</li>
+</ul>
+<h3 id="开放-封闭原则"><a href="#开放-封闭原则" class="headerlink" title="开放/封闭原则"></a>开放/封闭原则</h3><ul>
+<li>对扩展开放，对修改封闭</li>
+<li>增加需求时，扩展新代码，而非修改已有代码</li>
+</ul>
+<h2 id="目标达成"><a href="#目标达成" class="headerlink" title="目标达成"></a>目标达成</h2><p>Mind脑图</p>
+<ul>
+<li>布局/编辑/折叠</li>
+<li>历史记录/复制粘贴</li>
+</ul>
+<p>OKR扩展</p>
+<ul>
+<li>React扩展</li>
+<li>子节点全自动布局</li>
+</ul>
+<h2 id="性能和扩展"><a href="#性能和扩展" class="headerlink" title="性能和扩展"></a>性能和扩展</h2><p>性能优化粒度可控，达到最小Funtion。</p>
+<p>对主流框架扩展性保持良好，未来底层考虑扩展Canvas/WebGL。</p>
+<h2 id="数据推荐"><a href="#数据推荐" class="headerlink" title="数据推荐"></a>数据推荐</h2><p>《数据可视化(40位数据设计师访谈录)》</p>
+<h1 id="如何打造超大规模图可视化画布"><a href="#如何打造超大规模图可视化画布" class="headerlink" title="如何打造超大规模图可视化画布"></a>如何打造超大规模图可视化画布</h1><p>分享人：逸达，阿里</p>
+<h2 id="渲染优化方案"><a href="#渲染优化方案" class="headerlink" title="渲染优化方案"></a>渲染优化方案</h2><h3 id="基于时间切片分批渲染DOM"><a href="#基于时间切片分批渲染DOM" class="headerlink" title="基于时间切片分批渲染DOM"></a>基于时间切片分批渲染DOM</h3><p>长任务会卡死浏览器，切割任务分块执行主线程就不会阻塞。所以即使时间慢了，最终图还是会出来，不至于卡死浏览器。</p>
+<p>关键API</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.requestIdleCallback(callback);</span><br></pre></td></tr></table></figure>
+<p>该方法会在浏览器空闲期间调用。</p>
+<h3 id="基于可视化范围节点裁减渲染"><a href="#基于可视化范围节点裁减渲染" class="headerlink" title="基于可视化范围节点裁减渲染"></a>基于可视化范围节点裁减渲染</h3><p>只渲染实际需要渲染的内容所在的画布区域（再加一些缓冲区域），其余被裁减的区域不渲染，这样会大大提高性能。</p>
+<h3 id="基于缩放级数的节点分级LOD（Lazyload）处理"><a href="#基于缩放级数的节点分级LOD（Lazyload）处理" class="headerlink" title="基于缩放级数的节点分级LOD（Lazyload）处理"></a>基于缩放级数的节点分级LOD（Lazyload）处理</h3><p>只有在用户需要看细节时再渲染细节内容。</p>
+<h3 id="基于Canvas渲染节点"><a href="#基于Canvas渲染节点" class="headerlink" title="基于Canvas渲染节点"></a>基于Canvas渲染节点</h3><p>基于DOM（或SVG）开发成本较低，但性能问题较大</p>
+<p>基于Canvas性能优异，但开发成本较高，且难以实现灵活布局。</p>
+<h2 id="Canvas化"><a href="#Canvas化" class="headerlink" title="Canvas化"></a>Canvas化</h2><p>通过react-reconciler实现的基于Yoga Layout布局的自定义G Canvas渲染器。可广泛支持底层基于G渲染的AntV系列产品，如G6，G2。</p>
+<p>它支持完整的Flexbox布局，及CSS语法子集。提供基础Host组件：Shape、Rect、Text、Image等</p>
+<p>既有极高的渲染性能，又有接近于HTML+CSS的开发效率</p>
+<h2 id="更多优化"><a href="#更多优化" class="headerlink" title="更多优化"></a>更多优化</h2><ul>
+<li>服务端预渲染节点</li>
+<li>WebGL渲染器</li>
+<li>WebWorker预计算</li>
+</ul>
+<h2 id="推荐资料"><a href="#推荐资料" class="headerlink" title="推荐资料"></a>推荐资料</h2><ul>
+<li>自己写个React渲染器: 以 Remax 为例(用React写小程序)<a href="https://juejin.cn/post/6844903946016784392" target="_blank" rel="noopener">https://juejin.cn/post/6844903946016784392</a></li>
+<li>Building a Custom React Renderer<a href="https://www.youtube.com/watch?v=CGpMlWVcHok" target="_blank" rel="noopener">https://www.youtube.com/watch?v=CGpMlWVcHok</a></li>
+<li>Figma 技术博客<a href="https://www.figma.com/blog/section/engineering/Streaming" target="_blank" rel="noopener">https://www.figma.com/blog/section/engineering/Streaming</a></li>
+<li>Massive Environments from 0 to 200 MPH<a href="https://www.gdcvault.com/play/1012335/Streaming-Massive-Environments-from-0" target="_blank" rel="noopener">https://www.gdcvault.com/play/1012335/Streaming-Massive-Environments-from-0</a></li>
+<li>设计模式：可复用面向对象软件的基础Erich Gamma（Eclipse, VSCode 负责人）</li>
+</ul>
+<h1 id="如何构思和开发开箱即用的图表库-G2Plot"><a href="#如何构思和开发开箱即用的图表库-G2Plot" class="headerlink" title="如何构思和开发开箱即用的图表库 - G2Plot"></a>如何构思和开发开箱即用的图表库 - G2Plot</h1><p>分享人：新茗，蚂蚁金服</p>
+<h1 id="关于G2Plot"><a href="#关于G2Plot" class="headerlink" title="关于G2Plot"></a>关于G2Plot</h1><h2 id="G2Plot的诞生与定位"><a href="#G2Plot的诞生与定位" class="headerlink" title="G2Plot的诞生与定位"></a>G2Plot的诞生与定位</h2><p>为什么有了G2(常规统计图表可视化引擎)，还会有G2Plot呢？</p>
+<p>G2使用图形语法绘图，有一定上手成本，非开箱即用。所以需要一个简单、易用且具备一定扩展能力的图表库——G2Plot。</p>
+<p>G2Plot有下述优点：</p>
+<ul>
+<li>开箱即用，默认具备良好视觉和交互体验</li>
+<li>易于配置，配置化API且使用认知统一</li>
+<li>开发可扩展，最好是能够直接发挥图形语法的想象空间</li>
+</ul>
+<p>定位：基于G2图形语法理论的开箱即用统计图表库。</p>
+<h2 id="G2Plot做什么？不做什么？"><a href="#G2Plot做什么？不做什么？" class="headerlink" title="G2Plot做什么？不做什么？"></a>G2Plot做什么？不做什么？</h2><p>会做：</p>
+<ul>
+<li>基于图形语法封装业务图表</li>
+<li>遵循可视化设计规范进行针对性优化</li>
+<li>配置式API降低成本</li>
+</ul>
+<p>不会做（G2做）</p>
+<ul>
+<li>图表繁琐的实现细节</li>
+<li>布局、交互、动画、事件机制</li>
+</ul>
+<h1 id="技术架构"><a href="#技术架构" class="headerlink" title="技术架构"></a>技术架构</h1><h2 id="核心思路"><a href="#核心思路" class="headerlink" title="核心思路"></a>核心思路</h2><p>G2命令式API用配置式API替代</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// G2</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> G2 <span class="keyword">from</span> <span class="string">'@antv/g2'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> chart = <span class="keyword">new</span> G2.Chart(&#123;</span><br><span class="line">  container: <span class="string">'container'</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">chart.data(data);</span><br><span class="line"></span><br><span class="line">chart.line().position(<span class="string">'year*value'</span>);</span><br><span class="line">chart.color(<span class="string">'category'</span>);</span><br><span class="line"></span><br><span class="line">chart.axis(<span class="string">'year'</span>, &#123;&#125;);</span><br><span class="line">chart.axis(<span class="string">'value'</span>, &#123;&#125;);</span><br><span class="line"></span><br><span class="line">chart.render();</span><br></pre></td></tr></table></figure>
+<p>=&gt; 适配器 =&gt;</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Line &#125; <span class="keyword">from</span> <span class="string">'@antv/g2plot'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> plot = <span class="keyword">new</span> Line(<span class="string">"container"</span>, &#123;</span><br><span class="line">  data,</span><br><span class="line">  xField: <span class="string">"year"</span>,</span><br><span class="line">  yField: <span class="string">"value"</span>,</span><br><span class="line">  seriesField: <span class="string">"category"</span>,</span><br><span class="line">  isStack: <span class="literal">true</span>,</span><br><span class="line">  xAxis: &#123;&#125;,</span><br><span class="line">  yAxis: &#123;&#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">plot.render();</span><br></pre></td></tr></table></figure>
+<h2 id="适配器设计"><a href="#适配器设计" class="headerlink" title="适配器设计"></a>适配器设计</h2><p>适配器如何一图一做，每增加一种新图表，就需要增加一份绘图逻辑（扩展成本）。一旦需求发出变化或者底层依赖API变化，就很难维护了。</p>
+<h3 id="流水线组合的适配器"><a href="#流水线组合的适配器" class="headerlink" title="流水线组合的适配器"></a>流水线组合的适配器</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 折线图适配器</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">adaptor</span>(<span class="params">params: Params&lt;LineOptions&gt;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> flow(</span><br><span class="line">    theme,</span><br><span class="line">    <span class="comment">// 折线图几何图形</span></span><br><span class="line">    geometry,</span><br><span class="line">    meta,</span><br><span class="line">    axis,</span><br><span class="line">    legend,</span><br><span class="line">    tooltip,</span><br><span class="line">  )(params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里借助了lodash的flow函数思想，按顺序调用数组中的方法，每个函数执行的结果作为下个函数的入参。</p>
+<p>每个图表的适配器可以拆分为若干个适配器，每个适配器执行之后，还是新的适配器。可以进行自由的组合，前置依赖关系可以通过顺序保证，彼此之间没有很耦合的依赖。</p>
+<p>适配器进行流水线化之后，可以将原来混杂的绘图逻辑清晰地划分为若干步骤。</p>
+<p>模块内聚，减少耦合，提高复用性。</p>
+<p>那么模块是如何拆分的呢？</p>
+<h3 id="模块划分"><a href="#模块划分" class="headerlink" title="模块划分"></a>模块划分</h3><p>图表基本功能：几何图形+坐标轴+图例+悬浮信息+数据标签+图形标注等。</p>
+<p>图表增强功能：交互、动画、状态、主题等。、</p>
+<p>内置的适配器模块划分和图表的功能基本是一致的</p>
+<h3 id="复用性"><a href="#复用性" class="headerlink" title="复用性"></a>复用性</h3><p>有了适配器以后，如果绘制折线图，替换为line geometry适配器，柱状图替换为interval geometry适配器。其余适配器，比如axis、legend不用改变。</p>
+<h3 id="维护性"><a href="#维护性" class="headerlink" title="维护性"></a>维护性</h3><p>降低复杂性的基本方法，就是把复杂性隔离。”如果能把复杂性隔离在一个模块，不与其他模块互动，就达到了消除复杂性的目的。“</p>
+<p>软件架构的复杂度：</p>
+<ul>
+<li>认知负荷</li>
+<li>协同成本</li>
+</ul>
+<p>G2Plot考虑了这两点</p>
+<ul>
+<li>逻辑符合思维习惯，与物理世界的概念符合。如:G2Plot按照图表组成和功能进行模块划分。</li>
+<li>模块相对独立，边界清晰，通过原子化的方式进行组合。由于架构的约束，G2Plot 开发者的改动只会影响自己的那部分模块，边界较为清晰，代码也更容易维护，且每个模块有对应的单元测试。</li>
+</ul>
+<h3 id="扩展性"><a href="#扩展性" class="headerlink" title="扩展性"></a>扩展性</h3><p>支持定义适配器</p>
+<h2 id="API设计思考"><a href="#API设计思考" class="headerlink" title="API设计思考"></a>API设计思考</h2><h3 id="schema-结构设计"><a href="#schema-结构设计" class="headerlink" title="schema 结构设计"></a>schema 结构设计</h3><p>认知统一</p>
+<ul>
+<li>不同图表同一类型的配置命名相同</li>
+<li>G2、G2Plot 相同概念保持一致的配置</li>
+<li>贴合适配器模块</li>
+</ul>
+<p>配置简单</p>
+<ul>
+<li>G2 提供的灵活性与使用成本的权衡</li>
+<li>G2Plot 进行一定的封装，提供更简单的配置化方式</li>
+</ul>
+<p>BI / low-code 友好</p>
+<ul>
+<li>面向 BI 低代码搭建的友好</li>
+</ul>
+<h2 id="如何选型-G2、G2Plot、AntD-Charts"><a href="#如何选型-G2、G2Plot、AntD-Charts" class="headerlink" title="如何选型 G2、G2Plot、AntD-Charts"></a>如何选型 G2、G2Plot、AntD-Charts</h2><p>react 技术栈且图表自定义诉求不强：AntD-Charts</p>
+<p>定制诉求不强，G2Plot 内置图表基本可满足：G2Plot</p>
+<p>具备丰富交互、需要定制的个性化信息图表：G2Plot自定义扩展图表adaptor模式 或者 G2 / G</p>
+<p>从 G、G2、G2Plot 再到 Ant Design Charts，我们只有一个目的：降低开发入⻔⻔槛，如何选择取决于你对各图表库的理解程度。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/27/shadow-DOM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1450,6 +1756,73 @@
 <li>文件只有一个export class或export function （考虑使用export default）</li>
 <li>多个文件的顶层具有同样的export namespace Foo { （不要以为这些会合并到一个Foo中！）</li>
 </ul>
+<h1 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h1><p>关于术语的一点说明: 请务必注意一点，TypeScript 1.5里术语名已经发生了变化。 “内部模块”现在称做“命名空间”。 “外部模块”现在则简称为“模块”，这是为了与 ECMAScript 2015里的术语保持一致，(也就是说 module X { 相当于现在推荐的写法 namespace X {)。</p>
+<h2 id="介绍-9"><a href="#介绍-9" class="headerlink" title="介绍"></a>介绍</h2><p>这篇文章描述了如何在TypeScript里使用命名空间（之前叫做“内部模块”）来组织你的代码。 就像我们在术语说明里提到的那样，“内部模块”现在叫做“命名空间”。 另外，任何使用 module关键字来声明一个内部模块的地方都应该使用namespace关键字来替换。 这就避免了让新的使用者被相似的名称所迷惑。</p>
+<h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p>我们先来写一段程序并将在整篇文章中都使用这个例子。 我们定义几个简单的字符串验证器，假设你会使用它们来验证表单里的用户输入或验证外部数据。</p>
+<h3 id="所有的验证器都放在一个文件里"><a href="#所有的验证器都放在一个文件里" class="headerlink" title="所有的验证器都放在一个文件里"></a>所有的验证器都放在一个文件里</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> StringValidator &#123;</span><br><span class="line">    isAcceptable(s: <span class="built_in">string</span>): <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> lettersRegexp = <span class="regexp">/^[A-Za-z]+$/</span>;</span><br><span class="line"><span class="keyword">let</span> numberRegexp = <span class="regexp">/^[0-9]+$/</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> LettersOnlyValidator <span class="keyword">implements</span> StringValidator &#123;</span><br><span class="line">    isAcceptable(s: <span class="built_in">string</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> lettersRegexp.test(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> ZipCodeValidator <span class="keyword">implements</span> StringValidator &#123;</span><br><span class="line">    isAcceptable(s: <span class="built_in">string</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> s.length === <span class="number">5</span> &amp;&amp; numberRegexp.test(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Some samples to try</span></span><br><span class="line"><span class="keyword">let</span> strings = [<span class="string">"Hello"</span>, <span class="string">"98052"</span>, <span class="string">"101"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Validators to use</span></span><br><span class="line"><span class="keyword">let</span> validators: &#123; [s: <span class="built_in">string</span>]: StringValidator; &#125; = &#123;&#125;;</span><br><span class="line">validators[<span class="string">"ZIP code"</span>] = <span class="keyword">new</span> ZipCodeValidator();</span><br><span class="line">validators[<span class="string">"Letters only"</span>] = <span class="keyword">new</span> LettersOnlyValidator();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Show whether each string passed each validator</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> s of strings) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> name <span class="keyword">in</span> validators) &#123;</span><br><span class="line">        <span class="keyword">let</span> isMatch = validators[name].isAcceptable(s);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`'<span class="subst">$&#123; s &#125;</span>' <span class="subst">$&#123; isMatch ? <span class="string">"matches"</span> : <span class="string">"does not match"</span> &#125;</span> '<span class="subst">$&#123; name &#125;</span>'.`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="命名空间-1"><a href="#命名空间-1" class="headerlink" title="命名空间"></a>命名空间</h2><p>随着更多验证器的加入，我们需要一种手段来组织代码，以便于在记录它们类型的同时还不用担心与其它对象产生命名冲突。 因此，我们把验证器包裹到一个命名空间内，而不是把它们放在全局命名空间下。</p>
+<p>下面的例子里，把所有与验证器相关的类型都放到一个叫做Validation的命名空间里。 因为我们想让这些接口和类在命名空间之外也是可访问的，所以需要使用 export。 相反的，变量 lettersRegexp和numberRegexp是实现的细节，不需要导出，因此它们在命名空间外是不能访问的。 在文件末尾的测试代码里，由于是在命名空间之外访问，因此需要限定类型的名称，比如 Validation.LettersOnlyValidator。</p>
+<h3 id="使用命名空间的验证器"><a href="#使用命名空间的验证器" class="headerlink" title="使用命名空间的验证器"></a>使用命名空间的验证器</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> Validation &#123;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">interface</span> StringValidator &#123;</span><br><span class="line">        isAcceptable(s: <span class="built_in">string</span>): <span class="built_in">boolean</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> lettersRegexp = <span class="regexp">/^[A-Za-z]+$/</span>;</span><br><span class="line">    <span class="keyword">const</span> numberRegexp = <span class="regexp">/^[0-9]+$/</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">class</span> LettersOnlyValidator <span class="keyword">implements</span> StringValidator &#123;</span><br><span class="line">        isAcceptable(s: <span class="built_in">string</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> lettersRegexp.test(s);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">class</span> ZipCodeValidator <span class="keyword">implements</span> StringValidator &#123;</span><br><span class="line">        isAcceptable(s: <span class="built_in">string</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> s.length === <span class="number">5</span> &amp;&amp; numberRegexp.test(s);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Some samples to try</span></span><br><span class="line"><span class="keyword">let</span> strings = [<span class="string">"Hello"</span>, <span class="string">"98052"</span>, <span class="string">"101"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Validators to use</span></span><br><span class="line"><span class="keyword">let</span> validators: &#123; [s: <span class="built_in">string</span>]: Validation.StringValidator; &#125; = &#123;&#125;;</span><br><span class="line">validators[<span class="string">"ZIP code"</span>] = <span class="keyword">new</span> Validation.ZipCodeValidator();</span><br><span class="line">validators[<span class="string">"Letters only"</span>] = <span class="keyword">new</span> Validation.LettersOnlyValidator();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Show whether each string passed each validator</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> s of strings) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> name <span class="keyword">in</span> validators) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`"<span class="subst">$&#123; s &#125;</span>" - <span class="subst">$&#123; validators[name].isAcceptable(s) ? <span class="string">"matches"</span> : <span class="string">"does not match"</span> &#125;</span> <span class="subst">$&#123; name &#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="分离到多文件"><a href="#分离到多文件" class="headerlink" title="分离到多文件"></a>分离到多文件</h2><p>当应用变得越来越大时，我们需要将代码分离到不同的文件中以便于维护。</p>
+<h3 id="多文件中的命名空间"><a href="#多文件中的命名空间" class="headerlink" title="多文件中的命名空间"></a>多文件中的命名空间</h3><p>现在，我们把Validation命名空间分割成多个文件。 尽管是不同的文件，它们仍是同一个命名空间，并且在使用的时候就如同它们在一个文件中定义的一样。 因为不同文件之间存在依赖关系，所以我们加入了引用标签来告诉编译器文件之间的关联。 我们的测试代码保持不变。</p>
+<p>Validation.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> Validation &#123;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">interface</span> StringValidator &#123;</span><br><span class="line">        isAcceptable(s: <span class="built_in">string</span>): <span class="built_in">boolean</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>LettersOnlyValidator.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;reference path="Validation.ts" /&gt;</span></span><br><span class="line"><span class="keyword">namespace</span> Validation &#123;</span><br><span class="line">    <span class="keyword">const</span> lettersRegexp = <span class="regexp">/^[A-Za-z]+$/</span>;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">class</span> LettersOnlyValidator <span class="keyword">implements</span> StringValidator &#123;</span><br><span class="line">        isAcceptable(s: <span class="built_in">string</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> lettersRegexp.test(s);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ZipCodeValidator.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;reference path="Validation.ts" /&gt;</span></span><br><span class="line"><span class="keyword">namespace</span> Validation &#123;</span><br><span class="line">    <span class="keyword">const</span> numberRegexp = <span class="regexp">/^[0-9]+$/</span>;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">class</span> ZipCodeValidator <span class="keyword">implements</span> StringValidator &#123;</span><br><span class="line">        isAcceptable(s: <span class="built_in">string</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> s.length === <span class="number">5</span> &amp;&amp; numberRegexp.test(s);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Test.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;reference path="Validation.ts" /&gt;</span></span><br><span class="line"><span class="comment">/// &lt;reference path="LettersOnlyValidator.ts" /&gt;</span></span><br><span class="line"><span class="comment">/// &lt;reference path="ZipCodeValidator.ts" /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Some samples to try</span></span><br><span class="line"><span class="keyword">let</span> strings = [<span class="string">"Hello"</span>, <span class="string">"98052"</span>, <span class="string">"101"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Validators to use</span></span><br><span class="line"><span class="keyword">let</span> validators: &#123; [s: <span class="built_in">string</span>]: Validation.StringValidator; &#125; = &#123;&#125;;</span><br><span class="line">validators[<span class="string">"ZIP code"</span>] = <span class="keyword">new</span> Validation.ZipCodeValidator();</span><br><span class="line">validators[<span class="string">"Letters only"</span>] = <span class="keyword">new</span> Validation.LettersOnlyValidator();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Show whether each string passed each validator</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> s of strings) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> name <span class="keyword">in</span> validators) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`"<span class="subst">$&#123; s &#125;</span>" - <span class="subst">$&#123; validators[name].isAcceptable(s) ? <span class="string">"matches"</span> : <span class="string">"does not match"</span> &#125;</span> <span class="subst">$&#123; name &#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当涉及到多文件时，我们必须确保所有编译后的代码都被加载了。 我们有两种方式。</p>
+<p>第一种方式，把所有的输入文件编译为一个输出文件，需要使用–outFile标记：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc --outFile sample.js Test.ts</span><br></pre></td></tr></table></figure>
+<p>编译器会根据源码里的引用标签自动地对输出进行排序。你也可以单独地指定每个文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc --outFile sample.js Validation.ts LettersOnlyValidator.ts ZipCodeValidator.ts Test.ts</span><br></pre></td></tr></table></figure>
+<p>第二种方式，我们可以编译每一个文件（默认方式），那么每个源文件都会对应生成一个JavaScript文件。 然后，在页面上通过<code>&lt;script&gt;</code>标签把所有生成的JavaScript文件按正确的顺序引进来，比如：</p>
+<p>MyTestPage.html (excerpt)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;Validation.js&quot; type=&quot;text/javascript&quot; /&gt;</span><br><span class="line">&lt;script src=&quot;LettersOnlyValidator.js&quot; type=&quot;text/javascript&quot; /&gt;</span><br><span class="line">&lt;script src=&quot;ZipCodeValidator.js&quot; type=&quot;text/javascript&quot; /&gt;</span><br><span class="line">&lt;script src=&quot;Test.js&quot; type=&quot;text/javascript&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h2><p>另一种简化命名空间操作的方法是使用import q = x.y.z给常用的对象起一个短的名字。 不要与用来加载模块的 import x = require(‘name’)语法弄混了，这里的语法是为指定的符号创建一个别名。 你可以用这种方法为任意标识符创建别名，也包括导入的模块中的对象。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> Shapes &#123;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">namespace</span> Polygons &#123;</span><br><span class="line">        <span class="keyword">export</span> <span class="keyword">class</span> Triangle &#123; &#125;</span><br><span class="line">        <span class="keyword">export</span> <span class="keyword">class</span> Square &#123; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> polygons = Shapes.Polygons;</span><br><span class="line"><span class="keyword">let</span> sq = <span class="keyword">new</span> polygons.Square(); <span class="comment">// Same as "new Shapes.Polygons.Square()"</span></span><br></pre></td></tr></table></figure>
+<p>注意，我们并没有使用require关键字，而是直接使用导入符号的限定名赋值。 这与使用 var相似，但它还适用于类型和导入的具有命名空间含义的符号。 重要的是，对于值来讲， import会生成与原始符号不同的引用，所以改变别名的var值并不会影响原始变量的值。</p>
+<h2 id="使用其它的JavaScript库-1"><a href="#使用其它的JavaScript库-1" class="headerlink" title="使用其它的JavaScript库"></a>使用其它的JavaScript库</h2><p>为了描述不是用TypeScript编写的类库的类型，我们需要声明类库导出的API。 由于大部分程序库只提供少数的顶级对象，命名空间是用来表示它们的一个好办法。</p>
+<p>我们称其为声明是因为它不是外部程序的具体实现。 我们通常在 .d.ts里写这些声明。 如果你熟悉C/C++，你可以把它们当做 .h文件。 让我们看一些例子。</p>
+<h3 id="外部命名空间"><a href="#外部命名空间" class="headerlink" title="外部命名空间"></a>外部命名空间</h3><p>流行的程序库D3在全局对象d3里定义它的功能。 因为这个库通过一个<code>&lt;script&gt;</code>标签加载（不是通过模块加载器），它的声明文件使用内部模块来定义它的类型。 为了让TypeScript编译器识别它的类型，我们使用外部命名空间声明。 比如，我们可以像下面这样写：</p>
+<p>D3.d.ts (部分摘录)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">declare namespace D3 &#123;</span><br><span class="line">    export interface Selectors &#123;</span><br><span class="line">        select: &#123;</span><br><span class="line">            (selector: string): Selection;</span><br><span class="line">            (element: EventTarget): Selection;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    export interface Event &#123;</span><br><span class="line">        x: number;</span><br><span class="line">        y: number;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    export interface Base extends Selectors &#123;</span><br><span class="line">        event: Event;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">declare var d3: D3.Base;</span><br></pre></td></tr></table></figure>
+<h1 id="命名空间和模块"><a href="#命名空间和模块" class="headerlink" title="命名空间和模块"></a>命名空间和模块</h1><p>关于术语的一点说明: 请务必注意一点，TypeScript 1.5里术语名已经发生了变化。 “内部模块”现在称做“命名空间”。 “外部模块”现在则简称为“模块”，这是为了与 ECMAScript 2015里的术语保持一致，(也就是说 module X { 相当于现在推荐的写法 namespace X {)。</p>
+<h2 id="介绍-10"><a href="#介绍-10" class="headerlink" title="介绍"></a>介绍</h2><p>这篇文章将概括介绍在TypeScript里使用模块与命名空间来组织代码的方法。我们也会谈及命名空间和模块的高级使用场景，和在使用它们的过程中常见的陷阱。</p>
+<h2 id="使用命名空间"><a href="#使用命名空间" class="headerlink" title="使用命名空间"></a>使用命名空间</h2><p>命名空间是位于全局命名空间下的一个普通的带有名字的JavaScript对象。 这令命名空间十分容易使用。 它们可以在多文件中同时使用，并通过 –outFile结合在一起。 命名空间是帮你组织Web应用不错的方式，你可以把所有依赖都放在HTML页面的<code>&lt;script&gt;</code>标签里。</p>
+<p>但就像其它的全局命名空间污染一样，它很难去识别组件之间的依赖关系，尤其是在大型的应用中。</p>
+<h2 id="使用模块"><a href="#使用模块" class="headerlink" title="使用模块"></a>使用模块</h2><p>像命名空间一样，模块可以包含代码和声明。 不同的是模块可以 声明它的依赖。</p>
+<p>模块会把依赖添加到模块加载器上（例如CommonJs / Require.js）。 对于小型的JS应用来说可能没必要，但是对于大型应用，这一点点的花费会带来长久的模块化和可维护性上的便利。 模块也提供了更好的代码重用，更强的封闭性以及更好的使用工具进行优化。</p>
+<p>对于Node.js应用来说，模块是默认并推荐的组织代码的方式。</p>
+<p>从ECMAScript 2015开始，模块成为了语言内置的部分，应该会被所有正常的解释引擎所支持。 因此，对于新项目来说推荐使用模块做为组织代码的方式。</p>
+<h2 id="命名空间和模块的陷阱"><a href="#命名空间和模块的陷阱" class="headerlink" title="命名空间和模块的陷阱"></a>命名空间和模块的陷阱</h2><p>这部分我们会描述常见的命名空间和模块的使用陷阱和如何去避免它们。</p>
+<h3 id="对模块使用-lt-reference-gt"><a href="#对模块使用-lt-reference-gt" class="headerlink" title="对模块使用/// &lt;reference&gt;"></a>对模块使用<code>/// &lt;reference&gt;</code></h3><p>一个常见的错误是使用<code>/// &lt;reference&gt;</code>引用模块文件，应该使用import。 要理解这之间的区别，我们首先应该弄清编译器是如何根据 import路径（例如，import x from “…”;或import x = require(“…”)里面的…，等等）来定位模块的类型信息的。</p>
+<p>编译器首先尝试去查找相应路径下的.ts，.tsx再或者.d.ts。 如果这些文件都找不到，编译器会查找 外部模块声明。 回想一下，它们是在 .d.ts文件里声明的。</p>
+<p>myModules.d.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// In a .d.ts file or .ts file that is not a module:</span></span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">module</span> "SomeModule" &#123;</span><br><span class="line">    <span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>): <span class="title">string</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>myOtherModule.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;reference path="myModules.d.ts" /&gt;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> m <span class="keyword">from</span> <span class="string">"SomeModule"</span>;</span><br></pre></td></tr></table></figure>
+<p>这里的引用标签指定了外来模块的位置。 这就是一些TypeScript例子中引用 node.d.ts的方法。</p>
+<h3 id="不必要的命名空间"><a href="#不必要的命名空间" class="headerlink" title="不必要的命名空间"></a>不必要的命名空间</h3><p>如果你想把命名空间转换为模块，它可能会像下面这个文件一件：</p>
+<p>shapes.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">namespace</span> Shapes &#123;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">class</span> Triangle &#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">class</span> Square &#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>顶层的模块Shapes包裹了Triangle和Square。 对于使用它的人来说这是令人迷惑和讨厌的：</p>
+<p>shapeConsumer.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> shapes <span class="keyword">from</span> <span class="string">"./shapes"</span>;</span><br><span class="line"><span class="keyword">let</span> t = <span class="keyword">new</span> shapes.Shapes.Triangle(); <span class="comment">// shapes.Shapes?</span></span><br></pre></td></tr></table></figure>
+<p>TypeScript里模块的一个特点是不同的模块永远也不会在相同的作用域内使用相同的名字。 因为使用模块的人会为它们命名，所以完全没有必要把导出的符号包裹在一个命名空间里。</p>
+<p>再次重申，不应该对模块使用命名空间，使用命名空间是为了提供逻辑分组和避免命名冲突。 模块文件本身已经是一个逻辑分组，并且它的名字是由导入这个模块的代码指定，所以没有必要为导出的对象增加额外的模块层。</p>
+<p>下面是改进的例子：</p>
+<p>shapes.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> Triangle &#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> Square &#123; <span class="comment">/* ... */</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>shapeConsumer.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> shapes <span class="keyword">from</span> <span class="string">"./shapes"</span>;</span><br><span class="line"><span class="keyword">let</span> t = <span class="keyword">new</span> shapes.Triangle();</span><br></pre></td></tr></table></figure>
+<h3 id="模块的取舍"><a href="#模块的取舍" class="headerlink" title="模块的取舍"></a>模块的取舍</h3><p>就像每个JS文件对应一个模块一样，TypeScript里模块文件与生成的JS文件也是一一对应的。 这会产生一种影响，根据你指定的目标模块系统的不同，你可能无法连接多个模块源文件。 例如当目标模块系统为 commonjs或umd时，无法使用outFile选项，但是在TypeScript 1.8以上的版本能够使用outFile当目标为amd或system。</p>
+<h1 id="模块解析"><a href="#模块解析" class="headerlink" title="模块解析"></a>模块解析</h1><p>这节假设你已经了解了模块的一些基本知识 请阅读 模块文档了解更多信息。</p>
+<p>模块解析是指编译器在查找导入模块内容时所遵循的流程。假设有一个导入语句 import { a } from “moduleA”; 为了去检查任何对 a的使用，编译器需要准确的知道它表示什么，并且需要检查它的定义moduleA。</p>
+<p>这时候，编译器会有个疑问“moduleA的结构是怎样的？” 这听上去很简单，但 moduleA可能在你写的某个.ts/.tsx文件里或者在你的代码所依赖的.d.ts里。</p>
+<p>首先，编译器会尝试定位表示导入模块的文件。 编译器会遵循以下二种策略之一： Classic或Node。 这些策略会告诉编译器到 哪里去查找moduleA。</p>
 
           
         
@@ -3164,137 +3537,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/08/设计准则/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="小光">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小光的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/03/08/设计准则/" itemprop="url">设计准则</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-08T22:35:17+08:00">
-                2021-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2021/03/08/设计准则/" class="leancloud_visitors" data-flag-title="设计准则">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>从第3页开始</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3347,7 +3589,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">77</span>
+                  <span class="site-state-item-count">78</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
